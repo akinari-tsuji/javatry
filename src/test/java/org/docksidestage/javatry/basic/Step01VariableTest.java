@@ -76,7 +76,10 @@ public class Step01VariableTest extends PlainTestCase {
         // akinari.tsuji 内部でString poolというものを持っていて、同じものがなければ作成するっぽい (2025/07/04)
         // akinari.tsuji インスタンスはString pool上の値を参照している (2025/07/04)
         // TODO tsuji [いいね] すごい、そこまで追求してるとは!? by jflute (2025/07/04)
-        // 
+        // "sea" というリテラル表現を、あちらこちらで書いたとしても、newされるStringは一回だけになるんですよね。
+        // とはいえ、無駄に撒き散らす必要はないですが(^^
+        // でも、リテラル表現のとき、内部的にintern()メソッドが呼ばれるってのは今回初めて知りました(^^。
+        // https://qiita.com/alswnd/items/f7d559cdc4cd67564d68
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
