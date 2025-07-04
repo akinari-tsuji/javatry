@@ -52,6 +52,16 @@ public class Step01VariableTest extends PlainTestCase {
         // akinari.tsuji  文字列に他の型を結合すると文字列に変換してくれるので、null -> "null"になる(2025/07/04)
         // akinari.tsuji  ObjectにtoStringメソッドが定義されていて、全てのクラスで継承されている。(2025/07/04)
         // akinari.tsuji Rubyも同様にObejctが全てのクラスのスーパークラス。to_sメソッドが近そう。 (2025/07/04)
+        // TODO tsuji [いいね] ObjectのtoString()の話も出突っ込んでるの素晴らしいです。 by jflute (2025/07/04)
+        // "+" 記号とか、文字列型(String)に自然と変換されるような書き方をしたときは、内部的にtoString()が呼ばれます。
+        // Rubyもオブジェクト指向、というか、Rubyの方ががっつりオブジェクト指向ですからね(^^。(多重継承もあるし)
+        // to_sメソッド()がまさしく同じようなものだと思います。
+        //
+        // 余談: 昔のインターネット上の画面とか、よく「おなまえ: null」とか表示されること多かったんですよ。
+        // それを見るたび、「あーあ、中の人やっちゃってるなー」って感じです(^^。
+        // でも、メール文面とかは画面に比べてフレームワークが弱いので、今でも時々 null ありますね。
+        // ちなみに、C#はnullを文字列にしても「空文字」になるのでそういうことは起きにくいのですが...
+        // ログ出すときとかにまっさらで何も表示されないので、それはそれで開発としてはわかりにくかったりします。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -65,6 +75,8 @@ public class Step01VariableTest extends PlainTestCase {
         // akinari.tsuji JavaのStringは値が変更不可 (2025/07/04)
         // akinari.tsuji 内部でString poolというものを持っていて、同じものがなければ作成するっぽい (2025/07/04)
         // akinari.tsuji インスタンスはString pool上の値を参照している (2025/07/04)
+        // TODO tsuji [いいね] すごい、そこまで追求してるとは!? by jflute (2025/07/04)
+        // 
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -76,12 +88,16 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => 415
         // akinari.tsuji Javaにはプリミティブ型と参照型があるらしい (2025/07/04)
         // akinari.tsuji intはプリミティブ型なので値自体を参照している (2025/07/04)
-        // TODO jflute Integerは参照型と聞いたのですが以下の結果が(415, 416)になるのは、IntegerもStringと同じく値の変更が不可能で、b++の際に新しいオブジェクトが出来上がり参照先が変わるためでしょうか？　akinari.tsuji  (2025/07/04)
+        // done jflute Integerは参照型と聞いたのですが以下の結果が(415, 416)になるのは、IntegerもStringと同じく値の変更が不可能で、b++の際に新しいオブジェクトが出来上がり参照先が変わるためでしょうか？　akinari.tsuji  (2025/07/04)
         // Integer a = 94;
         // Integer b = 415;
         // a = b;
         // b++;
         // log(a, b);
+        // TODO tsuji [へんじ] まさしくそのとおりです。まずIntegerは不変(Immutable)なので、インスタンスの中身が変わることはないです by jflute (2025/07/04)
+        // b++ は、実際には b = b + 1; と同じなのでイメージとしては...
+        // Integer:415 に int:1 を足して => 一瞬 int:416 ができて...
+        // それが、Integer:b に代入されるときに、int:416がラップされてInteger:416になるって感じですね。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -94,6 +110,12 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => 416
         // akinari.tsuji  BigDecimalは変更不可な型っぽい　(2025/07/04)
         // akinari.tsuji BigDecimal.add(BigDecimal augend)はメンバ変数の値と引数の値を加算して返すだけで、メンバ変数の値は変化しない (2025/07/04)
+        // TODO tsuji [補足] BigDecimal のクラスJavaDocを見ると、第一声でimmutableと書いてあったりします by jflute (2025/07/04)
+        // add()のJavaDocも第一声が「Returns ...」というように、Immutableオブジェクトならではな表現だったりします。
+        // Immutableは安全を演出するものではありますが、このケースでは戻り値受け取り忘れには注意という感じですね。
+
+        // TODO jflute 1on1にて、世の中にImmutableに対するアプローチのニュアンスについて補足する予定 (2025/07/04)
+        // (これはくぼ用のtodoなのでそのまま残しておいてください)
     }
 
     // ===================================================================================
@@ -123,7 +145,53 @@ public class Step01VariableTest extends PlainTestCase {
         Integer sea = instanceHangar;
         log(sea); // your answer? => 0
         // result => null
-        // TODO jflute 参照型では参照先の値を示す変数がnullを示しているのでしょうか？ 参照型は参照先を示す変数と諸々のメソッドを含むクラス？　参照先を示すだけの変数だから値の変更ができない？　Javaの基本的な言語仕様をさらっと抑えられる良書はありますか？（Java未経験です）　by akinari.tsuji (2025/07/04)
+        // done jflute 参照型では参照先の値を示す変数がnullを示しているのでしょうか？ 参照型は参照先を示す変数と諸々のメソッドを含むクラス？　参照先を示すだけの変数だから値の変更ができない？　Javaの基本的な言語仕様をさらっと抑えられる良書はありますか？（Java未経験です）　by akinari.tsuji (2025/07/04)
+        //
+        // > 参照型では参照先の値を示す変数がnullを示しているのでしょうか？
+        // TODO tsuji とりあえず文法的なところで言うと、参照型のインスタンス変数の初期値はnullです by jflute (2025/07/04)
+        // 初期値というか、nullは厳密には値ではないので、初期値が何も入ってない「参照先が存在していない状態」(null)ということですね。
+        //
+        // もし、Integer instanceHangar = "sea"; であれば、instanceHangar という箱(変数)の中には、
+        // "sea" のインスタンスが入っている...というよりかは、"sea" のインスタンスが(メモリ上のどこかに)置かれている場所のアドレスが入っています。
+        // 参照型の変数の場合、イメージとして箱の中にアドレスが書いてある紙があるだけで、実体(インスタンス)はそのアドレスの場所に置いてあります。
+        // この状態で、sea = instanceHangar; とやると、アドレスが書いてある紙をコピーしてseaに入れたみたいな感じで、
+        // sea も instanceHangar も、同じインスタンスを指し示す状態になります。(参照型の変数で代入というのは、単なるアドレスのコピー)
+        //
+        // 今回のケースでは、まず instanceHangar という箱(変数)の中が空っぽの状態、つまり「nullの状態」になっています。
+        // 箱の中にアドレスが書いてある紙すらない状態です。何も指し示していないという状態です。
+        // そこで、sea という変数に instanceHangar の中身を代入 (参照先のアドレスのコピー) をしても、
+        // そもそも何も指し示してないので、seaも変わらず何も指し示さないという状況です。
+        //
+        //
+        // > 参照型は参照先を示す変数と諸々のメソッドを含むクラス？
+        // 参照型という言葉自体は、変数に代入したときにアドレスによる参照形式で扱われるものを指します。
+        // (実体が変数の中に入るわけではなく、紙のアドレスが入るだけ)
+        //
+        // そして、Javaでは「諸々のメソッドを含むクラス」がすべて参照型として扱われます。
+        // 逆に、int/longなどは参照型ではなく、プリミティブ型と呼ばれ、変数に直接値が入ってるイメージです。
+        // (本当にnativeなレベルで「入ってる」というニュアンスになるのかはわからないのでイメージということで)
+        //
+        // で、上記のセオリーがちょっと省略されて、「参照型」イコール「クラス」と表現されることが多いと。
+        // 一応、配列 e.g. int[] なんかは、クラスではないですが参照型ではあります。(クラスじゃない参照型の一例)
+        //
+        // > 参照先を示すだけの変数だから値の変更ができない？
+        // Immutableの話と、参照型の変数の話は別で...
+        // Mutableのクラスであれば、参照型の変数を経由して、インスタンスが保持する値を変更することはできます。
+        //  AtomicInteger atoInt = new AtomicInteger(3);
+        //  atoInt.set(7);
+        //  log(atoInt); => 7
+        // この場合、atoInt変数は参照型の変数ですが、アドレスで指し示している先のインスタンスのメソッドを呼び出して、
+        // そのインスタンスの中身を変えるような操作をしています。
+        // Integerの場合は、この .set(7) のようなインスタンスの中身を変えるメソッドが用意されていないだけです。
+        // Immutableなクラスか？Mutableなクラスか？の違いは外から変更できるメソッドを提供してるかしてないかだけの違いなので、
+        // 変数とはあまり関係ないです。
+        // (って、解答で伝わるかな？？？わかりづらかったらごめんなさい。よくわからなかったら1on1でフォローします)
+        //
+        // > Javaの基本的な言語仕様をさらっと抑えられる良書はありますか？
+        // 個人的には「Java言語プログラミングレッスン 第3版(上) Java言語を始めよう」をオススメしています。
+        // 上下巻で2冊構成なのですが、以前講義形式の新卒研修があったときはこちらを教材に使っていました。
+        // まあ、この先javatryやっていけば自然と学んでいけるところもあるとは思いますが...
+        // しっかり言語仕様を学んでからやりたいって思う姿勢は素晴らしいです(^^。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -136,6 +204,7 @@ public class Step01VariableTest extends PlainTestCase {
         // result => bighand|1|null|magisian
         // akinari.tsuji メンバ変数なのでhelpInstanceVariableViaMethodで値が変更される (2025/07/04)
         // akinari.tsuji instanceMagiclampはメソッドの変数で渡されているのでこちらが優先されて更新されない (2025/07/04)
+        // TODO tsuji [いいね] 同じ名前の変数であっても別の変数と。引数指定もあくまで参照先アドレスのコピーです。 by jflute (2025/07/04)
     }
 
     private void helpInstanceVariableViaMethod(String instanceMagiclamp) {
@@ -158,6 +227,8 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => harbor
         // akinari.tsuji helpMethodArgumentImmutableMethodcall側ではlandはメソッド内のローカル変数になり変更が影響しない (2025/07/04)
         // akinari.tsuji seaについては変更不可なオブジェクトで、concatは値を返すだけでメンバ変数の値は変わらない (2025/07/04)
+        // TODO tsuji [いいね] ↑パーフェクト。Immutableクラスの引数は、(呼び出し側から見て)絶対に変わらないことが保証されるわけですね by jflute (2025/07/04)
+        // それが、可読性につながるということですね。Mutableだと「メソッド内で書き換えられてるかもしれない」ってなっちゃうので。
     }
 
     private void helpMethodArgumentImmutableMethodcall(String sea, int land) {
@@ -176,6 +247,7 @@ public class Step01VariableTest extends PlainTestCase {
         helpMethodArgumentMethodcall(sea, land);
         log(sea); // your answer? => harbor416
         // TODO akinari.tsuji Builderというデザインパターンがあるらしい（勉強します） (2025/07/04)
+        // TODO tsuji [ふぉろー] おお、いいですね。まあ、StringBuilderのBuilderとはちょっとニュアンス違いますが^^ by jflute (2025/07/04)
     }
 
     private void helpMethodArgumentMethodcall(StringBuilder sea, int land) {
@@ -193,6 +265,7 @@ public class Step01VariableTest extends PlainTestCase {
         helpMethodArgumentVariable(sea, land);
         log(sea); // your answer? => harbor
         // akinari.tsuji 関数での引数は値渡しでhelpメソッド側で代入しても呼び出し元の変数には変更が生じない (2025/07/04)
+        // TODO tsuji [いいね] Good。test側のsea変数と、help側のsea引数、「たまたま同じ名前の全く別の変数」ということで by jflute (2025/07/04)
     }
 
     private void helpMethodArgumentVariable(StringBuilder sea, int land) {
@@ -221,6 +294,7 @@ public class Step01VariableTest extends PlainTestCase {
      * </pre>
      */
     int piari;
+
     public void test_variable_writing() {
         // define variables here
         String sea = "mystic";
@@ -249,6 +323,7 @@ public class Step01VariableTest extends PlainTestCase {
         String dstore = null;
         helperMethod(sea, land, dstore);
         log(sea);
+        // TODO tsuji [いいね] わー、ややこしい笑。(ぼくも実際にやってみて) 良かった、合ってた^^ by jflute (2025/07/04)
     }
 
     private void helperMethod(StringBuilder sea, int land, String dstore) {
