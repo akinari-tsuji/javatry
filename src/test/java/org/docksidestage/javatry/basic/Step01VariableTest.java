@@ -80,6 +80,9 @@ public class Step01VariableTest extends PlainTestCase {
         // とはいえ、無駄に撒き散らす必要はないですが(^^
         // でも、リテラル表現のとき、内部的にintern()メソッドが呼ばれるってのは今回初めて知りました(^^。
         // https://qiita.com/alswnd/items/f7d559cdc4cd67564d68
+        // akinari.tsuji 紹介していただいた記事めちゃくちゃ面白かったです (2025/07/07)
+        // こういう、言語の裏側みたいなのってどこで情報仕入れるのでしょうか。ブログの方は資格試験で知ったと言っていましたが...
+        // もし資格試験でこういう裏側を知りやすいなら、Rubyも試験あったので受けてみたいです
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -101,6 +104,21 @@ public class Step01VariableTest extends PlainTestCase {
         // b++ は、実際には b = b + 1; と同じなのでイメージとしては...
         // Integer:415 に int:1 を足して => 一瞬 int:416 ができて...
         // それが、Integer:b に代入されるときに、int:416がラップされてInteger:416になるって感じですね。
+        // TODO akinari.tsuji 先ほどのブログで知ったメソッドを使って確認してみます (2025/07/07)
+        // Integer a = 94;
+        // Integer b = 42;
+        // a = b;
+        // log(a, System.identityHashCode(a));
+        // log(b, System.identityHashCode(b));
+        // b++;
+        // log(a, System.identityHashCode(a));
+        // log(b, System.identityHashCode(b));
+        // result ->
+        // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 42, 1712669532
+        // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 42, 1712669532
+        // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 42, 1712669532
+        // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 43, 1225373914
+        // ちゃんとa=bの直後はa, bが同じ値（identityHashCodeはメモリのアドレスに基づく値、hashCodeは中身に基づく値）
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -116,6 +134,11 @@ public class Step01VariableTest extends PlainTestCase {
         // TODO tsuji [補足] BigDecimal のクラスJavaDocを見ると、第一声でimmutableと書いてあったりします by jflute (2025/07/04)
         // add()のJavaDocも第一声が「Returns ...」というように、Immutableオブジェクトならではな表現だったりします。
         // Immutableは安全を演出するものではありますが、このケースでは戻り値受け取り忘れには注意という感じですね。
+        // TODO akinari.tsuji  (2025/07/07)
+        // どうやってJavaDocを見るんだろう、と思ったのですがBigDecimalからコードジャンプした先のコメントであっていますでしょうか？
+        // Returns a {@code BigDecimal} whose ...
+        // とありました。
+        // 標準クラスの実装コード直接みられるの面白いです（読めないですけど笑）。
 
         // TODO jflute 1on1にて、世の中にImmutableに対するアプローチのニュアンスについて補足する予定 (2025/07/04)
         // (これはくぼ用のtodoなのでそのまま残しておいてください)
@@ -189,12 +212,20 @@ public class Step01VariableTest extends PlainTestCase {
         // Immutableなクラスか？Mutableなクラスか？の違いは外から変更できるメソッドを提供してるかしてないかだけの違いなので、
         // 変数とはあまり関係ないです。
         // (って、解答で伝わるかな？？？わかりづらかったらごめんなさい。よくわからなかったら1on1でフォローします)
+        // TODO jflute by akinari.tsuji  (2025/07/07)
+        // 解説ありがとうございます！結構しっくりきました！
+        // 参照型：実際の値が置かれたアドレスを値として持ってる
+        // Mutable：アドレスに保持された値を変更可能かどうか
+        // というイメージであってますでしょうか？
         //
         // > Javaの基本的な言語仕様をさらっと抑えられる良書はありますか？
         // 個人的には「Java言語プログラミングレッスン 第3版(上) Java言語を始めよう」をオススメしています。
         // 上下巻で2冊構成なのですが、以前講義形式の新卒研修があったときはこちらを教材に使っていました。
         // まあ、この先javatryやっていけば自然と学んでいけるところもあるとは思いますが...
         // しっかり言語仕様を学んでからやりたいって思う姿勢は素晴らしいです(^^。
+        // TODO akinari.tsuji  (2025/07/07)
+        // ありがとうございます！ちょうどオフィスにあった気がするので今度めくってみます。
+        // javatryの中で身につけられるとのことなので、一旦業務に関わる勉強優先します（紹介していただいたのに申し訳ありません）
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -251,6 +282,8 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => harbor416
         // TODO akinari.tsuji Builderというデザインパターンがあるらしい（勉強します） (2025/07/04)
         // TODO tsuji [ふぉろー] おお、いいですね。まあ、StringBuilderのBuilderとはちょっとニュアンス違いますが^^ by jflute (2025/07/04)
+        // TODO akinari.tsuji  (2025/07/07)
+        // 違ったんですね、Geminiに騙されました笑
     }
 
     private void helpMethodArgumentMethodcall(StringBuilder sea, int land) {
@@ -327,6 +360,9 @@ public class Step01VariableTest extends PlainTestCase {
         helperMethod(sea, land, dstore);
         log(sea);
         // TODO tsuji [いいね] わー、ややこしい笑。(ぼくも実際にやってみて) 良かった、合ってた^^ by jflute (2025/07/04)
+        // TODO akinari.tsuji  (2025/07/07)
+        // ありがとうございます！
+        // 「xxxをわかっているか」というテーマで作問したかったのですが、今までの問題以外の「xxx」が思いつかず複雑にする方向で考えました
     }
 
     private void helperMethod(StringBuilder sea, int land, String dstore) {
