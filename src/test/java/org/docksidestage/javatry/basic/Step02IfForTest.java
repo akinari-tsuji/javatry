@@ -52,7 +52,7 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 7;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -67,7 +67,7 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 9;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -97,7 +97,7 @@ public class Step02IfForTest extends PlainTestCase {
         if (land) {
             sea = 10;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 10
     }
 
     // ===================================================================================
@@ -113,7 +113,26 @@ public class Step02IfForTest extends PlainTestCase {
                 sea = stage;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
+        // TODO jflute Javaにおいて、参照型のインスタンスがreturnされた場合って何が返ってくるのでしょうか？　akinari.tsuji  (2025/07/08)
+        // 値（プリミティブ型）を返す場合は値が返ってくるかと思うのですが、参照型のインスタンスの場合、参照しているアドレスの値を返すのでしょうか？
+        // その場合、参照しているアドレスの値を保持していた変数がスコープ外になった場合はどうなるのでしょう
+        // Integer b = func_for_my_experience();
+        // log(b, System.identityHashCode(b));
+        // result
+        // 2025-07-08 20:04:20,639 [main] DEBUG (PlainTestCase@log():711) - 42, 1225373914, 42, 60830820
+        // 2025-07-08 20:04:20,640 [main] DEBUG (PlainTestCase@log():711) - 42, 60830820
+        // 参照しているアドレスを返しているっぽい
+        // また、aとbのidentityHashCodeの値が違うのはbのインスタンスを作成するときに、aの値をメモリ上の他のアドレスに配置してbはそれを参照するようにしているからでしょうか？
+        // こうすることで変数aの寿命がbに悪影響を及ぼすことがない、という認識であっていますか？
+    }
+
+    public Integer func_for_my_experience() {
+        int a = 42;
+        Integer b = new Integer(a);
+        log(a, System.identityHashCode(a), b, System.identityHashCode(b));
+
+        return b;
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -123,7 +142,9 @@ public class Step02IfForTest extends PlainTestCase {
         for (String stage : stageList) {
             sea = stage;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => magiclamp
+        // akinari.tsuji C++にもこんな表記がありました。 (2025/07/08)
+        // for(auto n: G)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -139,7 +160,7 @@ public class Step02IfForTest extends PlainTestCase {
                 break;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -155,7 +176,10 @@ public class Step02IfForTest extends PlainTestCase {
             }
         });
         String sea = sb.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
+        // akinari.tsuji Javascriptでも同じようなコールバック関数を引数にとるforEachがありました (2025/07/08)
+        // Javaではstage -> {...} という書き方で関数になっているのでしょうか？
+        // 調べたらラムダ式なんですね
     }
 
     // ===================================================================================
@@ -167,6 +191,12 @@ public class Step02IfForTest extends PlainTestCase {
      */
     public void test_iffor_making() {
         // write if-for here
+        List<String> stageList = prepareStageList();
+        stageList.forEach(stage -> {
+            if (stage.contains("a")) {
+                log(stage);
+            }
+        });
     }
 
     // ===================================================================================
@@ -179,16 +209,16 @@ public class Step02IfForTest extends PlainTestCase {
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
         String sea = null;
-        for (String stage : stageList) {
-            if (stage.startsWith("br")) {
-                continue;
+        stageList.forEach(stage -> {
+            if (stage.contains("br") || stage.contains("ga")) {
+                return;
             }
             sea = stage;
-            if (stage.contains("ga")) {
-                break;
-            }
-        }
+        });
         log(sea); // should be same as before-fix
+        // TODO akinari.tsuji forEachの中では変数への代入はfinal（変更不可）である必要があるらしく代入ができない (2025/07/08)
+        // また、for文におけるbreak文をどう表現するべきか（一旦、今は条件式を書き換えて対応）わからず
+        // 続きは明日以降やる
     }
 
     /**
