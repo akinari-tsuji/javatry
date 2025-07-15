@@ -19,6 +19,13 @@ import java.math.BigDecimal;
 
 import org.docksidestage.unit.PlainTestCase;
 
+// TODO tsuji [事務ごと] いいね的なtodoとかも、読んだら done を付けてもらえると嬉しいです by jflute (2025/07/15)
+// // レビューのやり取り
+// https://dbflute.seasar.org/ja/tutorial/handson/review/jflutereview.html#review
+//
+// あと、tsujiさんからの返事的なコメントや、質問的なコメントのときは、todoの後ろを jflute にしてもらえると、
+// ぼくがtodo一覧見たときに、あっ、ぼく宛になんかコメント来てるってわかるのでそうして頂けると嬉しいです。
+
 /**
  * The test of variable. <br>
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
@@ -119,6 +126,7 @@ public class Step01VariableTest extends PlainTestCase {
         // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 42, 1712669532
         // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 43, 1225373914
         // ちゃんとa=bの直後はa, bが同じ値（identityHashCodeはメモリのアドレスに基づく値、hashCodeは中身に基づく値）
+        // TODO tsuji [いいね] ハッシュコード確認するのツワモノですね^^ by jflute (2025/07/15)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -139,6 +147,9 @@ public class Step01VariableTest extends PlainTestCase {
         // Returns a {@code BigDecimal} whose ...
         // とありました。
         // 標準クラスの実装コード直接みられるの面白いです（読めないですけど笑）。
+        // TODO tsuji [へんじ] IDE上でBigDecimalにカーソルを当てるとツールチップとして表示されるはずです by jflute (2025/07/15)
+        // > 実装コード直接みられる
+        // オープンソースの良いところそこですね(^^
 
         // TODO jflute 1on1にて、世の中にImmutableに対するアプローチのニュアンスについて補足する予定 (2025/07/04)
         // (これはくぼ用のtodoなのでそのまま残しておいてください)
@@ -212,18 +223,24 @@ public class Step01VariableTest extends PlainTestCase {
         // Immutableなクラスか？Mutableなクラスか？の違いは外から変更できるメソッドを提供してるかしてないかだけの違いなので、
         // 変数とはあまり関係ないです。
         // (って、解答で伝わるかな？？？わかりづらかったらごめんなさい。よくわからなかったら1on1でフォローします)
-        // TODO jflute by akinari.tsuji  (2025/07/07)
+        // TODO done jflute by akinari.tsuji  (2025/07/07)
         // 解説ありがとうございます！結構しっくりきました！
         // 参照型：実際の値が置かれたアドレスを値として持ってる
         // Mutable：アドレスに保持された値を変更可能かどうか
         // というイメージであってますでしょうか？
+        // TODO tsuji [へんじ] もうちょい厳密な表現をすると... by jflute (2025/07/15)
+        //
+        //  参照型変数: 実際の値(インスタンス)が置かれた場所を特定するアドレスを値として持ってる。
+        //             (イメージ、住所が書かれた紙が変数という箱の中に入ってるだけ)
+        //  Mutableインスタンス：その実際の値(インスタンス)の中の値が変更可能かどうか
+        //                     (インスタンスも中で値を持っている)
         //
         // > Javaの基本的な言語仕様をさらっと抑えられる良書はありますか？
         // 個人的には「Java言語プログラミングレッスン 第3版(上) Java言語を始めよう」をオススメしています。
         // 上下巻で2冊構成なのですが、以前講義形式の新卒研修があったときはこちらを教材に使っていました。
         // まあ、この先javatryやっていけば自然と学んでいけるところもあるとは思いますが...
         // しっかり言語仕様を学んでからやりたいって思う姿勢は素晴らしいです(^^。
-        // TODO akinari.tsuji  (2025/07/07)
+        // done akinari.tsuji  (2025/07/07)
         // ありがとうございます！ちょうどオフィスにあった気がするので今度めくってみます。
         // javatryの中で身につけられるとのことなので、一旦業務に関わる勉強優先します（紹介していただいたのに申し訳ありません）
     }
@@ -280,9 +297,9 @@ public class Step01VariableTest extends PlainTestCase {
         int land = 415;
         helpMethodArgumentMethodcall(sea, land);
         log(sea); // your answer? => harbor416
-        // TODO akinari.tsuji Builderというデザインパターンがあるらしい（勉強します） (2025/07/04)
-        // TODO tsuji [ふぉろー] おお、いいですね。まあ、StringBuilderのBuilderとはちょっとニュアンス違いますが^^ by jflute (2025/07/04)
-        // TODO akinari.tsuji  (2025/07/07)
+        // done akinari.tsuji Builderというデザインパターンがあるらしい（勉強します） (2025/07/04)
+        // done tsuji [ふぉろー] おお、いいですね。まあ、StringBuilderのBuilderとはちょっとニュアンス違いますが^^ by jflute (2025/07/04)
+        // done akinari.tsuji  (2025/07/07)
         // 違ったんですね、Geminiに騙されました笑
     }
 
@@ -359,8 +376,8 @@ public class Step01VariableTest extends PlainTestCase {
         String dstore = null;
         helperMethod(sea, land, dstore);
         log(sea);
-        // TODO tsuji [いいね] わー、ややこしい笑。(ぼくも実際にやってみて) 良かった、合ってた^^ by jflute (2025/07/04)
-        // TODO akinari.tsuji  (2025/07/07)
+        // done tsuji [いいね] わー、ややこしい笑。(ぼくも実際にやってみて) 良かった、合ってた^^ by jflute (2025/07/04)
+        // done akinari.tsuji  (2025/07/07)
         // ありがとうございます！
         // 「xxxをわかっているか」というテーマで作問したかったのですが、今までの問題以外の「xxx」が思いつかず複雑にする方向で考えました
     }
