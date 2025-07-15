@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.docksidestage.unit.PlainTestCase;
 
+// TODO tsuji [事務ごと] javatryでは、javadocのauthorをお願いします by jflute (2025/07/15)
+// https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
 /**
  * The test of if-for. <br>
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
@@ -99,6 +101,7 @@ public class Step02IfForTest extends PlainTestCase {
         }
         log(sea); // your answer? => 10
     }
+    // TODO jflute #1on1 にて、ソースコードリーディングのお話をする予定 (2025/07/15)
 
     // ===================================================================================
     //                                                                       for Statement
@@ -113,8 +116,9 @@ public class Step02IfForTest extends PlainTestCase {
                 sea = stage;
             }
         }
+        func_for_my_experience_by_jflute();
         log(sea); // your answer? => dockside
-        // TODO jflute Javaにおいて、参照型のインスタンスがreturnされた場合って何が返ってくるのでしょうか？　akinari.tsuji  (2025/07/08)
+        // TODO done jflute Javaにおいて、参照型のインスタンスがreturnされた場合って何が返ってくるのでしょうか？　akinari.tsuji  (2025/07/08)
         // 値（プリミティブ型）を返す場合は値が返ってくるかと思うのですが、参照型のインスタンスの場合、参照しているアドレスの値を返すのでしょうか？
         // その場合、参照しているアドレスの値を保持していた変数がスコープ外になった場合はどうなるのでしょう
         // Integer b = func_for_my_experience();
@@ -123,11 +127,46 @@ public class Step02IfForTest extends PlainTestCase {
         // 2025-07-08 20:04:20,639 [main] DEBUG (PlainTestCase@log():711) - 42, 1225373914, 42, 60830820
         // 2025-07-08 20:04:20,640 [main] DEBUG (PlainTestCase@log():711) - 42, 60830820
         // 参照しているアドレスを返しているっぽい
+        //
+        // TODO tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
+        // 呼び出し側でそのアドレスを受け取ってるだけですね。そのアドレスを保持した変数を経由してインスタンスを操作するわけで。
+        // そして、メソッドなどが終了して、その変数がスコープ外になって破棄されたら、参照されていたインスタンスが誰からも参照されなくなります。
+        // 参照されなくなったインスタンスは二度と操作することはできないので、Javaがガベージコレクションの仕組みでいつしか破棄します。
+        // 
+        // ---
+        // 
         // また、aとbのidentityHashCodeの値が違うのはbのインスタンスを作成するときに、aの値をメモリ上の他のアドレスに配置してbはそれを参照するようにしているからでしょうか？
         // こうすることで変数aの寿命がbに悪影響を及ぼすことがない、という認識であっていますか？
+        //
+        // TODO tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
+        // ↓のプログラムはちょっとわかりづらいところがあるので少し書き換えさせてください。
     }
 
-    public Integer func_for_my_experience() {
+    // TODO tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
+    // そして、aと同じ値を持つIntegerインスタンス2個目が生成されてbに保持しておきます。
+    // 同じ値を持つわけですが、インスタンスとしては2回newしていますから別物です。なのでhashも違う値になります。
+    // (中身が同じだろうが別だろうが、互いにnewしていればインスタンス自体は別物)
+    public Integer func_for_my_experience_by_jflute() { // jfluteの書き換えコード
+        // e.g. 42, 932607259, 42, 1740000325
+        Integer a = new Integer(42);
+        Integer b = new Integer(a);
+        log(a, System.identityHashCode(a), b, System.identityHashCode(b));
+
+        return b;
+    }
+
+    // ↑↑↑
+
+    // TODO tsuji [へんじの続きの続き] 元のコードだと、int a = 42; のような a がプリミティブ型になって、b のIntegerに渡されています。 (2025/07/15)
+    // プリミティブ型は値渡しですから、b の Integer からすると、引数で渡された int の値が a から来たかどうか？
+    // は気にせず、ただ 42 という値を受け取ったというだけになります。42という値をコピーされて渡ってると言っても良いです。
+    // そして、aの方ですが、identityHashCode() の引数のところで Object 型に暗黙の変換が行われています。
+    // public static native int identityHashCode(Object x);
+    // プリミティブ型はオブジェクトではないので、本来はObject引数に指定することはできないのですが...
+    // Javaのオートボクシングという機能によって、暗黙的にintがIntegerに変換されます。
+    // 実はここで内部的に new Integer(a) が発生した上でidentityHashCodeが呼び出されます。
+    // ゆえに、こっちも2回newしていますから別物となります。
+    public Integer func_for_my_experience() { // 元のつじさんのコード
         int a = 42;
         Integer b = new Integer(a);
         log(a, System.identityHashCode(a), b, System.identityHashCode(b));
@@ -180,6 +219,8 @@ public class Step02IfForTest extends PlainTestCase {
         // akinari.tsuji Javascriptでも同じようなコールバック関数を引数にとるforEachがありました (2025/07/08)
         // Javaではstage -> {...} という書き方で関数になっているのでしょうか？
         // 調べたらラムダ式なんですね
+        // TODO tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
+        // ラムダ式で、1メソッドしか持ってないクラスを表現して、関数っぽいく振る舞うようにしている感じです。
     }
 
     // ===================================================================================

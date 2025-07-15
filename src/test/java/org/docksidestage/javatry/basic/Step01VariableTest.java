@@ -25,6 +25,7 @@ import org.docksidestage.unit.PlainTestCase;
 //
 // あと、tsujiさんからの返事的なコメントや、質問的なコメントのときは、todoの後ろを jflute にしてもらえると、
 // ぼくがtodo一覧見たときに、あっ、ぼく宛になんかコメント来てるってわかるのでそうして頂けると嬉しいです。
+// 追記: ↑でもいま step2 見たら、そうしてくださってますね（＾＾。
 
 /**
  * The test of variable. <br>
