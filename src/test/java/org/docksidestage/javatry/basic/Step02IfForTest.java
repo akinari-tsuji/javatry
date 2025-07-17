@@ -290,12 +290,30 @@ public class Step02IfForTest extends PlainTestCase {
      * <pre>
      * _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
      * your question here (ここにあなたの質問を):
-     * 
+     * 最後の出力は？
+     * また、finale Userなのにnameを変更できる理由は？
      * _/_/_/_/_/_/_/_/_/_/
      * </pre>
      */
+    class User {
+        private String name;
+        public void setName(String name) {
+            this.name = name;
+        }
+        public String getName() {
+            return name;
+        }
+    }
     public void test_iffor_yourExercise() {
-        // write your code here
+        List<String> stageList = prepareStageList();
+        final User user = new User();
+        stageList.forEach(stage -> {
+            if (stage.contains("o")) {
+                return;
+            }
+            user.setName(stage);
+        });
+        log(user.getName());
     }
 
     // ===================================================================================
