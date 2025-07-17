@@ -120,7 +120,7 @@ public class Step02IfForTest extends PlainTestCase {
         }
         func_for_my_experience_by_jflute();
         log(sea); // your answer? => dockside
-        // TODO done jflute Javaにおいて、参照型のインスタンスがreturnされた場合って何が返ってくるのでしょうか？　akinari.tsuji  (2025/07/08)
+        // done jflute Javaにおいて、参照型のインスタンスがreturnされた場合って何が返ってくるのでしょうか？　akinari.tsuji  (2025/07/08)
         // 値（プリミティブ型）を返す場合は値が返ってくるかと思うのですが、参照型のインスタンスの場合、参照しているアドレスの値を返すのでしょうか？
         // その場合、参照しているアドレスの値を保持していた変数がスコープ外になった場合はどうなるのでしょう
         // Integer b = func_for_my_experience();
@@ -140,7 +140,7 @@ public class Step02IfForTest extends PlainTestCase {
         // また、aとbのidentityHashCodeの値が違うのはbのインスタンスを作成するときに、aの値をメモリ上の他のアドレスに配置してbはそれを参照するようにしているからでしょうか？
         // こうすることで変数aの寿命がbに悪影響を及ぼすことがない、という認識であっていますか？
         //
-        // TODO todo tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
+        // done tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
         // done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
         // ↓のプログラムはちょっとわかりづらいところがあるので少し書き換えさせてください。
     }
@@ -282,6 +282,14 @@ public class Step02IfForTest extends PlainTestCase {
         // 今回、Atomicを使うことで問題を解消できたのは参照先の値を変更することができるという性質を持っていたため
         // finalをAtomicに対して設定することで、参照先の変更ができなくなる（一方で、参照先の値自体の変更は可能）
         // なので、final StringBuilderが参照する先に保持される値はappendで変更ができる(検証部分）
+        // TODO tsuji [ふぉろー] AtomicBoolean とか AtomicReference とかは、本来の目的はマルチスレッド対応ですが... by jflute (2025/07/18)
+        // ここでは都合の良い mutable な boolean, mutable な String, というところだけに着目してオススメされたのだと思います。
+        // まあ、このエクササイズとしてはそれも一つの回避です。でも、StringBuilderでも十分同じことができます。
+        // TODO tsuji [ふぉろー] final は変数のimmutableですね。変数のimmutable性とインスタンスのimmutable性... by jflute (2025/07/18)
+        // 二つあって、変数の方は参照先を差し替えられるかどうか？インスタンスの方は中身を変化させられるかどうか？
+        // TODO tsuji 修行++: 今のコードでGoodですがパズル問題として頭の体操的な追加修行を by jflute (2025/07/18)
+        // AtomicBoolean の shouldBreak の変数は使わずに同じことが実現できます。
+        // つまり、AtomicReference<String> seaRef だけで全く同じ挙動を実現できるでしょう。
     }
 
     /**
@@ -297,13 +305,17 @@ public class Step02IfForTest extends PlainTestCase {
      */
     class User {
         private String name;
+
         public void setName(String name) {
             this.name = name;
         }
+
         public String getName() {
             return name;
         }
     }
+
+    // TODO tsuji [いいね] immutable の理解の正確性を問う良いエクササイズですね(^^ by jflute (2025/07/18)
     public void test_iffor_yourExercise() {
         List<String> stageList = prepareStageList();
         final User user = new User();

@@ -19,14 +19,14 @@ import java.math.BigDecimal;
 
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO done tsuji [事務ごと] いいね的なtodoとかも、読んだら done を付けてもらえると嬉しいです by jflute (2025/07/15)
+// done tsuji [事務ごと] いいね的なtodoとかも、読んだら done を付けてもらえると嬉しいです by jflute (2025/07/15)
 // // レビューのやり取り
 // https://dbflute.seasar.org/ja/tutorial/handson/review/jflutereview.html#review
 //
 // あと、tsujiさんからの返事的なコメントや、質問的なコメントのときは、todoの後ろを jflute にしてもらえると、
 // ぼくがtodo一覧見たときに、あっ、ぼく宛になんかコメント来てるってわかるのでそうして頂けると嬉しいです。
 // 追記: ↑でもいま step2 見たら、そうしてくださってますね（＾＾。
-// TODO jflute [reply] すみません、手元途中までやってcommit, pushしてなかったです。気をつけます! akinari.tsuji  (2025/07/15)
+// done jflute [reply] すみません、手元途中までやってcommit, pushしてなかったです。気をつけます! akinari.tsuji  (2025/07/15)
 
 /**
  * The test of variable. <br>
@@ -197,7 +197,7 @@ public class Step01VariableTest extends PlainTestCase {
         // done jflute 参照型では参照先の値を示す変数がnullを示しているのでしょうか？ 参照型は参照先を示す変数と諸々のメソッドを含むクラス？　参照先を示すだけの変数だから値の変更ができない？　Javaの基本的な言語仕様をさらっと抑えられる良書はありますか？（Java未経験です）　by akinari.tsuji (2025/07/04)
         //
         // > 参照型では参照先の値を示す変数がnullを示しているのでしょうか？
-        // TODO done tsuji とりあえず文法的なところで言うと、参照型のインスタンス変数の初期値はnullです by jflute (2025/07/04)
+        // done tsuji とりあえず文法的なところで言うと、参照型のインスタンス変数の初期値はnullです by jflute (2025/07/04)
         // 初期値というか、nullは厳密には値ではないので、初期値が何も入ってない「参照先が存在していない状態」(null)ということですね。
         //
         // もし、Integer instanceHangar = "sea"; であれば、instanceHangar という箱(変数)の中には、
