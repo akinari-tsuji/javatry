@@ -17,17 +17,19 @@ package org.docksidestage.javatry.basic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO tsuji [事務ごと] javatryでは、javadocのauthorをお願いします by jflute (2025/07/15)
+// TODO done tsuji [事務ごと] javatryでは、javadocのauthorをお願いします by jflute (2025/07/15)
 // https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
 /**
  * The test of if-for. <br>
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step02IfForTest extends PlainTestCase {
 
@@ -128,7 +130,7 @@ public class Step02IfForTest extends PlainTestCase {
         // 2025-07-08 20:04:20,640 [main] DEBUG (PlainTestCase@log():711) - 42, 60830820
         // 参照しているアドレスを返しているっぽい
         //
-        // TODO tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
+        // TODO done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
         // 呼び出し側でそのアドレスを受け取ってるだけですね。そのアドレスを保持した変数を経由してインスタンスを操作するわけで。
         // そして、メソッドなどが終了して、その変数がスコープ外になって破棄されたら、参照されていたインスタンスが誰からも参照されなくなります。
         // 参照されなくなったインスタンスは二度と操作することはできないので、Javaがガベージコレクションの仕組みでいつしか破棄します。
@@ -138,11 +140,11 @@ public class Step02IfForTest extends PlainTestCase {
         // また、aとbのidentityHashCodeの値が違うのはbのインスタンスを作成するときに、aの値をメモリ上の他のアドレスに配置してbはそれを参照するようにしているからでしょうか？
         // こうすることで変数aの寿命がbに悪影響を及ぼすことがない、という認識であっていますか？
         //
-        // TODO tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
+        // TODO done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
         // ↓のプログラムはちょっとわかりづらいところがあるので少し書き換えさせてください。
     }
 
-    // TODO tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
+    // TODO todo tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
     // そして、aと同じ値を持つIntegerインスタンス2個目が生成されてbに保持しておきます。
     // 同じ値を持つわけですが、インスタンスとしては2回newしていますから別物です。なのでhashも違う値になります。
     // (中身が同じだろうが別だろうが、互いにnewしていればインスタンス自体は別物)
@@ -157,7 +159,7 @@ public class Step02IfForTest extends PlainTestCase {
 
     // ↑↑↑
 
-    // TODO tsuji [へんじの続きの続き] 元のコードだと、int a = 42; のような a がプリミティブ型になって、b のIntegerに渡されています。 (2025/07/15)
+    // TODO done tsuji [へんじの続きの続き] 元のコードだと、int a = 42; のような a がプリミティブ型になって、b のIntegerに渡されています。 (2025/07/15)
     // プリミティブ型は値渡しですから、b の Integer からすると、引数で渡された int の値が a から来たかどうか？
     // は気にせず、ただ 42 という値を受け取ったというだけになります。42という値をコピーされて渡ってると言っても良いです。
     // そして、aの方ですが、identityHashCode() の引数のところで Object 型に暗黙の変換が行われています。
@@ -219,7 +221,7 @@ public class Step02IfForTest extends PlainTestCase {
         // akinari.tsuji Javascriptでも同じようなコールバック関数を引数にとるforEachがありました (2025/07/08)
         // Javaではstage -> {...} という書き方で関数になっているのでしょうか？
         // 調べたらラムダ式なんですね
-        // TODO tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
+        // TODO done tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
         // ラムダ式で、1メソッドしか持ってないクラスを表現して、関数っぽいく振る舞うようにしている感じです。
     }
 
@@ -250,16 +252,34 @@ public class Step02IfForTest extends PlainTestCase {
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
         String sea = null;
+        final AtomicBoolean shouldBreak = new AtomicBoolean(false);
+        final AtomicReference<String> seaRef = new AtomicReference<>();
+        final StringBuilder test = new StringBuilder(); //検証
         stageList.forEach(stage -> {
-            if (stage.contains("br") || stage.contains("ga")) {
+            if (shouldBreak.get()) {
                 return;
             }
-            sea = stage;
+            if (stage.startsWith("br")) {
+                return;
+            }
+            seaRef.set(stage);
+            test.append(stage); // 検証
+            // test = new StringBuilder(); // 検証：これは不可
+            if (stage.contains("ga")) {
+                shouldBreak.set(true);
+            }
         });
+        sea = seaRef.get();
         log(sea); // should be same as before-fix
-        // TODO akinari.tsuji forEachの中では変数への代入はfinal（変更不可）である必要があるらしく代入ができない (2025/07/08)
+        log(test.toString()); // 検証
+        // TODO [memo] akinari.tsuji forEachの中では変数への代入はfinal（変更不可）である必要があるらしく代入ができない (2025/07/08)
         // また、for文におけるbreak文をどう表現するべきか（一旦、今は条件式を書き換えて対応）わからず
         // 続きは明日以降やる
+        // TODO [memo] akinari.tsuji 結局わからずGeminiに頼った。Atomicというのをよく理解しておらず。 (2025/07/17)
+        // Atomicはマルチスレッドから利用するための変数。原子性（set, getが他のスレッドに邪魔されない）を持つからAtomic（これは予想）
+        // 今回、Atomicを使うことで問題を解消できたのは参照先の値を変更することができるという性質を持っていたため
+        // finalをAtomicに対して設定することで、参照先の変更ができなくなる（一方で、参照先の値自体の変更は可能）
+        // なので、final StringBuilderが参照する先に保持される値はappendで変更ができる(検証部分）
     }
 
     /**
