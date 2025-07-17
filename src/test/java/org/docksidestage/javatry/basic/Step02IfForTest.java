@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO done tsuji [事務ごと] javatryでは、javadocのauthorをお願いします by jflute (2025/07/15)
+// done tsuji [事務ごと] javatryでは、javadocのauthorをお願いします by jflute (2025/07/15)
 // https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
 /**
  * The test of if-for. <br>
@@ -130,7 +130,7 @@ public class Step02IfForTest extends PlainTestCase {
         // 2025-07-08 20:04:20,640 [main] DEBUG (PlainTestCase@log():711) - 42, 60830820
         // 参照しているアドレスを返しているっぽい
         //
-        // TODO done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
+        // done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
         // 呼び出し側でそのアドレスを受け取ってるだけですね。そのアドレスを保持した変数を経由してインスタンスを操作するわけで。
         // そして、メソッドなどが終了して、その変数がスコープ外になって破棄されたら、参照されていたインスタンスが誰からも参照されなくなります。
         // 参照されなくなったインスタンスは二度と操作することはできないので、Javaがガベージコレクションの仕組みでいつしか破棄します。
@@ -140,11 +140,12 @@ public class Step02IfForTest extends PlainTestCase {
         // また、aとbのidentityHashCodeの値が違うのはbのインスタンスを作成するときに、aの値をメモリ上の他のアドレスに配置してbはそれを参照するようにしているからでしょうか？
         // こうすることで変数aの寿命がbに悪影響を及ぼすことがない、という認識であっていますか？
         //
-        // TODO done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
+        // TODO todo tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
+        // done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
         // ↓のプログラムはちょっとわかりづらいところがあるので少し書き換えさせてください。
     }
 
-    // TODO todo tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
+    // done tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
     // そして、aと同じ値を持つIntegerインスタンス2個目が生成されてbに保持しておきます。
     // 同じ値を持つわけですが、インスタンスとしては2回newしていますから別物です。なのでhashも違う値になります。
     // (中身が同じだろうが別だろうが、互いにnewしていればインスタンス自体は別物)
@@ -159,7 +160,7 @@ public class Step02IfForTest extends PlainTestCase {
 
     // ↑↑↑
 
-    // TODO done tsuji [へんじの続きの続き] 元のコードだと、int a = 42; のような a がプリミティブ型になって、b のIntegerに渡されています。 (2025/07/15)
+    // done tsuji [へんじの続きの続き] 元のコードだと、int a = 42; のような a がプリミティブ型になって、b のIntegerに渡されています。 (2025/07/15)
     // プリミティブ型は値渡しですから、b の Integer からすると、引数で渡された int の値が a から来たかどうか？
     // は気にせず、ただ 42 という値を受け取ったというだけになります。42という値をコピーされて渡ってると言っても良いです。
     // そして、aの方ですが、identityHashCode() の引数のところで Object 型に暗黙の変換が行われています。
@@ -221,8 +222,9 @@ public class Step02IfForTest extends PlainTestCase {
         // akinari.tsuji Javascriptでも同じようなコールバック関数を引数にとるforEachがありました (2025/07/08)
         // Javaではstage -> {...} という書き方で関数になっているのでしょうか？
         // 調べたらラムダ式なんですね
-        // TODO done tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
+        // done tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
         // ラムダ式で、1メソッドしか持ってないクラスを表現して、関数っぽいく振る舞うようにしている感じです。
+        // #1on1: ラムダ式も内部的にクラス話、step8のちょい紹介
     }
 
     // ===================================================================================

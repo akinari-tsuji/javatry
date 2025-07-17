@@ -61,7 +61,7 @@ public class Step01VariableTest extends PlainTestCase {
         // akinari.tsuji  文字列に他の型を結合すると文字列に変換してくれるので、null -> "null"になる(2025/07/04)
         // akinari.tsuji  ObjectにtoStringメソッドが定義されていて、全てのクラスで継承されている。(2025/07/04)
         // akinari.tsuji Rubyも同様にObejctが全てのクラスのスーパークラス。to_sメソッドが近そう。 (2025/07/04)
-        // TODO done tsuji [いいね] ObjectのtoString()の話も出突っ込んでるの素晴らしいです。 by jflute (2025/07/04)
+        // done tsuji [いいね] ObjectのtoString()の話も出突っ込んでるの素晴らしいです。 by jflute (2025/07/04)
         // "+" 記号とか、文字列型(String)に自然と変換されるような書き方をしたときは、内部的にtoString()が呼ばれます。
         // Rubyもオブジェクト指向、というか、Rubyの方ががっつりオブジェクト指向ですからね(^^。(多重継承もあるし)
         // to_sメソッド()がまさしく同じようなものだと思います。
@@ -84,7 +84,7 @@ public class Step01VariableTest extends PlainTestCase {
         // akinari.tsuji JavaのStringは値が変更不可 (2025/07/04)
         // akinari.tsuji 内部でString poolというものを持っていて、同じものがなければ作成するっぽい (2025/07/04)
         // akinari.tsuji インスタンスはString pool上の値を参照している (2025/07/04)
-        // TODO done tsuji [いいね] すごい、そこまで追求してるとは!? by jflute (2025/07/04)
+        // done tsuji [いいね] すごい、そこまで追求してるとは!? by jflute (2025/07/04)
         // "sea" というリテラル表現を、あちらこちらで書いたとしても、newされるStringは一回だけになるんですよね。
         // とはいえ、無駄に撒き散らす必要はないですが(^^
         // でも、リテラル表現のとき、内部的にintern()メソッドが呼ばれるってのは今回初めて知りました(^^。
@@ -92,6 +92,11 @@ public class Step01VariableTest extends PlainTestCase {
         // akinari.tsuji 紹介していただいた記事めちゃくちゃ面白かったです (2025/07/07)
         // こういう、言語の裏側みたいなのってどこで情報仕入れるのでしょうか。ブログの方は資格試験で知ったと言っていましたが...
         // もし資格試験でこういう裏側を知りやすいなら、Rubyも試験あったので受けてみたいです
+        //
+        // #1on1: javatry研修は、間が空きます。これもトレーニングの一つ。
+        // 間が空いてもインプットできる工夫、忘れない工夫、思い出せるようにする工夫。
+        // 人生のプライベートでの勉強もそうだし、仕事ので久しぶりにさわる(昔の自分の)コード。
+        // 将来スキルが高くなってプロジェクトの掛け持ちとかするときに。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -109,11 +114,11 @@ public class Step01VariableTest extends PlainTestCase {
         // a = b;
         // b++;
         // log(a, b);
-        // TODO done tsuji [へんじ] まさしくそのとおりです。まずIntegerは不変(Immutable)なので、インスタンスの中身が変わることはないです by jflute (2025/07/04)
+        // done tsuji [へんじ] まさしくそのとおりです。まずIntegerは不変(Immutable)なので、インスタンスの中身が変わることはないです by jflute (2025/07/04)
         // b++ は、実際には b = b + 1; と同じなのでイメージとしては...
         // Integer:415 に int:1 を足して => 一瞬 int:416 ができて...
         // それが、Integer:b に代入されるときに、int:416がラップされてInteger:416になるって感じですね。
-        // TODO done akinari.tsuji 先ほどのブログで知ったメソッドを使って確認してみます (2025/07/07)
+        // done akinari.tsuji 先ほどのブログで知ったメソッドを使って確認してみます (2025/07/07)
         // Integer a = 94;
         // Integer b = 42;
         // a = b;
@@ -128,7 +133,10 @@ public class Step01VariableTest extends PlainTestCase {
         // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 42, 1712669532
         // 2025-07-07 22:52:59,264 [main] DEBUG (PlainTestCase@log():711) - 43, 1225373914
         // ちゃんとa=bの直後はa, bが同じ値（identityHashCodeはメモリのアドレスに基づく値、hashCodeは中身に基づく値）
-        // TODO done tsuji [いいね] ハッシュコード確認するのツワモノですね^^ by jflute (2025/07/15)
+        // done tsuji [いいね] ハッシュコード確認するのツワモノですね^^ by jflute (2025/07/15)
+        // #1on1: System.identityHashCode(), 純粋にインスタンスのハッシュを出してくれる便利なもの
+        // log(sea.hashCode());
+        // log(System.identityHashCode(sea));
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -141,20 +149,22 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => 416
         // akinari.tsuji  BigDecimalは変更不可な型っぽい　(2025/07/04)
         // akinari.tsuji BigDecimal.add(BigDecimal augend)はメンバ変数の値と引数の値を加算して返すだけで、メンバ変数の値は変化しない (2025/07/04)
-        // TODO done tsuji [補足] BigDecimal のクラスJavaDocを見ると、第一声でimmutableと書いてあったりします by jflute (2025/07/04)
+        // done tsuji [補足] BigDecimal のクラスJavaDocを見ると、第一声でimmutableと書いてあったりします by jflute (2025/07/04)
         // add()のJavaDocも第一声が「Returns ...」というように、Immutableオブジェクトならではな表現だったりします。
         // Immutableは安全を演出するものではありますが、このケースでは戻り値受け取り忘れには注意という感じですね。
-        // TODO done akinari.tsuji  (2025/07/07)
+        // done akinari.tsuji  (2025/07/07)
         // どうやってJavaDocを見るんだろう、と思ったのですがBigDecimalからコードジャンプした先のコメントであっていますでしょうか？
         // Returns a {@code BigDecimal} whose ...
         // とありました。
         // 標準クラスの実装コード直接みられるの面白いです（読めないですけど笑）。
-        // TODO done tsuji [へんじ] IDE上でBigDecimalにカーソルを当てるとツールチップとして表示されるはずです by jflute (2025/07/15)
+        // done tsuji [へんじ] IDE上でBigDecimalにカーソルを当てるとツールチップとして表示されるはずです by jflute (2025/07/15)
         // > 実装コード直接みられる
         // オープンソースの良いところそこですね(^^
+        // #1on1: IntelliJでメソッド補完時にcontrol+JでJavaDoc表示される話
 
-        // TODO jflute 1on1にて、世の中にImmutableに対するアプローチのニュアンスについて補足する予定 (2025/07/04)
+        // done jflute 1on1にて、世の中にImmutableに対するアプローチのニュアンスについて補足する予定 (2025/07/04)
         // (これはくぼ用のtodoなのでそのまま残しておいてください)
+        // #1on1: 実際にadd()のソースコードリーディングしてみた
     }
 
     // ===================================================================================
@@ -225,12 +235,12 @@ public class Step01VariableTest extends PlainTestCase {
         // Immutableなクラスか？Mutableなクラスか？の違いは外から変更できるメソッドを提供してるかしてないかだけの違いなので、
         // 変数とはあまり関係ないです。
         // (って、解答で伝わるかな？？？わかりづらかったらごめんなさい。よくわからなかったら1on1でフォローします)
-        // TODO done jflute by akinari.tsuji  (2025/07/07)
+        // done jflute by akinari.tsuji  (2025/07/07)
         // 解説ありがとうございます！結構しっくりきました！
         // 参照型：実際の値が置かれたアドレスを値として持ってる
         // Mutable：アドレスに保持された値を変更可能かどうか
         // というイメージであってますでしょうか？
-        // TODO done tsuji [へんじ] もうちょい厳密な表現をすると... by jflute (2025/07/15)
+        // done tsuji [へんじ] もうちょい厳密な表現をすると... by jflute (2025/07/15)
         //
         //  参照型変数: 実際の値(インスタンス)が置かれた場所を特定するアドレスを値として持ってる。
         //             (イメージ、住所が書かれた紙が変数という箱の中に入ってるだけ)
@@ -257,7 +267,7 @@ public class Step01VariableTest extends PlainTestCase {
         // result => bighand|1|null|magisian
         // akinari.tsuji メンバ変数なのでhelpInstanceVariableViaMethodで値が変更される (2025/07/04)
         // akinari.tsuji instanceMagiclampはメソッドの変数で渡されているのでこちらが優先されて更新されない (2025/07/04)
-        // TODO done tsuji [いいね] 同じ名前の変数であっても別の変数と。引数指定もあくまで参照先アドレスのコピーです。 by jflute (2025/07/04)
+        // done tsuji [いいね] 同じ名前の変数であっても別の変数と。引数指定もあくまで参照先アドレスのコピーです。 by jflute (2025/07/04)
     }
 
     private void helpInstanceVariableViaMethod(String instanceMagiclamp) {
@@ -280,8 +290,11 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => harbor
         // akinari.tsuji helpMethodArgumentImmutableMethodcall側ではlandはメソッド内のローカル変数になり変更が影響しない (2025/07/04)
         // akinari.tsuji seaについては変更不可なオブジェクトで、concatは値を返すだけでメンバ変数の値は変わらない (2025/07/04)
-        // TODO done tsuji [いいね] ↑パーフェクト。Immutableクラスの引数は、(呼び出し側から見て)絶対に変わらないことが保証されるわけですね by jflute (2025/07/04)
+        // done tsuji [いいね] ↑パーフェクト。Immutableクラスの引数は、(呼び出し側から見て)絶対に変わらないことが保証されるわけですね by jflute (2025/07/04)
         // それが、可読性につながるということですね。Mutableだと「メソッド内で書き換えられてるかもしれない」ってなっちゃうので。
+
+        // #1on1: immutableのメリットとは？話。可読性の話、人の管理の許容量の話 (状態遷移のこと考えなくて良い)
+        // 個人的には、(Javaだと) 8:2 な感覚。(人と組織によって変わる)
     }
 
     private void helpMethodArgumentImmutableMethodcall(String sea, int land) {
@@ -320,7 +333,7 @@ public class Step01VariableTest extends PlainTestCase {
         helpMethodArgumentVariable(sea, land);
         log(sea); // your answer? => harbor
         // akinari.tsuji 関数での引数は値渡しでhelpメソッド側で代入しても呼び出し元の変数には変更が生じない (2025/07/04)
-        // TODO done tsuji [いいね] Good。test側のsea変数と、help側のsea引数、「たまたま同じ名前の全く別の変数」ということで by jflute (2025/07/04)
+        // done tsuji [いいね] Good。test側のsea変数と、help側のsea引数、「たまたま同じ名前の全く別の変数」ということで by jflute (2025/07/04)
     }
 
     private void helpMethodArgumentVariable(StringBuilder sea, int land) {
