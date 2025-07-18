@@ -255,10 +255,10 @@ public class Step02IfForTest extends PlainTestCase {
         List<String> stageList = prepareStageList();
         String sea = null;
         final AtomicBoolean shouldBreak = new AtomicBoolean(false);
-        final AtomicReference<String> seaRef = new AtomicReference<>();
+        final AtomicReference<String> seaRef = new AtomicReference<>("");
         final StringBuilder test = new StringBuilder(); //検証
         stageList.forEach(stage -> {
-            if (shouldBreak.get()) {
+            if (seaRef.get().contains("ga")) {
                 return;
             }
             if (stage.startsWith("br")) {
@@ -267,9 +267,9 @@ public class Step02IfForTest extends PlainTestCase {
             seaRef.set(stage);
             test.append(stage); // 検証
             // test = new StringBuilder(); // 検証：これは不可
-            if (stage.contains("ga")) {
-                shouldBreak.set(true);
-            }
+            // if (stage.contains("ga")) {
+            //    shouldBreak.set(true);
+            // }
         });
         sea = seaRef.get();
         log(sea); // should be same as before-fix
@@ -282,14 +282,15 @@ public class Step02IfForTest extends PlainTestCase {
         // 今回、Atomicを使うことで問題を解消できたのは参照先の値を変更することができるという性質を持っていたため
         // finalをAtomicに対して設定することで、参照先の変更ができなくなる（一方で、参照先の値自体の変更は可能）
         // なので、final StringBuilderが参照する先に保持される値はappendで変更ができる(検証部分）
-        // TODO tsuji [ふぉろー] AtomicBoolean とか AtomicReference とかは、本来の目的はマルチスレッド対応ですが... by jflute (2025/07/18)
+        // done tsuji [ふぉろー] AtomicBoolean とか AtomicReference とかは、本来の目的はマルチスレッド対応ですが... by jflute (2025/07/18)
         // ここでは都合の良い mutable な boolean, mutable な String, というところだけに着目してオススメされたのだと思います。
         // まあ、このエクササイズとしてはそれも一つの回避です。でも、StringBuilderでも十分同じことができます。
-        // TODO tsuji [ふぉろー] final は変数のimmutableですね。変数のimmutable性とインスタンスのimmutable性... by jflute (2025/07/18)
+        // done tsuji [ふぉろー] final は変数のimmutableですね。変数のimmutable性とインスタンスのimmutable性... by jflute (2025/07/18)
         // 二つあって、変数の方は参照先を差し替えられるかどうか？インスタンスの方は中身を変化させられるかどうか？
-        // TODO tsuji 修行++: 今のコードでGoodですがパズル問題として頭の体操的な追加修行を by jflute (2025/07/18)
+        // done tsuji 修行++: 今のコードでGoodですがパズル問題として頭の体操的な追加修行を by jflute (2025/07/18)
         // AtomicBoolean の shouldBreak の変数は使わずに同じことが実現できます。
         // つまり、AtomicReference<String> seaRef だけで全く同じ挙動を実現できるでしょう。
+        // TODO jflute seaRefに"ga"が含まれることを条件にreturnするように変更しました akinari.tsuji  (2025/07/18)
     }
 
     /**
@@ -315,7 +316,7 @@ public class Step02IfForTest extends PlainTestCase {
         }
     }
 
-    // TODO tsuji [いいね] immutable の理解の正確性を問う良いエクササイズですね(^^ by jflute (2025/07/18)
+    // done tsuji [いいね] immutable の理解の正確性を問う良いエクササイズですね(^^ by jflute (2025/07/18)
     public void test_iffor_yourExercise() {
         List<String> stageList = prepareStageList();
         final User user = new User();
