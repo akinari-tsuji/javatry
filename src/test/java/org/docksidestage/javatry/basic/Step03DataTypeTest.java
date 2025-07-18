@@ -26,7 +26,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step03DataTypeTest extends PlainTestCase {
 
@@ -45,16 +45,17 @@ public class Step03DataTypeTest extends PlainTestCase {
         Boolean dstore = true;
         BigDecimal amba = new BigDecimal("9.4");
 
-        piari = piari.plusDays(1);
-        land = piari.getYear();
-        bonvo = bonvo.plusMonths(1);
-        land = bonvo.getMonthValue();
-        land--;
-        if (dstore) {
-            BigDecimal addedDecimal = amba.add(new BigDecimal(land));
-            sea = String.valueOf(addedDecimal);
+        piari = piari.plusDays(1); // piari: 2001/9/5
+        land = piari.getYear(); // land: 2001
+        bonvo = bonvo.plusMonths(1); // 2001/10/3 12:34:56
+        land = bonvo.getMonthValue(); // land: 10
+        land--; // land: 9
+        if (dstore) { // always true
+            BigDecimal addedDecimal = amba.add(new BigDecimal(land)); // addedDecimal: 9.4 + 9
+            log(land, amba);
+            sea = String.valueOf(addedDecimal); // sea: "18.4"
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? =>  18.4
     }
 
     // ===================================================================================
@@ -69,20 +70,20 @@ public class Step03DataTypeTest extends PlainTestCase {
         float dstore = 1.1f;
         double amba = 2.3d;
         char miraco = 'a';
-        boolean dohotel = miraco == 'a';
-        if (dohotel && dstore >= piari) {
-            bonvo = sea;
-            land = (short) bonvo;
-            bonvo = piari;
-            sea = (byte) land;
-            if (amba == 2.3D) {
-                sea = (byte) amba;
+        boolean dohotel = miraco == 'a'; // true
+        if (dohotel && dstore >= piari) { // true && 1.1f > 1
+            bonvo = sea; // bonvo: 127
+            land = (short) bonvo; // land: 127
+            bonvo = piari; // bonvo: 1
+            sea = (byte) land; // sea: 1
+            if (amba == 2.3D) { // true
+                sea = (byte) amba; // sea: 2
             }
         }
-        if ((int) dstore > piari) {
+        if ((int) dstore > piari) { // 1 > 1 => false
             sea = 0;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 2
     }
 
     // ===================================================================================
