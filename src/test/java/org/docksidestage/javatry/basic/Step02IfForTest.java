@@ -291,7 +291,7 @@ public class Step02IfForTest extends PlainTestCase {
         // done tsuji 修行++: 今のコードでGoodですがパズル問題として頭の体操的な追加修行を by jflute (2025/07/18)
         // AtomicBoolean の shouldBreak の変数は使わずに同じことが実現できます。
         // つまり、AtomicReference<String> seaRef だけで全く同じ挙動を実現できるでしょう。
-        // TODO done jflute seaRefに"ga"が含まれることを条件にreturnするように変更しました akinari.tsuji  (2025/07/18)
+        // done jflute seaRefに"ga"が含まれることを条件にreturnするように変更しました akinari.tsuji  (2025/07/18)
         // done tsuji [いいね]↑ Good, そういうことです！(^^ by jflute (2025/07/22)
     }
 

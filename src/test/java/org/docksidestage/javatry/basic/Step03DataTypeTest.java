@@ -98,10 +98,24 @@ public class Step03DataTypeTest extends PlainTestCase {
         log(sea); // your answer? => hangar
         // St3ImmutableStageクラスのコンストラクタに"hangar"を渡してインスタンスを作成
         // ゲッターで取得した値を使ってString seaを宣言
-        // TODO jflute [質問] String sea = stage.getStageName() では新しいStringオブジェクトが作成されてseaに代入されているのでprivateなのに参照が可能という認識であっていますか？ akinari.tsuji  (2025/07/22)
+        // TODO done jflute [質問] String sea = stage.getStageName() では新しいStringオブジェクトが作成されてseaに代入されているのでprivateなのに参照が可能という認識であっていますか？ akinari.tsuji  (2025/07/22)
         // 以下で検証しました
         log(System.identityHashCode(sea));
         log(System.identityHashCode(stage.getStageNameHash()));
+        // TODO tsuji [へんじ] stage.getStageName() は、単に stage 内部で保持しているインスタンス... by jflute (2025/07/22)
+        // の参照を戻して sea 変数で受け取っているだけなので、新しい String インスタンスはつくられていないです。
+        // ここでは "hangar" インスタンス以外の String は存在していないですね。
+        //
+        // private は、インスタンスというよりも「変数に対してアクセスできるかどうか？」を制御するものなので、
+        // stageName変数に外部から直接アクセスはできません。stageName変数が参照しているインスタンスへの参照は、
+        // publicである getStageName() を経由して外部に公開されているので、インスタンスに対してはアクセスできています。
+        //
+        // log(System.identityHashCode(stage.getStageNameHash())); の行ですが...
+        // getStageNameHash() がそもそも System.identityHashCode(stageName) を戻しているので...
+        // stageNameのハッシュコードのハッシュコードをログに出している状態のようです。
+        //  log(System.identityHashCode(sea));
+        //  log(stage.getStageNameHash());
+        // ↑のよう直すと、同じ値になりました。
     }
 
     private static class St3ImmutableStage {
