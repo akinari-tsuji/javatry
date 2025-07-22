@@ -22,7 +22,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step04MethodTest extends PlainTestCase {
 
@@ -35,15 +35,16 @@ public class Step04MethodTest extends PlainTestCase {
      */
     public void test_method_call_basic() {
         String sea = supplySomething();
-        log(sea); // your answer? =>
+        log(sea); // your answer? => over
+        // supplySomething()では"over"を返す。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_method_call_many() {
-        String sea = functionSomething("mystic");
-        consumeSomething(supplySomething());
-        runnableSomething();
-        log(sea); // your answer? => 
+        String sea = functionSomething("mystic"); // mysmys
+        consumeSomething(supplySomething()); // 呼び出した関数がスコープの変数に対するreplaceなのでmysmysのまま
+        runnableSomething(); // 関数ないのローカル変数に対する操作なので影響なし
+        log(sea); // your answer? => mysmys
     }
 
     private String functionSomething(String name) {
@@ -72,11 +73,11 @@ public class Step04MethodTest extends PlainTestCase {
         St4MutableStage mutable = new St4MutableStage();
         int sea = 904;
         boolean land = false;
-        helloMutable(sea - 4, land, mutable);
+        helloMutable(sea - 4, land, mutable); // piari変数は参照先のアドレス値を渡している。helloMutable内でセッターを呼び出せば参照先の値を変更できる piari.stageName: mystic
         if (!land) {
-            sea = sea + mutable.getStageName().length();
+            sea = sea + mutable.getStageName().length(); // 904 + 6 = 910
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 910
     }
 
     private int helloMutable(int sea, Boolean land, St4MutableStage piari) {
@@ -108,14 +109,14 @@ public class Step04MethodTest extends PlainTestCase {
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_method_instanceVariable() {
         hasAnnualPassport = true;
-        int sea = inParkCount;
-        offAnnualPassport(hasAnnualPassport);
+        int sea = inParkCount; // nullなので0になる？
+        offAnnualPassport(hasAnnualPassport); // 引数に対する操作なので何もしない
         for (int i = 0; i < 100; i++) {
-            goToPark();
+            goToPark(); // メンバ変数のhasAnnualPassportはtrueのままなので加算される => inParkCountは100に
         }
-        ++sea;
-        sea = inParkCount;
-        log(sea); // your answer? => 
+        ++sea; // 1
+        sea = inParkCount; // 100
+        log(sea); // your answer? => 100
     }
 
     private void offAnnualPassport(boolean hasAnnualPassport) {
@@ -152,12 +153,18 @@ public class Step04MethodTest extends PlainTestCase {
      */
     public void test_method_making() {
         // use after making these methods
-        //String replaced = replaceCwithB(replaceAwithB("ABC"));
-        //String sea = quote(replaced, "'");
-        //if (isAvailableLogging()) {
-        //    showSea(sea);
-        //}
+        String replaced = replaceCwithB(replaceAwithB("ABC")); // BBB
+        String sea = quote(replaced, "'"); // 'BBB'
+        if (isAvailableLogging()) { // true
+            showSea(sea); // 'BBB'
+        }
     }
 
     // write methods here
+    private String replaceAwithB(String s) { return s.replace("A", "B"); }
+    private String replaceCwithB(String s) { return s.replace("C", "B"); }
+    private String quote(String s, String q) { return q + s + q; }
+    private boolean availableLogging = true;
+    private boolean isAvailableLogging() { return availableLogging; }
+    private void showSea(String s) { log(s); }
 }
