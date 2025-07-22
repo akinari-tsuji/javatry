@@ -95,7 +95,13 @@ public class Step03DataTypeTest extends PlainTestCase {
     public void test_datatype_object() {
         St3ImmutableStage stage = new St3ImmutableStage("hangar");
         String sea = stage.getStageName();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
+        // St3ImmutableStageクラスのコンストラクタに"hangar"を渡してインスタンスを作成
+        // ゲッターで取得した値を使ってString seaを宣言
+        // TODO jflute [質問] String sea = stage.getStageName() では新しいStringオブジェクトが作成されてseaに代入されているのでprivateなのに参照が可能という認識であっていますか？ akinari.tsuji  (2025/07/22)
+        // 以下で検証しました
+        log(System.identityHashCode(sea));
+        log(System.identityHashCode(stage.getStageNameHash()));
     }
 
     private static class St3ImmutableStage {
@@ -109,5 +115,7 @@ public class Step03DataTypeTest extends PlainTestCase {
         public String getStageName() {
             return stageName;
         }
+
+        public int getStageNameHash() { return System.identityHashCode(stageName); }
     }
 }
