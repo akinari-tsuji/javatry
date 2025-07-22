@@ -85,6 +85,8 @@ public class Step03DataTypeTest extends PlainTestCase {
         }
         log(sea); // your answer? => 2
     }
+    
+    // TODO jflute 1on1にて、プリミティブ型の現場での使い分けについて補足する予定 (2025/07/22)
 
     // ===================================================================================
     //                                                                              Object

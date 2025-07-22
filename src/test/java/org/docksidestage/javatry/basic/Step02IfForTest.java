@@ -254,6 +254,7 @@ public class Step02IfForTest extends PlainTestCase {
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
         String sea = null;
+        @SuppressWarnings("unused") // 警告ノイズにならないように便宜上 (業務なら消すけど)
         final AtomicBoolean shouldBreak = new AtomicBoolean(false);
         final AtomicReference<String> seaRef = new AtomicReference<>("");
         final StringBuilder test = new StringBuilder(); //検証
@@ -290,7 +291,8 @@ public class Step02IfForTest extends PlainTestCase {
         // done tsuji 修行++: 今のコードでGoodですがパズル問題として頭の体操的な追加修行を by jflute (2025/07/18)
         // AtomicBoolean の shouldBreak の変数は使わずに同じことが実現できます。
         // つまり、AtomicReference<String> seaRef だけで全く同じ挙動を実現できるでしょう。
-        // TODO jflute seaRefに"ga"が含まれることを条件にreturnするように変更しました akinari.tsuji  (2025/07/18)
+        // TODO done jflute seaRefに"ga"が含まれることを条件にreturnするように変更しました akinari.tsuji  (2025/07/18)
+        // TODO tsuji [いいね]↑ Good, そういうことです！(^^ by jflute (2025/07/22)
     }
 
     /**
