@@ -28,7 +28,7 @@ import org.docksidestage.unit.PlainTestCase;
  * (要件が曖昧なところがあれば、適切だと思われる仕様を決めても良いです)
  * 
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step05ClassTest extends PlainTestCase {
 
@@ -42,8 +42,8 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_howToUse_basic() {
         TicketBooth booth = new TicketBooth();
         booth.buyOneDayPassport(7400);
-        int sea = booth.getQuantity();
-        log(sea); // your answer? => 
+        int sea = booth.getQuantity(); // 一つ購入したので9
+        log(sea); // your answer? => 9
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -51,32 +51,32 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBooth booth = new TicketBooth();
         booth.buyOneDayPassport(10000);
         Integer sea = booth.getSalesProceeds();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 10000（修正後は7400)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_class_howToUse_nosales() {
         TicketBooth booth = new TicketBooth();
-        Integer sea = booth.getSalesProceeds();
-        log(sea); // your answer? => 
+        Integer sea = booth.getSalesProceeds(); // 初回購入まではnull
+        log(sea); // your answer? => null
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_class_howToUse_wrongQuantity() {
         Integer sea = doTest_class_ticket_wrongQuantity();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 9（修正後は10)
     }
 
     private Integer doTest_class_ticket_wrongQuantity() {
         TicketBooth booth = new TicketBooth();
         int handedMoney = 7399;
         try {
-            booth.buyOneDayPassport(handedMoney);
-            fail("always exception but none");
-        } catch (TicketShortMoneyException continued) {
+            booth.buyOneDayPassport(handedMoney); // ここで関数ないでTicketShortMoneyExecptionが発生
+            fail("always exception but none"); // ここは実行されないのでテストは失敗しない
+        } catch (TicketShortMoneyException continued) {  // ここで例外キャッチ
             log("Failed to buy one-day passport: money=" + handedMoney, continued);
         }
-        return booth.getQuantity();
+        return booth.getQuantity(); // 購入前（例外を投げる前）に先に在庫を減らしている
     }
 
     // ===================================================================================
@@ -89,6 +89,7 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_letsFix_ticketQuantityReduction() {
         Integer sea = doTest_class_ticket_wrongQuantity();
         log(sea); // should be max quantity, visual check here
+        // TODO jfluet buyOneDayPassportメソッドを書き換えました akinari.tsuji  (2025/07/23)
     }
 
     /**
