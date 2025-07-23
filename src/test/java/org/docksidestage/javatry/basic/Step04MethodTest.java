@@ -110,8 +110,9 @@ public class Step04MethodTest extends PlainTestCase {
     public void test_method_instanceVariable() {
         hasAnnualPassport = true;
         int sea = inParkCount; // nullなので0になる？
-        // TODO tsuji [ふぉろー] ↑inParkCountは int型なので、デフォルトはnullではなく0です by jflute (2025/07/22)
+        // done tsuji [ふぉろー] ↑inParkCountは int型なので、デフォルトはnullではなく0です by jflute (2025/07/22)
         // (プリミティブ型の変数はnullの状態が発生しない、というJavaのルール)
+        // TODO jflute なるほどです。確かにメモリ確保して値が何もないというのは違和感あったのでしっくりきました！ akinari.tsuji  (2025/07/23)
         offAnnualPassport(hasAnnualPassport); // 引数に対する操作なので何もしない
         for (int i = 0; i < 100; i++) {
             goToPark(); // メンバ変数のhasAnnualPassportはtrueのままなので加算される => inParkCountは100に
@@ -162,7 +163,8 @@ public class Step04MethodTest extends PlainTestCase {
         }
     }
 
-    // TODO tsuji [いいね] メソッドの定義順が呼び出し順序と一致していてわかりやすいです by jflute (2025/07/22)
+    // done tsuji [いいね] メソッドの定義順が呼び出し順序と一致していてわかりやすいです by jflute (2025/07/22)
+    // ありがとうございます！
     // write methods here
     private String replaceAwithB(String s) { return s.replace("A", "B"); }
     private String replaceCwithB(String s) { return s.replace("C", "B"); }

@@ -101,8 +101,12 @@ public class Step03DataTypeTest extends PlainTestCase {
         // TODO done jflute [質問] String sea = stage.getStageName() では新しいStringオブジェクトが作成されてseaに代入されているのでprivateなのに参照が可能という認識であっていますか？ akinari.tsuji  (2025/07/22)
         // 以下で検証しました
         log(System.identityHashCode(sea));
-        log(System.identityHashCode(stage.getStageNameHash()));
-        // TODO tsuji [へんじ] stage.getStageName() は、単に stage 内部で保持しているインスタンス... by jflute (2025/07/22)
+        log(stage.getStageNameHash());
+        stage.putStageHash();
+
+        log(System.identityHashCode(stage.testNumber));
+        log(stage.getTestHash());
+        // done tsuji [へんじ] stage.getStageName() は、単に stage 内部で保持しているインスタンス... by jflute (2025/07/22)
         // の参照を戻して sea 変数で受け取っているだけなので、新しい String インスタンスはつくられていないです。
         // ここでは "hangar" インスタンス以外の String は存在していないですね。
         //
@@ -116,20 +120,27 @@ public class Step03DataTypeTest extends PlainTestCase {
         //  log(System.identityHashCode(sea));
         //  log(stage.getStageNameHash());
         // ↑のよう直すと、同じ値になりました。
+        // TODO jflute なるほどです。メモリ上のアドレスにはアクセスできないものの、アドレス上の番地は渡されてそれを元に参照できるという感じでしょうか？ akinari.tsuji  (2025/07/23)
+        // また追加で実験をするために色々やっていたら、privateメンバ変数のtestNumberに107行目のようにアクセスできてしまったのって大丈夫なのでしょうか？ privateだとこのようなアクセスができない認識だったのですが
     }
 
     private static class St3ImmutableStage {
 
         private final String stageName;
+        private int testNumber;
 
         public St3ImmutableStage(String stageName) {
+            testNumber = 42;
             this.stageName = stageName;
         }
 
         public String getStageName() {
             return stageName;
         }
-
+        public int getTest() { return testNumber; }
         public int getStageNameHash() { return System.identityHashCode(stageName); }
+        public int getTestHash() { return System.identityHashCode(testNumber); }
+
+        public void putStageHash() { System.out.println(System.identityHashCode(stageName)); }
     }
 }
