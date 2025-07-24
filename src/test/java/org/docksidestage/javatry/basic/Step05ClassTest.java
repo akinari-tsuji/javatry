@@ -89,7 +89,8 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_letsFix_ticketQuantityReduction() {
         Integer sea = doTest_class_ticket_wrongQuantity();
         log(sea); // should be max quantity, visual check here
-        // TODO jfluet buyOneDayPassportメソッドを書き換えました akinari.tsuji  (2025/07/23)
+        // TODO done jflute buyOneDayPassportメソッドを書き換えました akinari.tsuji  (2025/07/23)
+        // TODO tsuji [へんじ] おお、いいですね。ちゃんと事前チェックがすべて通ってから在庫を減らしてますね^^ by jflute (2025/07/24)
     }
 
     /**

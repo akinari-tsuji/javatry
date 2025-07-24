@@ -112,7 +112,7 @@ public class Step04MethodTest extends PlainTestCase {
         int sea = inParkCount; // nullなので0になる？
         // done tsuji [ふぉろー] ↑inParkCountは int型なので、デフォルトはnullではなく0です by jflute (2025/07/22)
         // (プリミティブ型の変数はnullの状態が発生しない、というJavaのルール)
-        // TODO jflute なるほどです。確かにメモリ確保して値が何もないというのは違和感あったのでしっくりきました！ akinari.tsuji  (2025/07/23)
+        // TODO done jflute なるほどです。確かにメモリ確保して値が何もないというのは違和感あったのでしっくりきました！ akinari.tsuji  (2025/07/23)
         offAnnualPassport(hasAnnualPassport); // 引数に対する操作なので何もしない
         for (int i = 0; i < 100; i++) {
             goToPark(); // メンバ変数のhasAnnualPassportはtrueのままなので加算される => inParkCountは100に

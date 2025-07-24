@@ -98,7 +98,7 @@ public class Step03DataTypeTest extends PlainTestCase {
         log(sea); // your answer? => hangar
         // St3ImmutableStageクラスのコンストラクタに"hangar"を渡してインスタンスを作成
         // ゲッターで取得した値を使ってString seaを宣言
-        // TODO done jflute [質問] String sea = stage.getStageName() では新しいStringオブジェクトが作成されてseaに代入されているのでprivateなのに参照が可能という認識であっていますか？ akinari.tsuji  (2025/07/22)
+        // done jflute [質問] String sea = stage.getStageName() では新しいStringオブジェクトが作成されてseaに代入されているのでprivateなのに参照が可能という認識であっていますか？ akinari.tsuji  (2025/07/22)
         // 以下で検証しました
         log(System.identityHashCode(sea));
         log(stage.getStageNameHash());
@@ -120,8 +120,11 @@ public class Step03DataTypeTest extends PlainTestCase {
         //  log(System.identityHashCode(sea));
         //  log(stage.getStageNameHash());
         // ↑のよう直すと、同じ値になりました。
-        // TODO jflute なるほどです。メモリ上のアドレスにはアクセスできないものの、アドレス上の番地は渡されてそれを元に参照できるという感じでしょうか？ akinari.tsuji  (2025/07/23)
+        // TODO done jflute なるほどです。メモリ上のアドレスにはアクセスできないものの、アドレス上の番地は渡されてそれを元に参照できるという感じでしょうか？ akinari.tsuji  (2025/07/23)
         // また追加で実験をするために色々やっていたら、privateメンバ変数のtestNumberに107行目のようにアクセスできてしまったのって大丈夫なのでしょうか？ privateだとこのようなアクセスができない認識だったのですが
+        // TODO tsuji [へんじ] そういうことです。インスタンスのメモリの場所はぼくらは直接辿ることはできないので... by jflute (2025/07/24)
+        // 引数とか戻り値とか変数への代入とかでアドレス(番地)が渡されて、それをもとにインスタンスに参照しています。
+        // 結局、アドレスのやり取りしかしてないに等しい、と言っても過言ではないですね(^^。
     }
 
     private static class St3ImmutableStage {
