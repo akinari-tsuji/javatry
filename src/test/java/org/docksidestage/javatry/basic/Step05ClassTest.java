@@ -89,8 +89,9 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_letsFix_ticketQuantityReduction() {
         Integer sea = doTest_class_ticket_wrongQuantity();
         log(sea); // should be max quantity, visual check here
-        // TODO done jflute buyOneDayPassportメソッドを書き換えました akinari.tsuji  (2025/07/23)
-        // TODO tsuji [へんじ] おお、いいですね。ちゃんと事前チェックがすべて通ってから在庫を減らしてますね^^ by jflute (2025/07/24)
+        // done jflute buyOneDayPassportメソッドを書き換えました akinari.tsuji  (2025/07/23)
+        // done tsuji [へんじ] おお、いいですね。ちゃんと事前チェックがすべて通ってから在庫を減らしてますね^^ by jflute (2025/07/24)
+        // #1on1: IntelliJで行移動: shift+option+↑↓
     }
 
     /**
@@ -103,6 +104,7 @@ public class Step05ClassTest extends PlainTestCase {
         Integer sea = booth.getSalesProceeds();
         log(sea); // should be same as one-day price, visual check here
     }
+    // TODO jflute 1on1としてここまで、次回続き (2025/08/01)
 
     /**
      * Make method for buying two-day passport (price is 13200). (which can return change as method return value)

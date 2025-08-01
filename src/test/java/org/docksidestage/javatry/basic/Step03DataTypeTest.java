@@ -86,7 +86,9 @@ public class Step03DataTypeTest extends PlainTestCase {
         log(sea); // your answer? => 2
     }
     
-    // TODO jflute 1on1にて、プリミティブ型の現場での使い分けについて補足する予定 (2025/07/22)
+    // done jflute 1on1にて、プリミティブ型の現場での使い分けについて補足する予定 (2025/07/22)
+    // #1on1: boolean, int, long のお話
+    // https://dbflute.seasar.org/ja/manual/topic/programming/java/beginners.html#primitivewrapper
 
     // ===================================================================================
     //                                                                              Object
@@ -120,9 +122,9 @@ public class Step03DataTypeTest extends PlainTestCase {
         //  log(System.identityHashCode(sea));
         //  log(stage.getStageNameHash());
         // ↑のよう直すと、同じ値になりました。
-        // TODO done jflute なるほどです。メモリ上のアドレスにはアクセスできないものの、アドレス上の番地は渡されてそれを元に参照できるという感じでしょうか？ akinari.tsuji  (2025/07/23)
+        // done jflute なるほどです。メモリ上のアドレスにはアクセスできないものの、アドレス上の番地は渡されてそれを元に参照できるという感じでしょうか？ akinari.tsuji  (2025/07/23)
         // また追加で実験をするために色々やっていたら、privateメンバ変数のtestNumberに107行目のようにアクセスできてしまったのって大丈夫なのでしょうか？ privateだとこのようなアクセスができない認識だったのですが
-        // TODO tsuji [へんじ] そういうことです。インスタンスのメモリの場所はぼくらは直接辿ることはできないので... by jflute (2025/07/24)
+        // done tsuji [へんじ] そういうことです。インスタンスのメモリの場所はぼくらは直接辿ることはできないので... by jflute (2025/07/24)
         // 引数とか戻り値とか変数への代入とかでアドレス(番地)が渡されて、それをもとにインスタンスに参照しています。
         // 結局、アドレスのやり取りしかしてないに等しい、と言っても過言ではないですね(^^。
     }
@@ -140,6 +142,7 @@ public class Step03DataTypeTest extends PlainTestCase {
         public String getStageName() {
             return stageName;
         }
+        @SuppressWarnings("unused")
         public int getTest() { return testNumber; }
         public int getStageNameHash() { return System.identityHashCode(stageName); }
         public int getTestHash() { return System.identityHashCode(testNumber); }

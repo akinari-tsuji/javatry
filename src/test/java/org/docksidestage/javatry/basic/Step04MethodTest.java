@@ -112,7 +112,7 @@ public class Step04MethodTest extends PlainTestCase {
         int sea = inParkCount; // nullなので0になる？
         // done tsuji [ふぉろー] ↑inParkCountは int型なので、デフォルトはnullではなく0です by jflute (2025/07/22)
         // (プリミティブ型の変数はnullの状態が発生しない、というJavaのルール)
-        // TODO done jflute なるほどです。確かにメモリ確保して値が何もないというのは違和感あったのでしっくりきました！ akinari.tsuji  (2025/07/23)
+        // done jflute なるほどです。確かにメモリ確保して値が何もないというのは違和感あったのでしっくりきました！ akinari.tsuji  (2025/07/23)
         offAnnualPassport(hasAnnualPassport); // 引数に対する操作なので何もしない
         for (int i = 0; i < 100; i++) {
             goToPark(); // メンバ変数のhasAnnualPassportはtrueのままなので加算される => inParkCountは100に
@@ -165,6 +165,7 @@ public class Step04MethodTest extends PlainTestCase {
 
     // done tsuji [いいね] メソッドの定義順が呼び出し順序と一致していてわかりやすいです by jflute (2025/07/22)
     // ありがとうございます！
+    // #1on1: 切り出しのみ目的のprivateメソッドの定義位置と再利用を目的としてprivateメソッドの定義位置のお話
     // write methods here
     private String replaceAwithB(String s) { return s.replace("A", "B"); }
     private String replaceCwithB(String s) { return s.replace("C", "B"); }
@@ -172,4 +173,15 @@ public class Step04MethodTest extends PlainTestCase {
     private boolean availableLogging = true;
     private boolean isAvailableLogging() { return availableLogging; }
     private void showSea(String s) { log(s); }
+    
+    // #1on1: [話題] DDDのお話
+    // Value Objectとは？ (intとかIntegerとの違い)
+    //  → 業務的な意味を持っているかどうか？
+    //  → 業務的な意味を単に変数だけで表現しているのか？型で表現しているのか？
+    // pp 意味を持たせることで...
+    // o コンパイルセーフ (業務的な値の概念が違ったときにエラー)
+    // o 可読性 (業務的な振る舞いを表現できる)
+    // 
+    // pp DDDの歴史と、くぼのDDDの歴史の体感のお話
+    // o (1on1にて詳しく)
 }
