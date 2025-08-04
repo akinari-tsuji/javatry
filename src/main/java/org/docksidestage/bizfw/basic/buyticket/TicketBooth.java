@@ -15,8 +15,12 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+import java.time.LocalTime;
+
 /**
+ * チケットの購入を管理するためのクラス
  * @author jflute
+ * @author akinari.tsuji
  */
 public class TicketBooth {
 
@@ -25,6 +29,9 @@ public class TicketBooth {
     //                                                                          ==========
     private static final int MAX_QUANTITY = 10;
     private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
+    private static final int TWO_DAY_PRICE = 13200;
+    private static final int FOUR_DAY_PRICE = 22400;
+    private static final int NIGHT_PRICE = 7400;
 
     // ===================================================================================
     //                                                                           Attribute
@@ -35,39 +42,63 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TicketBooth() {
-    }
+    public TicketBooth() {}
 
     // ===================================================================================
     //                                                                          Buy Ticket
     //                                                                          ==========
     // you can rewrite comments for your own language by jflute
     // e.g. Japanese
-    // /**
-    // * 1Dayパスポートを買う、パークゲスト用のメソッド。
-    // * @param handedMoney パークゲストから手渡しされたお金(金額) (NotNull, NotMinus)
-    // * @throws TicketSoldOutException ブース内のチケットが売り切れだったら
-    // * @throws TicketShortMoneyException 買うのに金額が足りなかったら
-    // */
+    /**
+     * チケットを購入するメソッド
+     * @param handedMoney 渡された金額
+     * @param price 購入しようとしているチケットの金額
+     * @param numberOfPurchases 購入しようとしているチケットの利用回数
+     * @throws TicketSoldOutException ブース内のチケットが売り切れだったら
+     * @throws TicketShortMoneyException 買うのに金額が足りなかったら
+     * @return ticketBuyResult 購入結果を返す
+     */
+    private TicketBuyResult buyTicket(Integer handedMoney, int price, int numberOfPurchases) {
+        validateQuantity(numberOfPurchases);
+        validateShortMoney(handedMoney, price);
+        quantity -= numberOfPurchases;
+        TicketBuyResult ticketBuyResult = new TicketBuyResult(price, handedMoney - price, numberOfPurchases);
+        setSalesProceeds(price);
+        return ticketBuyResult;
+    }
+
     /**
      * Buy one-day passport, method for park guest.
-     * @param handedMoney The money (amount) handed over from park guest. (NotNull, NotMinus)
-     * @throws TicketSoldOutException When ticket in booth is sold out.
-     * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
-    public void buyOneDayPassport(Integer handedMoney) {
-        if (quantity <= 0) {
-            throw new TicketSoldOutException("Sold out");
+    public TicketBuyResult buyOneDayPassport(Integer handedMoney) {
+        return buyTicket(handedMoney, ONE_DAY_PRICE, 1);
+    }
+
+    /**
+     * Buy two-day passport, method for park guest.
+     */
+    public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
+        return buyTicket(handedMoney, TWO_DAY_PRICE, 2);
+    }
+
+    /**
+     * Buy four-day passport.
+     */
+    public TicketBuyResult buyFourDayPassport(Integer handedMoney) {
+        return buyTicket(handedMoney, FOUR_DAY_PRICE, 4);
+    }
+
+    /**
+     * Buy night passport.
+     * @throws NotNightException 夜以前にナイトパスを購入しようとしたら
+     */
+    public TicketBuyResult buyNightPassport(Integer handedMoney) {
+        LocalTime borderTime = LocalTime.of(18, 0);
+        LocalTime nowTime = LocalTime.now();
+        if (nowTime.isBefore(borderTime)) {
+            throw new NotNightException("You can't buy this passport before 18:00.");
         }
-        if (handedMoney < ONE_DAY_PRICE) {
-            throw new TicketShortMoneyException("Short money: " + handedMoney);
-        }
-        --quantity;
-        if (salesProceeds != null) { // second or more purchase
-            salesProceeds = salesProceeds + ONE_DAY_PRICE;
-        } else { // first purchase
-            salesProceeds = ONE_DAY_PRICE;
-        }
+        return buyTicket(handedMoney, NIGHT_PRICE, 1);
     }
 
     public static class TicketSoldOutException extends RuntimeException {
@@ -85,6 +116,35 @@ public class TicketBooth {
 
         public TicketShortMoneyException(String msg) {
             super(msg);
+        }
+    }
+
+    public static class NotNightException extends RuntimeException {
+        // TODO akinari.tsuji 一旦中身を理解していないが他と同様に実装 (2025/08/04)
+        private static final long serialVersionUID = 1L;
+
+        public NotNightException(String msg) {
+            super(msg);
+        }
+    }
+
+    private void validateQuantity(int numberOfPurchases) {
+        if (quantity - numberOfPurchases < 0) {
+            throw new TicketSoldOutException("Sold out");
+        }
+    }
+
+    private void validateShortMoney(Integer handedMoney, int price) {
+        if (handedMoney < price) {
+            throw new TicketSoldOutException("Short money: " + handedMoney);
+        }
+    }
+
+    private void setSalesProceeds(int price) {
+        if (salesProceeds != null) {
+            salesProceeds = salesProceeds + price;
+        } else {
+            salesProceeds = price;
         }
     }
 

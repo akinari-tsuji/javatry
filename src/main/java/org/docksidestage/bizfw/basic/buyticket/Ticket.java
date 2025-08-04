@@ -17,6 +17,7 @@ package org.docksidestage.bizfw.basic.buyticket;
 
 /**
  * @author jflute
+ * @author akinari.tsuji
  */
 public class Ticket {
 
@@ -24,23 +25,34 @@ public class Ticket {
     //                                                                           Attribute
     //                                                                           =========
     private final int displayPrice; // written on ticket, park guest can watch this
-    private boolean alreadyIn; // true means this ticket is unavailable
+    private final int entranceLimit;
+    private int totalEntranceCounts;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+    // one-day ticket
     public Ticket(int displayPrice) {
         this.displayPrice = displayPrice;
+        this.entranceLimit = 1;
+        this.totalEntranceCounts = 0;
+    }
+
+    // two or more day ticket
+    public Ticket(int displayPrice, int entranceLimit) {
+        this.displayPrice = displayPrice;
+        this.entranceLimit = entranceLimit;
+        this.totalEntranceCounts = 0;
     }
 
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
     public void doInPark() {
-        if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
+        if (totalEntranceCounts >= entranceLimit) {
+            throw new IllegalStateException("This ticket is already exhausted: displayedPrice=" + displayPrice);
         }
-        alreadyIn = true;
+        totalEntranceCounts++;
     }
 
     // ===================================================================================
@@ -50,7 +62,7 @@ public class Ticket {
         return displayPrice;
     }
 
-    public boolean isAlreadyIn() {
-        return alreadyIn;
-    }
+    public int getRemainingEntranceCounts() { return entranceLimit - totalEntranceCounts; }
+
+    public int getEntranceLimit() { return entranceLimit; }
 }
