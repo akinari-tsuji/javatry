@@ -137,6 +137,8 @@ public class Step01VariableTest extends PlainTestCase {
         // #1on1: System.identityHashCode(), 純粋にインスタンスのハッシュを出してくれる便利なもの
         // log(sea.hashCode());
         // log(System.identityHashCode(sea));
+
+        // TODO tsuji 素晴らしすぎ！いい影響もらってます、ありがとう！ by shiny (2025/08/12)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -316,6 +318,9 @@ public class Step01VariableTest extends PlainTestCase {
         // done tsuji [ふぉろー] おお、いいですね。まあ、StringBuilderのBuilderとはちょっとニュアンス違いますが^^ by jflute (2025/07/04)
         // done akinari.tsuji  (2025/07/07)
         // 違ったんですね、Geminiに騙されました笑
+
+        // TODO tsuji もう読んじゃったかもだけど、GOFのデザインパターンの本めちゃくちゃ面白いよ！ by shiny (2025/08/12)
+        // 学ぶとめっちゃ使いたくなる時期がくるのだが笑、個人的には現場で実際に使うというよりかは、ソースコードリーディングをしている時に「あ、これこのパターンだな。じゃあこうなってそう」というのに役立つと思ってます！
     }
 
     private void helpMethodArgumentMethodcall(StringBuilder sea, int land) {
@@ -395,6 +400,8 @@ public class Step01VariableTest extends PlainTestCase {
         // done akinari.tsuji  (2025/07/07)
         // ありがとうございます！
         // 「xxxをわかっているか」というテーマで作問したかったのですが、今までの問題以外の「xxx」が思いつかず複雑にする方向で考えました
+
+        // TODO tsuji [スバラ！] 解けたよ！Intellijがちゃんとグレーアウトしてくれてて助かった笑 by shiny (2025/08/12)
     }
 
     private void helperMethod(StringBuilder sea, int land, String dstore) {

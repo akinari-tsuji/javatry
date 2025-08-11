@@ -127,6 +127,8 @@ public class Step03DataTypeTest extends PlainTestCase {
         // done tsuji [へんじ] そういうことです。インスタンスのメモリの場所はぼくらは直接辿ることはできないので... by jflute (2025/07/24)
         // 引数とか戻り値とか変数への代入とかでアドレス(番地)が渡されて、それをもとにインスタンスに参照しています。
         // 結局、アドレスのやり取りしかしてないに等しい、と言っても過言ではないですね(^^。
+
+        // TODO tsuji hashcodeを使って色々実験してるのツワモノすぎる！笑 by shiny (2025/08/12)
     }
 
     private static class St3ImmutableStage {

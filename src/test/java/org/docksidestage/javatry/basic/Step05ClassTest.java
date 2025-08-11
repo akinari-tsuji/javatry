@@ -94,6 +94,8 @@ public class Step05ClassTest extends PlainTestCase {
         // done jflute buyOneDayPassportメソッドを書き換えました akinari.tsuji  (2025/07/23)
         // done tsuji [へんじ] おお、いいですね。ちゃんと事前チェックがすべて通ってから在庫を減らしてますね^^ by jflute (2025/07/24)
         // #1on1: IntelliJで行移動: shift+option+↑↓
+
+        // TODO tsuji くぼさんにショートカットをたくさん習ってください！そして.ideaディレクトリについても！笑 by shiny (2025/08/12)
     }
 
     /**

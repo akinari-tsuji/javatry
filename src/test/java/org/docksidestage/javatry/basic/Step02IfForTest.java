@@ -143,6 +143,8 @@ public class Step02IfForTest extends PlainTestCase {
         // done tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
         // done tsuji [へんじ] 戻り値の場合も、参照型(オブジェクト型)であれば、単にアドレスが戻ってきて... by jflute (2025/07/15)
         // ↓のプログラムはちょっとわかりづらいところがあるので少し書き換えさせてください。
+
+        // TODO tsuji いいねいいねの疑問ですね！GCは深いぞー by shiny (2025/08/12)
     }
 
     // done tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)
@@ -225,6 +227,8 @@ public class Step02IfForTest extends PlainTestCase {
         // done tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
         // ラムダ式で、1メソッドしか持ってないクラスを表現して、関数っぽいく振る舞うようにしている感じです。
         // #1on1: ラムダ式も内部的にクラス話、step8のちょい紹介
+
+        // TODO tsuji rubyにもCallbackみたいなものはありますか...?(by rubyを何もしらない人間) by shiny (2025/08/12)
     }
 
     // ===================================================================================
