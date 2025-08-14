@@ -66,6 +66,9 @@ public class TicketBooth {
         //  Ticketのインスタンスを作成するのが、TicketBuyResultの中なのか、TicketBooth内で作成するべきなのか判断がつかず、
         //  どのように切り分けるべきか、考え方をお伺いしたいです。
         //  akinari.tsuji  (2025/08/04)
+        // TODO jflute[質問] akinari.tsuji  (2025/08/15)
+        // buyTicketの引数の型にIntegerとintの両方含まれているのが違和感あるのですが、intに揃えても大丈夫でしょうか？
+        // 元々、handedMoneyがIntegerだったのでどちらに揃えるべきか悩んでおります。
         TicketBuyResult ticketBuyResult = new TicketBuyResult(price, handedMoney - price, numberOfPurchases);
         setSalesProceeds(price);
         return ticketBuyResult;

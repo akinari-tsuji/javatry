@@ -32,7 +32,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step06ObjectOrientedTest extends PlainTestCase {
 
@@ -51,6 +51,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [ticket booth info]
         //
         // simulation: actually these variables should be more wide scope
+        // TODO [メモ]　チケット購入プロセスの初期値 akinari.tsuji  (2025/08/15)
         int oneDayPrice = 7400;
         int quantity = 10;
         Integer salesProceeds = null;
@@ -59,21 +60,26 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [buy one-day passport]
         //
         // simulation: actually this money should be from customer
+        // TODO [メモ] 売り切れの場合の例外 akinari.tsuji  (2025/08/15)
         int handedMoney = 10000;
         if (quantity <= 0) {
             throw new IllegalStateException("Sold out");
         }
-        --quantity;
+        // TODO [メモ] お金が足りず購入できない場合でも在庫を減らしてしまっている akinari.tsuji  (2025/08/15)
+        // --quantity;
         if (handedMoney < oneDayPrice) {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
+        --quantity;
         salesProceeds = handedMoney;
 
         //
         // [ticket info]
         //
         // simulation: actually these variables should be more wide scope
-        int displayPrice = quantity;
+        // TODO [メモ] displayPriceは購入したチケットの金額のはず akinari.tsuji  (2025/08/15)
+        // int displayPrice = quantity;
+        int displayPrice = oneDayPrice;
         boolean alreadyIn = false;
 
         // other processes here...
@@ -92,14 +98,20 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //
         // [final process]
         //
-        saveBuyingHistory(quantity, displayPrice, salesProceeds, alreadyIn);
+        // TODO [メモ] 引数が対応ずれていた akinari.tsuji  (2025/08/15)
+        saveBuyingHistory(quantity, salesProceeds, displayPrice, alreadyIn);
     }
 
     private void saveBuyingHistory(int quantity, Integer salesProceeds, int displayPrice, boolean alreadyIn) {
         if (alreadyIn) {
             // simulation: only logging here (normally e.g. DB insert)
-            showTicketBooth(displayPrice, salesProceeds);
-            showYourTicket(quantity, alreadyIn);
+            // TODO [メモ] 多分引数間違えている akinari.tsuji  (2025/08/15)
+            // showYourTicketの引数にquantityあるのおかしい
+            // TODO [質問] jflute こういう時に値オブジェクトがあるとコンパイル時に気づける、というのが前回教えていただいたメリットでしょうか？ akinari.tsuji  (2025/08/15
+            // あと個人的な所感なのですが、intでprice, quantityが両方表現されていると、今回のように引数取り間違えそうです
+            // [つぶやき] C言語のライブラリの内部でtypedefを用いてintを別名で定義しているのもわかりやすくするためなのかな
+            showTicketBooth(quantity, salesProceeds);
+            showYourTicket(displayPrice, alreadyIn);
         }
     }
 
@@ -128,12 +140,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //int oneDayPrice = 7400;
         //int quantity = 10;
         //Integer salesProceeds = null;
+        // TODO [メモ] TicketBoothクラスが初期化もやってくれる akinari.tsuji  (2025/08/15)
 
         //
         // [buy one-day passport]
         //
         // if step05 has been finished, you can use this code by jflute (2019/06/15)
         //Ticket ticket = booth.buyOneDayPassport(10000);
+//       // TODO [メモ] クラスのメソッド内部で処理をするように切り分けているので、このtest_...メソッドでの条件分岐がなくなり、読みやすいです　akinari.tsuji  (2025/08/15)
         booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
         Ticket ticket = new Ticket(7400); // also here
 
@@ -173,11 +187,11 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     }
 
     private void saveBuyingHistory(TicketBooth booth, Ticket ticket) {
-//        if (ticket.isAlreadyIn()) {
-//            // only logging here (normally e.g. DB insert)
-//            doShowTicketBooth(booth);
-//            doShowYourTicket(ticket);
-//        }
+        if (ticket.isAlreadyIn()) {
+            // only logging here (normally e.g. DB insert)
+            doShowTicketBooth(booth);
+            doShowYourTicket(ticket);
+        }
     }
 
     private void doShowTicketBooth(TicketBooth booth) {
@@ -185,10 +199,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     }
 
     private void doShowYourTicket(Ticket ticket) {
-        // log("Your Ticket: displayPrice={}, alreadyIn={}", ticket.getDisplayPrice(), ticket.isAlreadyIn());
+        log("Your Ticket: displayPrice={}, alreadyIn={}", ticket.getDisplayPrice(), ticket.isAlreadyIn());
     }
 
-    // write your memo here:
+    // write your memo here:　
+    // TODO [回答] データとそれに対する操作をひとまとめにしたもの akinari.tsuji  (2025/08/15)
+    // 責任が切り分けられて、コードの各部の意味がわかりやすくなる & 読みやすい
+    // どのメソッドを利用するべきかもわかりやすくなる（オブジェクト指向がないと操作を行うメソッドがどれなのかわかりにくい）
     // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
     // what is object?
     //
@@ -202,32 +219,44 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (メソッド終了時の変数 sea, land の中身は？)
      */
     public void test_objectOriented_polymorphism_1st_concreteOnly() {
+        // Javaでは親クラスのコンストラクタは自動で呼び出されるっぽい
+        // なので、hitPoint: 10で初期化される
         Dog dog = new Dog();
+        // Animalクラスのbarkが呼ばれる。内部では以下の順で処理
+        // 1. Animal#breathIn() : ログ出力して、hitPointを-1
+        // 2. prepareAbdominalMuscle() : ログ出力してhitPointを-1
+        // 3. getBarkWork(): アブストラクト関数なので定義は子クラス側、"wan"を返す
+        // 4. doBark(barkWord): hitPointを-1, BarkedSoundのインスタンスを返す
         BarkedSound sound = dog.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = dog.getHitPoint();
-        log(land); // your answer? => 
+        // Animalクラス
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_2nd_asAbstract() {
+        // AnimalはDogの親クラスなので型エラー起きない
         Animal animal = new Dog();
+        // 以降もanimalの型が違うだけなので一問前と同じ結果になるはず
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_3rd_fromMethod() {
+        // 同じ結果になって欲しいけど...
+        // -> 実行したらなっていたのでOK
         Animal animal = createAnyAnimal();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     private Animal createAnyAnimal() {
@@ -237,25 +266,38 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_4th_toMethod() {
         Dog dog = new Dog();
+        // やっている処理は同じなので同じになるはず
         doAnimalSeaLand_for_4th(dog);
     }
 
     private void doAnimalSeaLand_for_4th(Animal animal) {
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_5th_overrideWithSuper() {
+        // [メモ] Catクラスが違う部分はdownHitPointの実装とgetBarkWordの返り値
+        // あとFastRunnerを継承している（interface?）
+        // 確か、interfaceは必ず継承側で実装が必要
+        // Rubyであればmoduleのmixinが使える
+        // [つぶやき] ここの言語の思想を勉強したい
+        // 前にまつもとゆきひろさんの本を読んだが、わからなすぎて撤退した記憶
+        // Lisp, Smalltalkの話が出てきて？となって、メタプログラミングの話の頃には沈没した記憶
         Animal animal = new Cat();
+        // 基本的には同じだけど、hitPointの減り方が変わる
+        // 計3回downHitPointが呼ばれるのは同じ
+        // 1回目：10の時は1へっておしまい　→ ９
+        // 2回目：９の時は２へる　→ ７
+        // 3回目：７ → 5
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 5
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */

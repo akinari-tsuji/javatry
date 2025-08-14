@@ -27,6 +27,7 @@ public class Ticket {
     private final int displayPrice; // written on ticket, park guest can watch this
     private final int entranceLimit;
     private int totalEntranceCounts;
+    private boolean alreadyIn;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -36,6 +37,7 @@ public class Ticket {
         this.displayPrice = displayPrice;
         this.entranceLimit = 1;
         this.totalEntranceCounts = 0;
+        this.alreadyIn = false;
     }
 
     // two or more day ticket
@@ -43,6 +45,7 @@ public class Ticket {
         this.displayPrice = displayPrice;
         this.entranceLimit = entranceLimit;
         this.totalEntranceCounts = 0;
+        this.alreadyIn = false;
     }
 
     // ===================================================================================
@@ -53,6 +56,7 @@ public class Ticket {
             throw new IllegalStateException("This ticket is already exhausted: displayedPrice=" + displayPrice);
         }
         totalEntranceCounts++;
+        this.alreadyIn = true;
     }
 
     // ===================================================================================
@@ -65,4 +69,6 @@ public class Ticket {
     public int getRemainingEntranceCounts() { return entranceLimit - totalEntranceCounts; }
 
     public int getEntranceLimit() { return entranceLimit; }
+
+    public boolean isAlreadyIn() { return alreadyIn; }
 }
