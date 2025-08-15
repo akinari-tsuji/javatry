@@ -108,8 +108,12 @@ public class TicketBooth {
      */
     public TicketBuyResult buyNightPassport(Integer handedMoney) {
         LocalTime borderTime = LocalTime.of(18, 0);
+        // TODO tsuji [いいね] 買うタイミングが夜じゃないいけないというのも一つのありえる業務ですね^^ by jflute (2025/08/15)
+        // TODO tsuji 一方で、事前購入が可能で、入園するタイミングでチェックされるような仕様にしてみましょう by jflute (2025/08/15)
+        // 一応要件としては "夜しか使えないように" ということなので「昼は買えるけど使えない」というように。
         LocalTime nowTime = LocalTime.now();
         if (nowTime.isBefore(borderTime)) {
+            // TODO tsuji borderTimeが変わったときに例外メッセージ修正し忘れしそうなので、同期するようにしましょう by jflute (2025/08/15)
             throw new NotNightException("You can't buy this passport before 18:00.");
         }
         return buyTicket(handedMoney, NIGHT_PRICE, 1);
