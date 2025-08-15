@@ -62,18 +62,25 @@ public class TicketBooth {
         validateQuantity(numberOfPurchases);
         validateShortMoney(handedMoney, price);
         quantity -= numberOfPurchases;
-        // TODO jflute[質問]
+        // TODO done jflute[質問]
         //  Ticketのインスタンスを作成するのが、TicketBuyResultの中なのか、TicketBooth内で作成するべきなのか判断がつかず、
         //  どのように切り分けるべきか、考え方をお伺いしたいです。
         //  akinari.tsuji  (2025/08/04)
-        // TODO jflute[質問] akinari.tsuji  (2025/08/15)
+        // TODO tsuji [へんじ] どちらかというところで言うと、自分ならTicketBoothで作成します by jflute (2025/08/15)
+        // TicketBuyResultはその名の通り、「買った結果」という概念を表現するオブジェクトということで、
+        // あまり処理自体が入るものではなく、Boothと購入者をつなげるだけの箱みたいなものというニュアンスに徹するのがいいかなと。
+        // あと、将来チケットの種類をクラスで表現するようになったときnewしている箇所が「入れ物クラス」にあると対応しづらいと想像。
+        // TicketBoothで作成するのが正解というわけではないですが、Resultでは避けたいという感じですね。
+        // TODO done jflute[質問] akinari.tsuji  (2025/08/15)
         // buyTicketの引数の型にIntegerとintの両方含まれているのが違和感あるのですが、intに揃えても大丈夫でしょうか？
         // 元々、handedMoneyがIntegerだったのでどちらに揃えるべきか悩んでおります。
+        // TODO tsuji [へんじ] いいと思いますー。あえて色々とバラけさせてるってのもあるので^^ by jflute (2025/08/15)
         TicketBuyResult ticketBuyResult = new TicketBuyResult(price, handedMoney - price, numberOfPurchases);
         setSalesProceeds(price);
         return ticketBuyResult;
     }
 
+    // TODO tsuji ちょと面倒かもですが、publicメソッドこそjavadocでparam/returnの説明が欲しいところです by jflute (2025/08/15)
     /**
      * Buy one-day passport, method for park guest.
      */
