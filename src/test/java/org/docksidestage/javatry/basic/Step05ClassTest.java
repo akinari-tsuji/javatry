@@ -205,6 +205,7 @@ public class Step05ClassTest extends PlainTestCase {
 
     // uncomment when you implement this exercise
     private void showTicketIfNeeds(Ticket ticket) {
+        // TODO tsuji nightのtwoDayが紛れないように正確に識別できるようにしましょう by jflute (2025/08/15)
         if (ticket.getEntranceLimit() == 2) { // write determination for two-day passport
             log("two-day passport");
         } else {
@@ -262,11 +263,20 @@ public class Step05ClassTest extends PlainTestCase {
         // それにあたって、他の問題でコンパイルエラーが出てしまったので適宜変数の型を修正しました
     }
 
+    // TODO tsuji ちょっとjavatry更新でお願いします by jflute (2025/08/15)
     /**
-     * Write intelligent comments on source code to the main code in buyticket package. <br>
-     * (buyticketパッケージのクラスに、気の利いたコメントを追加してみましょう)
+     * Write intelligent JavaDoc comments seriously on the public classes/constructors/methods of the Ticket class. <br>
+     * (Ticketクラスのpublicなクラス/コンストラクター/メソッドに、気の利いたJavaDocコメントを本気で書いてみましょう)
      */
-    public void test_class_moreFix_yourSuperComments() {
+    public void test_class_moreFix_yourSuperJavaDoc() {
         // your confirmation code here
     }
+
+    ///**
+    // * Write intelligent comments on source code to the main code in buyticket package. <br>
+    // * (buyticketパッケージのクラスに、気の利いたコメントを追加してみましょう)
+    // */
+    //public void test_class_moreFix_yourSuperComments() {
+    //    // your confirmation code here
+    //}
 }

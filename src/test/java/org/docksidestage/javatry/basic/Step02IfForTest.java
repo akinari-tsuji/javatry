@@ -224,7 +224,7 @@ public class Step02IfForTest extends PlainTestCase {
         // akinari.tsuji Javascriptでも同じようなコールバック関数を引数にとるforEachがありました (2025/07/08)
         // Javaではstage -> {...} という書き方で関数になっているのでしょうか？
         // 調べたらラムダ式なんですね
-        // done tusji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
+        // done tsuji [へんじ] 文法的な厳密性で言うと、Javaは関数はないので... by jflute (2025/07/15)
         // ラムダ式で、1メソッドしか持ってないクラスを表現して、関数っぽいく振る舞うようにしている感じです。
         // #1on1: ラムダ式も内部的にクラス話、step8のちょい紹介
 

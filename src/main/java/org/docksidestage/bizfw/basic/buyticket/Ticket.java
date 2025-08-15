@@ -24,14 +24,22 @@ public class Ticket {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
+    // TODO tsuji [いいね] インスタンス変数とコンストラクターでのset順序が同じなのでわかりやすい by jflute (2025/08/15)
     private final int displayPrice; // written on ticket, park guest can watch this
     private final int entranceLimit;
+    // TODO tsuji Countという概念自体は一つしか無いので、複数形にしない方がいいかなと by jflute (2025/08/15)
+    // もし、EntrancesだったらCountという言葉を省略した入園回数という概念にはなると思う。
+    // TODO tsuji [読み物課題] プログラマーに求められるデザイン脳 by jflute (2025/08/15)
+    // https://jflute.hatenadiary.jp/entry/20170623/desigraming
     private int totalEntranceCounts;
     private boolean alreadyIn;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+    // TODO tsuji [いいね] 複数のコンストラクターに対して、コメントで役割を書いているのGood by jflute (2025/08/15)
+    // #1on1: staticのFactoryメソッドのお話もちょこっと
+    // TODO tsuji 一方で、Booth側で実際にOneDayでもこっちがnewされていない問題 by jflute (2025/08/15)
     // one-day ticket
     public Ticket(int displayPrice) {
         this.displayPrice = displayPrice;

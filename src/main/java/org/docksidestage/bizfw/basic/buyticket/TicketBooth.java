@@ -49,6 +49,14 @@ public class TicketBooth {
     //                                                                          ==========
     // you can rewrite comments for your own language by jflute
     // e.g. Japanese
+    // TODO tsuji 実処理のprivateに関しては、区別する名前を付ける慣習があったりします by jflute (2025/08/15)
+    // 例えば、自分だと doBuyPassport() とか do を付けて実処理感出す。
+    // 他だと、internalBuyPassport() みたいなのもある。個人的にはdoをよく使う。
+    // #1on1: 会話しやすい名前という観点も (2025/08/15)
+    // #1on1: IntelliJのrenameのショートカット: shift+shiftからのrenameでもいいけど...
+    // control + T でリファクタリングメニューを出してrenameを選ぶがオススメ
+    // TODO tsuji javadoc, throws よりも return の方が上が一般的かなと。IN/OUTが固まっていたほうが by jflute (2025/08/15)
+    // TODO tsuji privateのメソッドは、publicの下の方が一般的かなと by jflute (2025/08/15)
     /**
      * チケットを購入するメソッド
      * @param handedMoney 渡された金額
@@ -71,6 +79,10 @@ public class TicketBooth {
         // あまり処理自体が入るものではなく、Boothと購入者をつなげるだけの箱みたいなものというニュアンスに徹するのがいいかなと。
         // あと、将来チケットの種類をクラスで表現するようになったときnewしている箇所が「入れ物クラス」にあると対応しづらいと想像。
         // TicketBoothで作成するのが正解というわけではないですが、Resultでは避けたいという感じですね。
+        // #1on1: 質問: そういったデザイン的な思考をするためには？ by つじさん
+        // 普段から現実の世界のモデリングを頭の中でしてみる。
+        // 質問: それが合ってるかどうか？どう確認するか？実装までやらないとして by つじさん
+        // 先輩とか同僚とかと技術話で壁打ちしてみる。(ランチなど)
         // TODO done jflute[質問] akinari.tsuji  (2025/08/15)
         // buyTicketの引数の型にIntegerとintの両方含まれているのが違和感あるのですが、intに揃えても大丈夫でしょうか？
         // 元々、handedMoneyがIntegerだったのでどちらに揃えるべきか悩んでおります。
@@ -139,6 +151,8 @@ public class TicketBooth {
 
     public static class NotNightException extends RuntimeException {
         // TODO akinari.tsuji 一旦中身を理解していないが他と同様に実装 (2025/08/04)
+        // #1on1: Serializeの機能の宣言で、例外がSerializableなオブジェクトなので、serialのIDが求められる。
+        // Serialize自体はあまり利用されない機能なのでぶっちゃけどうでもいいんだけど、宣言しないと警告が出るIDEがある。
         private static final long serialVersionUID = 1L;
 
         public NotNightException(String msg) {
@@ -158,6 +172,9 @@ public class TicketBooth {
         }
     }
 
+    // TODO tsuji setというメソッド名ですが、getter/setterというお決まりのメソッドがあるので... by jflute (2025/08/15)
+    // そうじゃないところでsetを使うと少々紛らわしいので、calculate..., accept..., (積み上げるとか) 
+    // みたいな単語を使えると区別がしやすくてわかりやすいかなと思います。
     private void setSalesProceeds(int price) {
         if (salesProceeds != null) {
             salesProceeds = salesProceeds + price;
