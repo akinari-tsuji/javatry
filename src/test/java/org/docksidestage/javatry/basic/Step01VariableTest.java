@@ -138,7 +138,9 @@ public class Step01VariableTest extends PlainTestCase {
         // log(sea.hashCode());
         // log(System.identityHashCode(sea));
 
-        // TODO tsuji 素晴らしすぎ！いい影響もらってます、ありがとう！ by shiny (2025/08/12)
+        // done tsuji 素晴らしすぎ！いい影響もらってます、ありがとう！ by shiny (2025/08/12)
+        // TODO shiny ありがとうございます！ akinari.tsuji  (2025/08/22)
+        // 今更ですがなぜシャイニーさんはshinyなのでしょうか？由来をぜひ
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -319,8 +321,11 @@ public class Step01VariableTest extends PlainTestCase {
         // done akinari.tsuji  (2025/07/07)
         // 違ったんですね、Geminiに騙されました笑
 
-        // TODO tsuji もう読んじゃったかもだけど、GOFのデザインパターンの本めちゃくちゃ面白いよ！ by shiny (2025/08/12)
+        // done tsuji もう読んじゃったかもだけど、GOFのデザインパターンの本めちゃくちゃ面白いよ！ by shiny (2025/08/12)
         // 学ぶとめっちゃ使いたくなる時期がくるのだが笑、個人的には現場で実際に使うというよりかは、ソースコードリーディングをしている時に「あ、これこのパターンだな。じゃあこうなってそう」というのに役立つと思ってます！
+        // TODO shiny まだデザインパターン勉強できてないです... akinari.tsuji  (2025/08/22)
+        // 設計ぜひに勉強したいので、今はCでの構造かプログラミングとDDDを勉強中です
+        // 頭とお尻から抑える作戦になってます（結果的に笑）
     }
 
     private void helpMethodArgumentMethodcall(StringBuilder sea, int land) {
@@ -401,7 +406,8 @@ public class Step01VariableTest extends PlainTestCase {
         // ありがとうございます！
         // 「xxxをわかっているか」というテーマで作問したかったのですが、今までの問題以外の「xxx」が思いつかず複雑にする方向で考えました
 
-        // TODO tsuji [スバラ！] 解けたよ！Intellijがちゃんとグレーアウトしてくれてて助かった笑 by shiny (2025/08/12)
+        // done tsuji [スバラ！] 解けたよ！Intellijがちゃんとグレーアウトしてくれてて助かった笑 by shiny (2025/08/12)
+        // TODO shiny ありがとうございます！　いつか解けない問題作ります笑 akinari.tsuji  (2025/08/22)
     }
 
     private void helperMethod(StringBuilder sea, int land, String dstore) {

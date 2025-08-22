@@ -128,7 +128,8 @@ public class Step03DataTypeTest extends PlainTestCase {
         // 引数とか戻り値とか変数への代入とかでアドレス(番地)が渡されて、それをもとにインスタンスに参照しています。
         // 結局、アドレスのやり取りしかしてないに等しい、と言っても過言ではないですね(^^。
 
-        // TODO tsuji hashcodeを使って色々実験してるのツワモノすぎる！笑 by shiny (2025/08/12)
+        // done tsuji hashcodeを使って色々実験してるのツワモノすぎる！笑 by shiny (2025/08/12)
+        // TODO shiny メモリ上にどう配置されていて、どう参照しているのか気になっていじってました笑 akinari.tsuji  (2025/08/22)
     }
 
     private static class St3ImmutableStage {

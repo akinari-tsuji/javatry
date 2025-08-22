@@ -17,6 +17,7 @@ package org.docksidestage.javatry.basic;
 
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
+import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.bizfw.basic.objanimal.Animal;
 import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.Cat;
@@ -149,7 +150,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //Ticket ticket = booth.buyOneDayPassport(10000);
 //       // TODO [メモ] クラスのメソッド内部で処理をするように切り分けているので、このtest_...メソッドでの条件分岐がなくなり、読みやすいです　akinari.tsuji  (2025/08/15)
         booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
-        Ticket ticket = new Ticket(7400); // also here
+        Ticket ticket = new Ticket(TicketType.ONE_DAY); // also here
 
         // *buyOneDayPassport() has this process:
         //if (quantity <= 0) {

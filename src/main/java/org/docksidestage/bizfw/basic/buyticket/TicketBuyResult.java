@@ -13,8 +13,8 @@ public class TicketBuyResult {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                            ========
-    public TicketBuyResult(int price, int change, int quantity) {
-        this.ticket = new Ticket(price, quantity);
+    public TicketBuyResult(int change, Ticket ticket) {
+        this.ticket = ticket;
         this.change = change;
     }
 

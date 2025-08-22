@@ -19,6 +19,7 @@ import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.buyticket.TicketBuyResult;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
+import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -95,7 +96,9 @@ public class Step05ClassTest extends PlainTestCase {
         // done tsuji [へんじ] おお、いいですね。ちゃんと事前チェックがすべて通ってから在庫を減らしてますね^^ by jflute (2025/07/24)
         // #1on1: IntelliJで行移動: shift+option+↑↓
 
-        // TODO tsuji くぼさんにショートカットをたくさん習ってください！そして.ideaディレクトリについても！笑 by shiny (2025/08/12)
+        // done tsuji くぼさんにショートカットをたくさん習ってください！そして.ideaディレクトリについても！笑 by shiny (2025/08/12)
+        // TODO shiny 教えていただいております! akinari.tsuji  (2025/08/22)
+
     }
 
     /**
@@ -205,8 +208,11 @@ public class Step05ClassTest extends PlainTestCase {
 
     // uncomment when you implement this exercise
     private void showTicketIfNeeds(Ticket ticket) {
-        // TODO tsuji nightのtwoDayが紛れないように正確に識別できるようにしましょう by jflute (2025/08/15)
-        if (ticket.getEntranceLimit() == 2) { // write determination for two-day passport
+        // done tsuji nightのtwoDayが紛れないように正確に識別できるようにしましょう by jflute (2025/08/15)
+        // TODO jflute enumを使ってTicketTypeを定義して識別を行うようにしました akinari.tsuji  (2025/08/22)
+        // TODO [質問] 仕様を変更するとき（今回でいえばTicketTypeを導入する）、コードを書く手前の作業として何をされていますか？ akinari.tsuji  (2025/08/22)
+        // 前回、コードをまとめてあった＋コンパイルエラーが出るおかげで、直接コードを編集していても何とか漏れなく直せたのですが、もっと良いやり方を知りたいです
+        if (ticket.getTicketType() == TicketType.TWO_DAYS) { // write determination for two-day passport
             log("two-day passport");
         } else {
             log("other");
@@ -222,7 +228,7 @@ public class Step05ClassTest extends PlainTestCase {
      */
     public void test_class_moreFix_wonder_four() {
         // your confirmation code here
-        // TODO akinari.tsuji そろそろ整理しないと不味そうなので要件を整理 (2025/08/04)
+        // done akinari.tsuji そろそろ整理しないと不味そうなので要件を整理 (2025/08/04)
         // 購入はTicketBoothを通じてTicketBuyResultを受けとる
         // チケットの種類は日数分、夜以降のチケット
         TicketBooth booth = new TicketBooth();
@@ -258,7 +264,7 @@ public class Step05ClassTest extends PlainTestCase {
      */
     public void test_class_moreFix_yourRefactoring() {
         // your confirmation code here
-        // TODO akinari.tsuji 一つ前の問題のところで対応しました (2025/08/04)
+        // done akinari.tsuji 一つ前の問題のところで対応しました (2025/08/04)
         // 共通する購入処理をbuyTicketに集約し、具体的にどのチケットを買うかは各メソッドから引数で渡す形にしました
         // それにあたって、他の問題でコンパイルエラーが出てしまったので適宜変数の型を修正しました
     }
