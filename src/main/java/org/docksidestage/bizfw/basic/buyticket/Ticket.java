@@ -19,6 +19,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * 遊園地のチケットを表すクラス。
+ * データとしては、チケット種別（金額・回数）、今までの利用回数、現在入園中かを表す変数を持つ。
+ * 操作としては、入園を行うメソッド、メンバ変数のゲッターを持つ。
+ * 使用方法としては、TicketBoothクラスの購入用メソッドを通じたインスタンスの作成を想定している。
+ * そのため、他クラスから直接Ticketインスタンスを作成することは非推奨。
  * @author jflute
  * @author akinari.tsuji
  */
@@ -27,11 +32,19 @@ public class Ticket {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
+    /* チケットの種類 */
+    private final TicketType ticketType;
+
+    /* 今までのこのチケットを利用した回数 */
+    private int totalEntrancesCount;
+
+    /* 現在、入園中かを表す。true: 入園中, false： 非入園中 */
+    private boolean alreadyIn;
+
     // done tsuji [いいね] インスタンス変数とコンストラクターでのset順序が同じなのでわかりやすい by jflute (2025/08/15)
     // ありがとうございます！ by akinari.tsuji
 //    private final int displayPrice; // written on ticket, park guest can watch this
 //    private final int entranceLimit;
-    private final TicketType ticketType;
     // done tsuji Countという概念自体は一つしか無いので、複数形にしない方がいいかなと by jflute (2025/08/15)
     // もし、EntrancesだったらCountという言葉を省略した入園回数という概念にはなると思う。
     // done [修正] jflute 1on1でご指摘いただいたようにtotalEntrancesCountに修正しました akinari.tsuji  (2025/08/22)
@@ -61,6 +74,17 @@ public class Ticket {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+    /**
+     * Ticketクラスのコンストラクタ。
+     * TicketBoothクラスからの呼び出しを想定。
+     * @param type 作成するチケットの種類。
+     */
+    public Ticket(TicketType type) {
+        ticketType = type;
+        totalEntrancesCount = 0;
+        alreadyIn = false;
+    }
+
     // done tsuji [いいね] 複数のコンストラクターに対して、コメントで役割を書いているのGood by jflute (2025/08/15)
     // #1on1: staticのFactoryメソッドのお話もちょこっと
     // done tsuji 一方で、Booth側で実際にOneDayでもこっちがnewされていない問題 by jflute (2025/08/15)
@@ -74,17 +98,24 @@ public class Ticket {
 //    }
 
     // two or more day ticket
-    public Ticket(TicketType type) {
+//     public Ticket(TicketType type) {
         // TODO tsuji this.を使ってたり使ってなかったりが不統一なのでどうにかしましょう by jflute (2025/08/27)
         // (this.が必要な場面だけで使うってのも一つの選択肢ですが、現状はそれでもなさそうなので)
-        ticketType = type;
-        this.totalEntrancesCount = 0;
-        this.alreadyIn = false;
-    }
+//        ticketType = type;
+//        this.totalEntrancesCount = 0;
+//        this.alreadyIn = false;
+//    }
 
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
+    /**
+     * チケットを使用するメソッド。
+     * 入園回数を増加させ、入園中のステータスに切り替える。
+     * ナイトパスの利用は18時以降。
+     * @throws NotNightException ナイトパスを日中に利用とした場合
+     * @throws IllegalStateException チケットの入園回数を超えて利用しようとした場合
+     */
     public void doInPark() {
         // ナイトパスを夜以外に使おうとした場合
         if (ticketType == TicketType.NIGHT) {
@@ -95,19 +126,21 @@ public class Ticket {
             if (nowTime.isBefore(borderTime)) {
                 // TODO tsuji [いいね] 例外メッセージに borderTime を入れているのいいね、デバッグしやすい by jflute (2025/08/27)
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
-                throw new NotNightException("You can't buy this passport before " + borderTime.format(formatter) + ".");
+                throw new NotNightException("You can't use this passport before " + borderTime.format(formatter) + ".");
             }
         }
 
-        // 入園回数を超えた場合
+        // 入園回数を超えて利用しようとした場合
         if (totalEntrancesCount >= ticketType.getEntranceLimit()) {
             throw new IllegalStateException("This ticket is already exhausted: displayedPrice=" + ticketType.getPrice());
         }
+
+        // チケットの利用とそれに伴う処理
         totalEntrancesCount++;
         this.alreadyIn = true;
     }
 
-    public static class NotNightException extends RuntimeException {
+    private static class NotNightException extends RuntimeException {
         private static final long serialVersionUID = 1L;
 
         public NotNightException(String msg) {
@@ -115,20 +148,48 @@ public class Ticket {
         }
     }
 
-
-
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getDisplayPrice() {
-        return ticketType.getPrice();
-    }
 
+    /**
+     * チケットの販売金額を返すゲッター
+     * @return チケットの金額
+     */
+    public int getDisplayPrice() { return ticketType.getPrice(); }
+
+    // TODO jflute [質問] 今の実装だと、チケットのメンバ変数で直接金額を持たないため不具合が生じてしまいます？　akinari.tsuji  (2025/08/27)
+    // 例えば、8/1に8,000円のチケットを購入した（チケットA）後、8/10に10,000へと値上がりした場合、チケットAの表示金額が上昇してしまいそう
+    // その場合、ticketType側で新旧という軸でチケット種別を管理するべきなのか、そもそもenumを使うやり方が不適切で他の方法なら問題ないのかを知りたいです
+
+    /**
+     * チケットの残りの利用回数を返すゲッター
+     * @return チケットの残り利用回数
+     */
     public int getRemainingEntranceCounts() { return ticketType.getEntranceLimit() - totalEntrancesCount; }
 
+    // TODO [質問] そのチケットが使えるかどうかの判定するメソッドが必要な場合はTicketクラスに定義するべきでしょうか？ akinari.tsuji  (2025/08/27)
+    // 今回はlogで出力するためにgetRemainingEntranceCounts()をpublicに定義しています。
+    // もしも、このメソッドを外部から呼び出し、まだ利用できるかを判定している場合、Ticketクラスにまだ使えるか判定するロジックを集約するべきでしょうか。
+
+    /**
+     * チケットの利用上限回数。
+     * 残りの利用回数ではなく、チケット種類に紐づく合計利用回数の上限を返します。
+     * @return チケットの合計利用回数の上限
+     */
     public int getEntranceLimit() { return ticketType.getEntranceLimit(); }
 
+    /**
+     * チケットの種別を返す関数。
+     * TicketTypeでマスタを管理しているチケット種別を返す。
+     * @return チケット種別
+     */
     public TicketType getTicketType() { return ticketType; }
 
+    /**
+     * 現在、入園中かを返す関数。
+     * 入園中の場合、true。
+     * @return 入園中か？
+     */
     public boolean isAlreadyIn() { return alreadyIn; }
 }
