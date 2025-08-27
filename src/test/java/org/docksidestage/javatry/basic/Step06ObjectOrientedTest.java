@@ -108,9 +108,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
             // simulation: only logging here (normally e.g. DB insert)
             // TODO [メモ] 多分引数間違えている akinari.tsuji  (2025/08/15)
             // showYourTicketの引数にquantityあるのおかしい
-            // TODO [質問] jflute こういう時に値オブジェクトがあるとコンパイル時に気づける、というのが前回教えていただいたメリットでしょうか？ akinari.tsuji  (2025/08/15
+            // TODO done [質問] jflute こういう時に値オブジェクトがあるとコンパイル時に気づける、というのが前回教えていただいたメリットでしょうか？ akinari.tsuji  (2025/08/15
             // あと個人的な所感なのですが、intでprice, quantityが両方表現されていると、今回のように引数取り間違えそうです
             // [つぶやき] C言語のライブラリの内部でtypedefを用いてintを別名で定義しているのもわかりやすくするためなのかな
+            // TODO tsuji [回答] Goodですね！前回の値オブジェクトの話とちょうどつながりますね by jflute (2025/08/27)
+            // まあ、ここでは、細かい単位の値オブジェクトじゃなくて、何かしらカテゴライズされたオブジェクト化されていれば、
+            // そういったことは防げるということで、それがこの次のエクササイズになるわけですね。(TicketBoothを使った例)
             showTicketBooth(quantity, salesProceeds);
             showYourTicket(displayPrice, alreadyIn);
         }
@@ -211,6 +214,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     // what is object?
     //
     // _/_/_/_/_/_/_/_/_/_/
+    // TODO tsuji [回答] 責任が切り分けられて、ってのがすごく良い表現ですね！ by jflute (2025/08/27)
 
     // ===================================================================================
     //                                                              Polymorphism Beginning

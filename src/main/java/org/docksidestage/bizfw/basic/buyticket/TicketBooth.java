@@ -18,6 +18,7 @@ package org.docksidestage.bizfw.basic.buyticket;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+// TODO tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
 /**
  * チケットの購入を管理するためのクラス
  * @author jflute
@@ -57,11 +58,11 @@ public class TicketBooth {
     // #1on1: 会話しやすい名前という観点も (2025/08/15)
     // #1on1: IntelliJのrenameのショートカット: shift+shiftからのrenameでもいいけど...
     // control + T でリファクタリングメニューを出してrenameを選ぶがオススメ
-    // TODO jflute doBuyTicketにrenameしました akinari.tsuji  (2025/08/22)
+    // TODO done jflute doBuyTicketにrenameしました akinari.tsuji  (2025/08/22)
     // done tsuji javadoc, throws よりも return の方が上が一般的かなと。IN/OUTが固まっていたほうが by jflute (2025/08/15)
     // done tsuji privateのメソッドは、publicの下の方が一般的かなと by jflute (2025/08/15)
     // done tsuji ちょと面倒かもですが、publicメソッドこそjavadocでparam/returnの説明が欲しいところです by jflute (2025/08/15)
-    // TODO jflute [修正しました] 上記の3点（javadocでのreturnの位置、privateメソッドの位置、publicメソッドのjavadoc）修正しました akinari.tsuji  (2025/08/22)
+    // TODO done jflute [修正しました] 上記の3点（javadocでのreturnの位置、privateメソッドの位置、publicメソッドのjavadoc）修正しました akinari.tsuji  (2025/08/22)
     /**
      * Buy one-day passport, method for park guest.
      * @param handedMoney 渡された金額
@@ -100,13 +101,13 @@ public class TicketBooth {
         // done tsuji [いいね] 買うタイミングが夜じゃないいけないというのも一つのありえる業務ですね^^ by jflute (2025/08/15)
         // dibe tsuji 一方で、事前購入が可能で、入園するタイミングでチェックされるような仕様にしてみましょう by jflute (2025/08/15)
         // 一応要件としては "夜しか使えないように" ということなので「昼は買えるけど使えない」というように。
-        // TODO jflute 使用時のチェックを追加するため、夜しか買えないようにするコードはコメントアウトします！ akinari.tsuji  (2025/08/22)
-        // TODO jflute TicketクラスのdoInParkメソッドで判定をするように変更しました akinari.tsuji  (2025/08/22)
+        // TODO done jflute 使用時のチェックを追加するため、夜しか買えないようにするコードはコメントアウトします！ akinari.tsuji  (2025/08/22)
+        // TODO done jflute TicketクラスのdoInParkメソッドで判定をするように変更しました akinari.tsuji  (2025/08/22)
         // 作業が終わるまで上のtodoは残しておきます←完了しました
 //        LocalTime nowTime = LocalTime.now();
 //        if (nowTime.isBefore(borderTime)) {
 //            // done tsuji borderTimeが変わったときに例外メッセージ修正し忘れしそうなので、同期するようにしましょう by jflute (2025/08/15)
-//            // TODO [修正しました] borderTimeを利用するように修正しました akinari.tsuji  (2025/08/22)
+//            // TODO done jflute [修正しました] borderTimeを利用するように修正しました akinari.tsuji  (2025/08/22)
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
 //            throw new NotNightException("You can't buy this passport before" + borderTime.format(formatter) + ".");
 //        }
@@ -127,11 +128,11 @@ public class TicketBooth {
         validateQuantity(numberOfPurchases);
         validateShortMoney(handedMoney, type.getPrice());
         quantity -= numberOfPurchases;
-        // TODO done jflute[質問]
+        // done jflute[質問]
         //  Ticketのインスタンスを作成するのが、TicketBuyResultの中なのか、TicketBooth内で作成するべきなのか判断がつかず、
         //  どのように切り分けるべきか、考え方をお伺いしたいです。
         //  akinari.tsuji  (2025/08/04)
-        // TODO tsuji [へんじ] どちらかというところで言うと、自分ならTicketBoothで作成します by jflute (2025/08/15)
+        // done tsuji [へんじ] どちらかというところで言うと、自分ならTicketBoothで作成します by jflute (2025/08/15)
         // TicketBuyResultはその名の通り、「買った結果」という概念を表現するオブジェクトということで、
         // あまり処理自体が入るものではなく、Boothと購入者をつなげるだけの箱みたいなものというニュアンスに徹するのがいいかなと。
         // あと、将来チケットの種類をクラスで表現するようになったときnewしている箇所が「入れ物クラス」にあると対応しづらいと想像。
@@ -170,7 +171,7 @@ public class TicketBooth {
     }
 
 //    public static class NotNightException extends RuntimeException {
-//        // TODO akinari.tsuji 一旦中身を理解していないが他と同様に実装 (2025/08/04)
+//        // done akinari.tsuji 一旦中身を理解していないが他と同様に実装 (2025/08/04)
 //        // #1on1: Serializeの機能の宣言で、例外がSerializableなオブジェクトなので、serialのIDが求められる。
 //        // Serialize自体はあまり利用されない機能なのでぶっちゃけどうでもいいんだけど、宣言しないと警告が出るIDEがある。
 //        private static final long serialVersionUID = 1L;
@@ -195,7 +196,7 @@ public class TicketBooth {
     // done tsuji setというメソッド名ですが、getter/setterというお決まりのメソッドがあるので... by jflute (2025/08/15)
     // そうじゃないところでsetを使うと少々紛らわしいので、calculate..., accept..., (積み上げるとか) 
     // みたいな単語を使えると区別がしやすくてわかりやすいかなと思います。
-    // TODO jflute [修正しました] つい、get, setを頭につけがちなので気をつけます akinari.tsuji  (2025/08/22)
+    // TODO done jflute [修正しました] つい、get, setを頭につけがちなので気をつけます akinari.tsuji  (2025/08/22)
     private void calculateSalesProceeds(int price) {
         if (salesProceeds != null) {
             salesProceeds = salesProceeds + price;

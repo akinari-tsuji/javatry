@@ -1,5 +1,7 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
+// TODO tsuji クラスjavadocお願いします (authorだけでも) by jflute (2025/08/27)
+// https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
 public enum TicketType {
     ONE_DAY(7400, 1),
     TWO_DAYS(13200, 2),

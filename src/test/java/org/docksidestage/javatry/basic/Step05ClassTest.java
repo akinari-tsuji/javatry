@@ -209,9 +209,25 @@ public class Step05ClassTest extends PlainTestCase {
     // uncomment when you implement this exercise
     private void showTicketIfNeeds(Ticket ticket) {
         // done tsuji nightのtwoDayが紛れないように正確に識別できるようにしましょう by jflute (2025/08/15)
-        // TODO jflute enumを使ってTicketTypeを定義して識別を行うようにしました akinari.tsuji  (2025/08/22)
-        // TODO [質問] 仕様を変更するとき（今回でいえばTicketTypeを導入する）、コードを書く手前の作業として何をされていますか？ akinari.tsuji  (2025/08/22)
+        // TODO done jflute enumを使ってTicketTypeを定義して識別を行うようにしました akinari.tsuji  (2025/08/22)
+        // TODO done [質問] 仕様を変更するとき（今回でいえばTicketTypeを導入する）、コードを書く手前の作業として何をされていますか？ akinari.tsuji  (2025/08/22)
         // 前回、コードをまとめてあった＋コンパイルエラーが出るおかげで、直接コードを編集していても何とか漏れなく直せたのですが、もっと良いやり方を知りたいです
+        // TODO tsuji [回答] 良い質問ですね！パッと思いつくもので二つ... by jflute (2025/08/27)
+        //
+        // 1: UnitTest書いて、変更前と変更後の挙動の違いが想定通りかどうかを確認できるように。
+        // リファクタリングであれば挙動が変わらないことを確認、仕様変更であれば変更した分だけが変わることを確認。
+        // ただ、修正のインパクトの程度に寄るので、多少端折るもありますが、ちょっと影響大きいなと思ったら書きます。
+        //
+        // 2: "コードをまとめてあった" につながりますが、メイン(仕様変更)の修正とは関係なくコードを綺麗にリファクタリングします。
+        // もちろん、元々ある程度は綺麗に整えておくわけですが、それでも「まだまだ整えられる」ってキリがないもの。
+        // そのまだまだの部分を進めるイメージです。(メインの修正したら消えちゃうものは除外して)
+        // メインの修正をしていく中で「もうちょい整えた方がいいな」って一杯見えてくるものですが、
+        // あまりメインの修正と同時に整える修正を混ぜると差分的に見づらいし、デバッグするときに判断のノイズになるので分けたい。
+        // そして、整っている状態でメインの修正する方がやりやすいから。順番逆だと効率が悪いので。
+        // 物理の世界に例えると、まず道を通りやすく整備してからメインの作業をするみたいな感覚ですね。
+        // これも程度の問題はあります。えいっ一緒に混ぜちゃってもいいだろうと判断するときと、丁寧に分けるときと。
+        //
+        // 「コードをまとめてあった＋コンパイルエラーが出るおかげで」を体験できたはとても良いことですね(^^。
         if (ticket.getTicketType() == TicketType.TWO_DAYS) { // write determination for two-day passport
             log("two-day passport");
         } else {
@@ -255,6 +271,9 @@ public class Step05ClassTest extends PlainTestCase {
         Ticket nightPassport = nightPassportBuyResult.getTicket();
         log(nightPassport.getDisplayPrice());
         log(nightPassport.getEntranceLimit());
+        
+        // TODO tsuji 修行++: UnitTestを昼に動かすと落ちるのどうにかしたいですね by jflute (2025/08/27)
+        // UnitTestの実行時間に依存せずに夜入園のテストができるようにできるといいなと。(難しいの後回しOK)
         nightPassport.doInPark();
     }
 
