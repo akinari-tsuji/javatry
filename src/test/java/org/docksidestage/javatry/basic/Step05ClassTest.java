@@ -209,10 +209,10 @@ public class Step05ClassTest extends PlainTestCase {
     // uncomment when you implement this exercise
     private void showTicketIfNeeds(Ticket ticket) {
         // done tsuji nightのtwoDayが紛れないように正確に識別できるようにしましょう by jflute (2025/08/15)
-        // TODO done jflute enumを使ってTicketTypeを定義して識別を行うようにしました akinari.tsuji  (2025/08/22)
-        // TODO done [質問] 仕様を変更するとき（今回でいえばTicketTypeを導入する）、コードを書く手前の作業として何をされていますか？ akinari.tsuji  (2025/08/22)
+        // done jflute enumを使ってTicketTypeを定義して識別を行うようにしました akinari.tsuji  (2025/08/22)
+        // done [質問] 仕様を変更するとき（今回でいえばTicketTypeを導入する）、コードを書く手前の作業として何をされていますか？ akinari.tsuji  (2025/08/22)
         // 前回、コードをまとめてあった＋コンパイルエラーが出るおかげで、直接コードを編集していても何とか漏れなく直せたのですが、もっと良いやり方を知りたいです
-        // TODO tsuji [回答] 良い質問ですね！パッと思いつくもので二つ... by jflute (2025/08/27)
+        // done tsuji [回答] 良い質問ですね！パッと思いつくもので二つ... by jflute (2025/08/27)
         //
         // 1: UnitTest書いて、変更前と変更後の挙動の違いが想定通りかどうかを確認できるように。
         // リファクタリングであれば挙動が変わらないことを確認、仕様変更であれば変更した分だけが変わることを確認。
@@ -228,6 +228,32 @@ public class Step05ClassTest extends PlainTestCase {
         // これも程度の問題はあります。えいっ一緒に混ぜちゃってもいいだろうと判断するときと、丁寧に分けるときと。
         //
         // 「コードをまとめてあった＋コンパイルエラーが出るおかげで」を体験できたはとても良いことですね(^^。
+        //
+        // #1on1: TicketBoothが販売の責務、Ticketがチケット状態の管理、クラスが増えた時に、どう整理しているか？ by tsujiさん
+        // → 言語化が大事: 「TicketBooth=販売の責務」みたいな責任の言語化を習慣化している人が多い!? by jflute
+        // → クラスのテーマの言語化が重要 by jflute
+        // → JavaDocの一言テーマにこだわるのもそこ by jflute
+        // 技術だから理系っぽい世界のはずなのに、国語力が求められる by tsuji
+        // → いやまさしくその通り。自然言語能力がどんどん求められるようになってきて... by jflute
+        // それがデザイン脳の話につながる。
+        // → ただ、多くの人がそこまで深く考えてない印象なので、だから変なクラスに変なメソッドがあったりする!? by jflute
+        // → 逆に言うと、こういうところを追求していけばスキルの差別化になる
+        // #1on1: 一度、しっかり深堀りしておくことで、実務でゴールが想像しやすくなるし、論理的な妥協もしやすくなる。
+        //
+        // #1on1: 複数のクラスの関わりの関係性をどう？ファイル名やディレクトリ名で表現できたら良い？ by tsuji
+        // → ファイル名やディレクトリ名で表現するのは自分の賛成で、意識していること by jflute
+        // → さらに、もっと複雑になったら、やはり図、クラス図やコミュニケーション図、などを軽く書いて思考する。 by jflute
+        // → 今の時代(事業会社だと)、業務で図を描いて提出するってことがあんまりないので図を描く練習する機会が少ない by jflute
+        // → なので、多くの人が、図を描いて理解するとか思考するとかが慣れてない人が多い印象 by jflute
+        
+        // TODO tsuji [読み物課題] ホワイトボードを買ってこよう by jflute (2025/08/29)
+        // https://jflute.hatenadiary.jp/entry/20110607/1307440686
+        // TODO tsuji [読み物課題] SIとスタートアップの違いを知ろう by jflute (2025/08/29)
+        // https://jflute.hatenadiary.jp/entry/20151007/sista
+        // TODO tsuji [読み物課題] お世話になってる先輩が登壇する勉強会くらい行ってみたら？ by jflute (2025/08/29)
+        // https://jflute.hatenadiary.jp/entry/20161201/gotomeeting
+        // #1on1: 新卒研修の歴史のお話 (2025/08/29)
+        
         if (ticket.getTicketType() == TicketType.TWO_DAYS) { // write determination for two-day passport
             log("two-day passport");
         } else {

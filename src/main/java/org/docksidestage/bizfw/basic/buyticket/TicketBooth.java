@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 
 // TODO tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
 /**
- * チケットの購入を管理するためのクラス
+ * チケットの購入を管理するためのクラス (販売の責務)
  * @author jflute
  * @author akinari.tsuji
  */
