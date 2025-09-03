@@ -32,14 +32,15 @@ public class Ticket {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO tsuji コメント形式がjavadoc形式になってないです。最初スラアスタアスタというように * が二つ必要です by jflute (2025/08/27)
-    /* チケットの種類 */
+    // done tsuji コメント形式がjavadoc形式になってないです。最初スラアスタアスタというように * が二つ必要です by jflute (2025/08/27)
+    // TODO jflute ありがとうございます！まだjavadocを理解しきれておらずすみません！ 修正しますakinari.tsuji  (2025/08/29)
+    /** チケットの種類 */
     private final TicketType ticketType;
 
-    /* 今までのこのチケットを利用した回数 */
+    /** 今までのこのチケットを利用した回数 */
     private int totalEntrancesCount;
 
-    /* 現在、入園中かを表す。true: 入園中, false： 非入園中 */
+    /** 現在、入園中かを表す。true: 入園中, false： 非入園中 */
     private boolean alreadyIn;
 
     // done tsuji [いいね] インスタンス変数とコンストラクターでのset順序が同じなのでわかりやすい by jflute (2025/08/15)
@@ -56,12 +57,12 @@ public class Ticket {
     // 2. 構図デザイン：人が見て・手を加えるための構造デザイン
     // 3. コメントデザイン：読む人が嬉しいコメントを残す
     // 4. DBデザイン：誤魔化しが効かない
-    // TODO done jflute [質問] 後から変更がしやすいDBというのは開発されなかったのでしょうか？　akinari.tsuji  (2025/08/22)
+    // done jflute [質問] 後から変更がしやすいDBというのは開発されなかったのでしょうか？　akinari.tsuji  (2025/08/22)
     // 変更しにくいというのはDB全体の性質なのか、RDBに特に顕著な性質なのかが気になりました
     // 変更しやすい種類のDBを利用すればテーブル設計に多少問題があってもいいのになぁと思った次第です
     // 5. アーキテクチャデザイン
     // https://jflute.hatenadiary.jp/entry/20170623/desigraming
-    // TODO tsuji [回答] 半分はRDBの特性で半分はDBなら避けられないみたいなところでしょうか... by jflute (2025/08/27)
+    // done tsuji [回答] 半分はRDBの特性で半分はDBなら避けられないみたいなところでしょうか... by jflute (2025/08/27)
     // RDBは確かに、堅いことをウリにしているというのもあり比較的他のDBに比べて変更しにくい面はあるかと思います。
     // (ただそこはトレードオフではあるので、変更しやすい仕組みだと堅いことのウリを失うので、ケースバイケースで)
     // 一方で、RDBだろうが他のDBだろうが、アプリのコードがそのDBのデータ形式に依存するので、
@@ -69,9 +70,18 @@ public class Ticket {
     //
     // そこで、堅いことをウリにしているRDBのメリットを得つつ、アプリ側をDB変更に追従しやすくしたい、
     // というコンセプトがDBFluteにつながるという感じですね(^^。
-    // TODO tsuji git conflictのマージ作業で重複しちゃったんじゃないかと。変数が二重になってます。 by jflute (2025/08/27)
-    private int totalEntrancesCount;
-    private boolean alreadyIn;
+    // TODO jflute ありがとうございます！akinari.tsuji  (2025/08/29)
+    // RDBは固いことがウリなのですね、RDBの内部構造気になります
+    // 依存される側は変更しにくいものなのですね...
+    // TODO [追加質問] 「アプリ側をDB変更に追従しやすくしたい」というのは以下のような認識であっていますでしょうか？ jflute akinari.tsuji  (2025/08/29)
+    // 1. DBを変更した場合に、DBFluteを利用すればDBの情報を元に自動でDB操作を行うためのコードが生成される
+    // 2. アプリ側ではそれを元にコードを作成・変更すれば良い
+    // 3. そのため、DBを変更したときに、アプリ側での修正が少なく済む
+
+    // done tsuji git conflictのマージ作業で重複しちゃったんじゃないかと。変数が二重になってます。 by jflute (2025/08/27)
+    // TODO ありがとうございます！消したつもりだったのですが...漏れてました akinari.tsuji  (2025/08/29)
+    // private int totalEntrancesCount;
+    // private boolean alreadyIn;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -90,7 +100,7 @@ public class Ticket {
     // done tsuji [いいね] 複数のコンストラクターに対して、コメントで役割を書いているのGood by jflute (2025/08/15)
     // #1on1: staticのFactoryメソッドのお話もちょこっと
     // done tsuji 一方で、Booth側で実際にOneDayでもこっちがnewされていない問題 by jflute (2025/08/15)
-    // TODO done jflute [修正しました] 使っていないコンストラクタを削除しました　akinari.tsuji  (2025/08/22)
+    // done jflute [修正しました] 使っていないコンストラクタを削除しました　akinari.tsuji  (2025/08/22)
     // one-day ticket
 //    public Ticket(int displayPrice) {
 //        this.displayPrice = displayPrice;
@@ -101,8 +111,9 @@ public class Ticket {
 
     // two or more day ticket
 //     public Ticket(TicketType type) {
-        // TODO tsuji this.を使ってたり使ってなかったりが不統一なのでどうにかしましょう by jflute (2025/08/27)
+        // done tsuji this.を使ってたり使ってなかったりが不統一なのでどうにかしましょう by jflute (2025/08/27)
         // (this.が必要な場面だけで使うってのも一つの選択肢ですが、現状はそれでもなさそうなので)
+        // TODO こちら修正いたしました！ akinari.tsuji  (2025/08/29)
 //        ticketType = type;
 //        this.totalEntrancesCount = 0;
 //        this.alreadyIn = false;
@@ -120,18 +131,38 @@ public class Ticket {
      */
     public void doInPark() {
         // ナイトパスを夜以外に使おうとした場合
-        if (ticketType == TicketType.NIGHT) {
-            // TODO tsuji 修行++: NIGHTのニュアンスが違う別のNIGHTのチケット(e.g. 17時から)が出てきた時でも対応できるように by jflute (2025/08/27)
-            LocalTime borderTime = LocalTime.of(18, 0);
-            LocalTime nowTime = LocalTime.now();
-            // LocalTime nowTime = LocalTime.of(17, 59); // 日中使用した場合を確認するためのコード
-            if (nowTime.isBefore(borderTime)) {
-                // TODO tsuji [いいね] 例外メッセージに borderTime を入れているのいいね、デバッグしやすい by jflute (2025/08/27)
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
-                throw new NotNightException("You can't use this passport before " + borderTime.format(formatter) + ".");
-            }
-        }
+//        if (ticketType == TicketType.NIGHT) {
+//            // TODO tsuji 修行++: NIGHTのニュアンスが違う別のNIGHTのチケット(e.g. 17時から)が出てきた時でも対応できるように by jflute (2025/08/27)
+//            // TODO [メモ] akinari.tsuji  (2025/09/03)
+//            // 以下のどちらで実装を行うか？
+//            // 1. enumに利用可能時間を持たせる：実装が楽だが、拡張性が低い（条件が増えていった時にenumがごちゃごちゃになる）
+//            // 2. チケットの利用ポリシーのinterface作り、個別の条件についてクラスを実装。enumにはポリシーを持たせる：実装大変だが、拡張性が高く柔軟
+//            // 今回は勉強のために校舎で実装する。あとここの条件分岐を減らせそうなので
+//            LocalTime borderTime = LocalTime.of(18, 0);
+//            LocalTime nowTime = LocalTime.now();
+//            // LocalTime nowTime = LocalTime.of(17, 59); // 日中使用した場合を確認するためのコード
+//            if (nowTime.isBefore(borderTime)) {
+//                // TODO tsuji [いいね] 例外メッセージに borderTime を入れているのいいね、デバッグしやすい by jflute (2025/08/27)
+//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
+//                throw new NotNightException("You can't use this passport before " + borderTime.format(formatter) + ".");
+//            }
+//        }
 
+        // TODO [メモ] チケット利用可否の判断に伴う例外処理（上のthrow部分）をどこで行うべきか？ akinari.tsuji  (2025/09/03)
+        // 候補は次
+        // 1. Ticketクラス
+        // 2. IUserPolicyクラス（とその継承クラス）
+        // 3. TicketType
+        // 例外を発生させる条件は、isAvailable()で、条件ごとに発生させるべき例外の内容は異なる？
+        // Ticket#doInParkで例外発生させると、内容に合わせて条件分岐させちゃいそう
+
+        // チケットの利用ポリシーに基づく、利用可否の判定
+        ticketType.getUsagePolicy().validate();
+
+        // TODO [メモ] to 自分 akinari.tsuji  (2025/09/03)
+        // ここの条件分岐もなんか嫌に思えてきてしまったけど、どうまとめるかわかってないので考えるところからやる
+        // おそらく、チケットの利用可否と一言に言っても[利用ポリシーに基づく利用可否, 利用回数に基づく利用可否]がありそうなので
+        // どのクラスの責務にするか、から考える
         // 入園回数を超えて利用しようとした場合
         if (totalEntrancesCount >= ticketType.getEntranceLimit()) {
             throw new IllegalStateException("This ticket is already exhausted: displayedPrice=" + ticketType.getPrice());

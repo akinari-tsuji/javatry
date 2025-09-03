@@ -15,10 +15,11 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+//import java.time.LocalTime;
+//import java.time.format.DateTimeFormatter;
 
-// TODO tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
+// done tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
+// TODO 修正いたしました！ akinari.tsuji  (2025/08/29)
 /**
  * チケットの購入を管理するためのクラス (販売の責務)
  * @author jflute
@@ -94,7 +95,6 @@ public class TicketBooth {
      * Buy night passport.
      * @param handedMoney 渡された金額
      * @return ナイトパスの購入結果
-     * @throws NotNightException 夜以前にナイトパスを購入しようとしたら
      */
     public TicketBuyResult buyNightPassport(Integer handedMoney) {
 //        LocalTime borderTime = LocalTime.of(18, 0);
@@ -111,7 +111,7 @@ public class TicketBooth {
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
 //            throw new NotNightException("You can't buy this passport before" + borderTime.format(formatter) + ".");
 //        }
-        return doBuyTicket(handedMoney, TicketType.NIGHT);
+        return doBuyTicket(handedMoney, TicketType.NIGHT_FROM_1800);
     }
 
     /**
