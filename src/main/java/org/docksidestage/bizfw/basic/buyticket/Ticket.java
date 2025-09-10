@@ -33,7 +33,7 @@ public class Ticket {
     //                                                                           Attribute
     //                                                                           =========
     // done tsuji コメント形式がjavadoc形式になってないです。最初スラアスタアスタというように * が二つ必要です by jflute (2025/08/27)
-    // TODO jflute ありがとうございます！まだjavadocを理解しきれておらずすみません！ 修正しますakinari.tsuji  (2025/08/29)
+    // done jflute ありがとうございます！まだjavadocを理解しきれておらずすみません！ 修正しますakinari.tsuji  (2025/08/29)
     /** チケットの種類 */
     private final TicketType ticketType;
 
@@ -70,16 +70,37 @@ public class Ticket {
     //
     // そこで、堅いことをウリにしているRDBのメリットを得つつ、アプリ側をDB変更に追従しやすくしたい、
     // というコンセプトがDBFluteにつながるという感じですね(^^。
-    // TODO jflute ありがとうございます！akinari.tsuji  (2025/08/29)
+    // done jflute ありがとうございます！akinari.tsuji  (2025/08/29)
     // RDBは固いことがウリなのですね、RDBの内部構造気になります
     // 依存される側は変更しにくいものなのですね...
-    // TODO [追加質問] 「アプリ側をDB変更に追従しやすくしたい」というのは以下のような認識であっていますでしょうか？ jflute akinari.tsuji  (2025/08/29)
+    // done [追加質問] 「アプリ側をDB変更に追従しやすくしたい」というのは以下のような認識であっていますでしょうか？ jflute akinari.tsuji  (2025/08/29)
     // 1. DBを変更した場合に、DBFluteを利用すればDBの情報を元に自動でDB操作を行うためのコードが生成される
     // 2. アプリ側ではそれを元にコードを作成・変更すれば良い
     // 3. そのため、DBを変更したときに、アプリ側での修正が少なく済む
+    // #1on1: "アプリ側での修正が少なく済む"
+    //   → "アプリ側での修正が必要箇所がコンパイルエラーで自動的に検出される"
+    // DB変更: e.g. MEMBER_NAME => LAST_NAME, FIRST_NAME
+    // A: 実行するまでわからない(かもしれない)
+    // String sql = "select ... from MEMBER where MEMBER_NAME like 'S%'";
+    //
+    // B: 変更されたら自動生成し直す => setMemberName...が消えて赤くなる
+    // memberBhv.selectEntity(cb -> {
+    //     cb.query().setMemberName_LikeSearch("S", op -> op.likePrefix());
+    // });
+    //
+    // 基礎的な一つの手段↑↑↑
+    
+    // #1on1: ActiveRecordのModel中心と、スキーマ中心の違いの話
+    // #1on1: マイクロサービスをするときにフレームワーク/言語によって何か変わるか？の話
+    // #1on1: DDDのアーキテクチャの恩恵、MVCも何が良いのか？何が悪いのか？を知るの難しい話
+    // #1on1: javatryでシンプルな V だけアーキテクチャと、C だけアーキテクチャのエクササイズあっても良いかも話
+    
+    // TODO tsuji [思考課題] MVCの V だけのシステムだったら何がつらい？ (想像でOK) by jflute (2025/09/10)
+    // TODO shiny ↑しゃいにーさんも同じように考えてみてください by jflute (2025/09/10)
+
 
     // done tsuji git conflictのマージ作業で重複しちゃったんじゃないかと。変数が二重になってます。 by jflute (2025/08/27)
-    // TODO ありがとうございます！消したつもりだったのですが...漏れてました akinari.tsuji  (2025/08/29)
+    // done ありがとうございます！消したつもりだったのですが...漏れてました akinari.tsuji  (2025/08/29)
     // private int totalEntrancesCount;
     // private boolean alreadyIn;
 
@@ -113,7 +134,7 @@ public class Ticket {
 //     public Ticket(TicketType type) {
         // done tsuji this.を使ってたり使ってなかったりが不統一なのでどうにかしましょう by jflute (2025/08/27)
         // (this.が必要な場面だけで使うってのも一つの選択肢ですが、現状はそれでもなさそうなので)
-        // TODO こちら修正いたしました！ akinari.tsuji  (2025/08/29)
+        // TODO jflute こちら修正いたしました！ akinari.tsuji  (2025/08/29)
 //        ticketType = type;
 //        this.totalEntrancesCount = 0;
 //        this.alreadyIn = false;
@@ -191,10 +212,10 @@ public class Ticket {
      */
     public int getDisplayPrice() { return ticketType.getPrice(); }
 
-    // TODO jflute [質問] 今の実装だと、チケットのメンバ変数で直接金額を持たないため不具合が生じてしまいます？　akinari.tsuji  (2025/08/27)
+    // done jflute [質問] 今の実装だと、チケットのメンバ変数で直接金額を持たないため不具合が生じてしまいます？　akinari.tsuji  (2025/08/27)
     // 例えば、8/1に8,000円のチケットを購入した（チケットA）後、8/10に10,000へと値上がりした場合、チケットAの表示金額が上昇してしまいそう
     // その場合、ticketType側で新旧という軸でチケット種別を管理するべきなのか、そもそもenumを使うやり方が不適切で他の方法なら問題ないのかを知りたいです
-    // TODO tsuji [回答] 良い着眼点ですね。そう、実際そういうことは業務でよくあるので... by jflute (2025/08/27)
+    // done tsuji [回答] 良い着眼点ですね。そう、実際そういうことは業務でよくあるので... by jflute (2025/08/27)
     // マスターデータ(TicketType)を参照するではなく、「購入時金額」というニュアンスでSNAPSHOTとしてdisplayPriceを保持するってのが選択肢の一つです。
     //
     // DBFluteハンズオンのDBを例でで言うと、商品テーブルに定価というカラムがありますが、購入テーブルに購入金額というカラムもあります。
@@ -211,10 +232,10 @@ public class Ticket {
      */
     public int getRemainingEntranceCounts() { return ticketType.getEntranceLimit() - totalEntrancesCount; }
 
-    // TODO [質問] そのチケットが使えるかどうかの判定するメソッドが必要な場合はTicketクラスに定義するべきでしょうか？ akinari.tsuji  (2025/08/27)
+    // done [質問] そのチケットが使えるかどうかの判定するメソッドが必要な場合はTicketクラスに定義するべきでしょうか？ akinari.tsuji  (2025/08/27)
     // 今回はlogで出力するためにgetRemainingEntranceCounts()をpublicに定義しています。
     // もしも、このメソッドを外部から呼び出し、まだ利用できるかを判定している場合、Ticketクラスにまだ使えるか判定するロジックを集約するべきでしょうか。
-    // TODO tsuji [回答] getRemainingEntranceCounts()さえあれば利用者側は簡単に判断できるのでそれで十分とも言えますし... by jflute (2025/08/27)
+    // done tsuji [回答] getRemainingEntranceCounts()さえあれば利用者側は簡単に判断できるのでそれで十分とも言えますし... by jflute (2025/08/27)
     // それだけで「どの項目とどの項目を引き算」というあまり外部に依存させたくないロジックを隠蔽しているので。
     // 一方で、isUsedUp() みたいなbooleanメソッドを提供してあげたらそれはそれで便利ですが、
     // 「remainingEntranceCounts が 0 であること」というロジックはこれ以上変わりようのないものと考えることもできるので、

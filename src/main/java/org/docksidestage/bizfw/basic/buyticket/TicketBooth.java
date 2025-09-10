@@ -19,7 +19,7 @@ package org.docksidestage.bizfw.basic.buyticket;
 //import java.time.format.DateTimeFormatter;
 
 // done tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
-// TODO 修正いたしました！ akinari.tsuji  (2025/08/29)
+// TODO jflute 修正いたしました！ akinari.tsuji  (2025/08/29)
 /**
  * チケットの購入を管理するためのクラス (販売の責務)
  * @author jflute
@@ -59,11 +59,11 @@ public class TicketBooth {
     // #1on1: 会話しやすい名前という観点も (2025/08/15)
     // #1on1: IntelliJのrenameのショートカット: shift+shiftからのrenameでもいいけど...
     // control + T でリファクタリングメニューを出してrenameを選ぶがオススメ
-    // TODO done jflute doBuyTicketにrenameしました akinari.tsuji  (2025/08/22)
+    // done jflute doBuyTicketにrenameしました akinari.tsuji  (2025/08/22)
     // done tsuji javadoc, throws よりも return の方が上が一般的かなと。IN/OUTが固まっていたほうが by jflute (2025/08/15)
     // done tsuji privateのメソッドは、publicの下の方が一般的かなと by jflute (2025/08/15)
     // done tsuji ちょと面倒かもですが、publicメソッドこそjavadocでparam/returnの説明が欲しいところです by jflute (2025/08/15)
-    // TODO done jflute [修正しました] 上記の3点（javadocでのreturnの位置、privateメソッドの位置、publicメソッドのjavadoc）修正しました akinari.tsuji  (2025/08/22)
+    // done jflute [修正しました] 上記の3点（javadocでのreturnの位置、privateメソッドの位置、publicメソッドのjavadoc）修正しました akinari.tsuji  (2025/08/22)
     /**
      * Buy one-day passport, method for park guest.
      * @param handedMoney 渡された金額
@@ -101,13 +101,13 @@ public class TicketBooth {
         // done tsuji [いいね] 買うタイミングが夜じゃないいけないというのも一つのありえる業務ですね^^ by jflute (2025/08/15)
         // dibe tsuji 一方で、事前購入が可能で、入園するタイミングでチェックされるような仕様にしてみましょう by jflute (2025/08/15)
         // 一応要件としては "夜しか使えないように" ということなので「昼は買えるけど使えない」というように。
-        // TODO done jflute 使用時のチェックを追加するため、夜しか買えないようにするコードはコメントアウトします！ akinari.tsuji  (2025/08/22)
-        // TODO done jflute TicketクラスのdoInParkメソッドで判定をするように変更しました akinari.tsuji  (2025/08/22)
+        // done jflute 使用時のチェックを追加するため、夜しか買えないようにするコードはコメントアウトします！ akinari.tsuji  (2025/08/22)
+        // done jflute TicketクラスのdoInParkメソッドで判定をするように変更しました akinari.tsuji  (2025/08/22)
         // 作業が終わるまで上のtodoは残しておきます←完了しました
 //        LocalTime nowTime = LocalTime.now();
 //        if (nowTime.isBefore(borderTime)) {
 //            // done tsuji borderTimeが変わったときに例外メッセージ修正し忘れしそうなので、同期するようにしましょう by jflute (2025/08/15)
-//            // TODO done jflute [修正しました] borderTimeを利用するように修正しました akinari.tsuji  (2025/08/22)
+//            // done jflute [修正しました] borderTimeを利用するように修正しました akinari.tsuji  (2025/08/22)
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
 //            throw new NotNightException("You can't buy this passport before" + borderTime.format(formatter) + ".");
 //        }
@@ -196,7 +196,7 @@ public class TicketBooth {
     // done tsuji setというメソッド名ですが、getter/setterというお決まりのメソッドがあるので... by jflute (2025/08/15)
     // そうじゃないところでsetを使うと少々紛らわしいので、calculate..., accept..., (積み上げるとか) 
     // みたいな単語を使えると区別がしやすくてわかりやすいかなと思います。
-    // TODO done jflute [修正しました] つい、get, setを頭につけがちなので気をつけます akinari.tsuji  (2025/08/22)
+    // done jflute [修正しました] つい、get, setを頭につけがちなので気をつけます akinari.tsuji  (2025/08/22)
     private void calculateSalesProceeds(int price) {
         if (salesProceeds != null) {
             salesProceeds = salesProceeds + price;
