@@ -2,8 +2,15 @@ package org.docksidestage.bizfw.basic.buyticket;
 
 import java.time.LocalTime;
 
-// TODO tsuji クラスjavadocお願いします (authorだけでも) by jflute (2025/08/27)
+// done tsuji クラスjavadocお願いします (authorだけでも) by jflute (2025/08/27)
 // https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
+// TODO jflute [javadoc記入しました！] akinari.tsuji  (2025/09/10)
+
+/**
+ * 遊園地のチケットの種別を表すEnum
+ * 金額、入園の上限回数、利用可能ポリシーをもつ
+ * @author akinari.tsuji
+ */
 public enum TicketType {
     /** 金額, 入園上限回数, 利用可能ポリシー */
     ONE_DAY(7400, 1, new AllDayPolicy()),
@@ -16,20 +23,38 @@ public enum TicketType {
     private final int entranceLimit;
     private final IUsagePolicy usagePolicy;
 
+    /**
+     * コンストラクタ
+     * @param price
+     * @param entranceLimit
+     * @param usagePolicy
+     */
     TicketType(int price, int entranceLimit, IUsagePolicy usagePolicy) {
         this.price = price;
         this.entranceLimit = entranceLimit;
         this.usagePolicy = usagePolicy;
     }
 
+    /**
+     * 金額を返すゲッター
+     * @return チケットの金額
+     */
     public int getPrice() {
         return price;
     }
 
+    /**
+     * 入園上限回数を返すゲッター
+     * @return チケットの入園上限回数
+     */
     public int getEntranceLimit() {
         return entranceLimit;
     }
 
+    /**
+     * 利用ポリシーのインスタンスを返すゲッター
+     * @return チケットの利用可能ポリシー
+     */
     public IUsagePolicy getUsagePolicy() {
         return usagePolicy;
     }

@@ -1,0 +1,69 @@
+@startuml
+
+class Ticket {
+    - TicketType ticketType
+    - int totalEntranceCount
+    - boolean alreadyIn
+    + Ticket(TicketType)
+    + doInPark()
+    + getDisplayPrice()
+    + getRemainingEntranceCount()
+    + getEntranceLimit()
+    + getTicketType()
+    + isAlreadyIn()
+}
+
+enum TicketType {
+    ONE_DAY
+    TWO_DAYS
+    FOUR_DAYS
+    NIGHT_FROM_EIGHTEEN
+    NIGHT_FROM_FOURTEEN
+}
+
+class TicketBuyResult {
+    - Ticket ticket
+    - int change
+    + TicketBuyResult()
+    + getTicket()
+    + getChange()
+}
+
+class TicketBooth {
+    - int MAX_QUANTITY
+    - int quantity
+    - Integer salesProceeds
+    + TicketBooth()
+    + buyOneDayPassport()
+    + buyTwoDayPassport()
+    + buyFourDayPassport()
+    + buyNightPassport()
+    + doBuyTicket()
+    + validateQuantity()
+    + validateShortMoney()
+    + calculateSalesProceeds()
+    + getQuantity()
+    + getSalesProceeds()
+}
+
+interface IUsagePolicy {
+    + isAvailable()
+    + validate()
+}
+
+class AllDayPolicy {
+    + isAvailable()
+    + validate()
+}
+
+class TimeBasedPolicy {
+    + isAvailable()
+    + validate()
+}
+
+TicketBuyResult <.. TicketBooth
+TicketBuyResult o-- Ticket
+Ticket "*" o-- "1" TicketType
+TicketType o-- "1" IUsagePolicy
+IUsagePolicy <|.. AllDayPolicy
+IUsagePolicy <|.. TimeBasedPolicy

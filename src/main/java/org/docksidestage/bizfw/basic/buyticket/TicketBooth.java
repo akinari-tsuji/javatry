@@ -93,7 +93,7 @@ public class TicketBooth {
 
     /**
      * Buy night passport.
-     * @param handedMoney 渡された金額
+     * @param handedMoney 渡された金
      * @return ナイトパスの購入結果
      */
     public TicketBuyResult buyNightPassport(Integer handedMoney) {
@@ -111,7 +111,7 @@ public class TicketBooth {
 //            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
 //            throw new NotNightException("You can't buy this passport before" + borderTime.format(formatter) + ".");
 //        }
-        return doBuyTicket(handedMoney, TicketType.NIGHT_FROM_1800);
+        return doBuyTicket(handedMoney, TicketType.NIGHT_FROM_EIGHTEEN);
     }
 
     /**

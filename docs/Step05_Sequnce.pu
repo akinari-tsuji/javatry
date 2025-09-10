@@ -1,0 +1,20 @@
+@startuml
+
+actor visitor as "来訪者"
+participant tb as "TicketBooth"
+participant t as "Ticket"
+participant policy as "IUsagePolicy"
+
+visitor -> tb: お金を渡す\n(buyOneDayTicket())
+activate tb
+tb -> tb: 購入処理を行う\n（doBuyTicket())
+tb --> visitor: 購入結果\n(TicketResult)
+deactivate tb
+
+visitor -> t: チケット利用(doInPark())
+t -> policy: 利用可否を尋ねる\n(validate())
+alt 利用可能
+    t -> t: 使用回数を増やし、利用中にする
+else
+
+end

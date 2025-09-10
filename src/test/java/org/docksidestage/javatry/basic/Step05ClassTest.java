@@ -187,7 +187,7 @@ public class Step05ClassTest extends PlainTestCase {
         twoDayPassport.doInPark();
         log(twoDayPassport.getRemainingEntranceCounts());
         // twoDayPassport.doInPark();
-        // TODO akinari.tsuji Step06でalreadyInを利用するらしくエラーが出てしまった (2025/08/04)
+        // done akinari.tsuji Step06でalreadyInを利用するらしくエラーが出てしまった (2025/08/04)
         // 使い方がわからなかったので一旦step06側を一部コメントアウト、step06にてTicketを適宜修正する
     }
 
@@ -246,8 +246,11 @@ public class Step05ClassTest extends PlainTestCase {
         // → 今の時代(事業会社だと)、業務で図を描いて提出するってことがあんまりないので図を描く練習する機会が少ない by jflute
         // → なので、多くの人が、図を描いて理解するとか思考するとかが慣れてない人が多い印象 by jflute
         
-        // TODO tsuji [読み物課題] ホワイトボードを買ってこよう by jflute (2025/08/29)
+        // done tsuji [読み物課題] ホワイトボードを買ってこよう by jflute (2025/08/29)
         // https://jflute.hatenadiary.jp/entry/20110607/1307440686
+        // TODO jflute [読みました]akinari.tsuji  (2025/09/10)
+        // やはり手書きの方が障害がなく考えられていいですね...
+        // 図を作る練習のためにPlantUMLでStep05のクラス図とシーケンス図を作ってみました（docs/Step05...）
         // TODO tsuji [読み物課題] SIとスタートアップの違いを知ろう by jflute (2025/08/29)
         // https://jflute.hatenadiary.jp/entry/20151007/sista
         // TODO tsuji [読み物課題] お世話になってる先輩が登壇する勉強会くらい行ってみたら？ by jflute (2025/08/29)
@@ -300,6 +303,12 @@ public class Step05ClassTest extends PlainTestCase {
         
         // TODO tsuji 修行++: UnitTestを昼に動かすと落ちるのどうにかしたいですね by jflute (2025/08/27)
         // UnitTestの実行時間に依存せずに夜入園のテストができるようにできるといいなと。(難しいの後回しOK)
+        // TODO akinari.tsuji [メモ] doInParkの中で時間外の場合、例外を発生させるために落ちてしまっている (2025/09/10)
+        // これをどう修正することができるのかを考える
+        // 1. そもそも落ちなくする（例外を投げない）
+        // 2. テスト実行時に時間を指定できるようにする（引数で現在時間を渡す？）(確か、依存性注入とかいうやつ）
+        // 3. Gemini案：Clock（時間を返すクラス）をメンバ変数に持たせる。UnitTestを実行する際には、固定時間を返すClockをコンストラクタに渡すようにする
+        // TODO akinari.tsuji [次回はここから＋読み物課題も] 2で十分な気がする...ので2で実装する (2025/09/10)
         nightPassport.doInPark();
     }
 
@@ -314,7 +323,8 @@ public class Step05ClassTest extends PlainTestCase {
         // それにあたって、他の問題でコンパイルエラーが出てしまったので適宜変数の型を修正しました
     }
 
-    // TODO tsuji ちょっとjavatry更新でお願いします by jflute (2025/08/15)
+    // done tsuji ちょっとjavatry更新でお願いします by jflute (2025/08/15)
+    // TODO jflute [完了しました] akinari.tsuji  (2025/09/10)
     /**
      * Write intelligent JavaDoc comments seriously on the public classes/constructors/methods of the Ticket class. <br>
      * (Ticketクラスのpublicなクラス/コンストラクター/メソッドに、気の利いたJavaDocコメントを本気で書いてみましょう)
