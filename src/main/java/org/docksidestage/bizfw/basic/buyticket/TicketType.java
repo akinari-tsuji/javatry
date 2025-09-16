@@ -1,5 +1,6 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
+import java.time.Clock;
 import java.time.LocalTime;
 
 // done tsuji クラスjavadocお願いします (authorだけでも) by jflute (2025/08/27)
@@ -16,12 +17,12 @@ public enum TicketType {
     ONE_DAY(7400, 1, new AllDayPolicy()),
     TWO_DAYS(13200, 2, new AllDayPolicy()),
     FOUR_DAYS(22400, 4, new AllDayPolicy()),
-    NIGHT_FROM_EIGHTEEN(7400, 1, new TimeBasedPolicy(LocalTime.of(18, 0))),
-    NIGHT_FROM_SEVENTEEN(7400, 1, new TimeBasedPolicy(LocalTime.of(17, 0)));
+    NIGHT_FROM_EIGHTEEN(7400, 1, new TimeBasedPolicy(Clock.systemDefaultZone(), LocalTime.of(18, 0))),
+    NIGHT_FROM_SEVENTEEN(7400, 1, new TimeBasedPolicy(Clock.systemDefaultZone(), LocalTime.of(17, 0)));
 
     private final int price;
     private final int entranceLimit;
-    private final IUsagePolicy usagePolicy;
+    private IUsagePolicy usagePolicy;
 
     /**
      * コンストラクタ
@@ -57,5 +58,13 @@ public enum TicketType {
      */
     public IUsagePolicy getUsagePolicy() {
         return usagePolicy;
+    }
+
+    /**
+     * テスト用に利用ポリシーを変更するための関数
+     * @param usagePolicy 変更したい利用ポリシー
+     */
+    public void setUsagePolicy(IUsagePolicy usagePolicy) {
+        this.usagePolicy = usagePolicy;
     }
 }

@@ -9,6 +9,7 @@ public class AllDayPolicy implements IUsagePolicy {
     public boolean isAvailable() {
         // TODO jflute このクラス・メソッドはいるのでしょうか？　akinari.tsuji  (2025/09/03)
         // interfaceを利用して、doInParkのif文を減らすために、当たり前すぎるメソッドを定義するのが良いのかと気になります
+        // 「当たり前　＝　ただtrueを返すだけ」の意図です
         return true;
     }
 

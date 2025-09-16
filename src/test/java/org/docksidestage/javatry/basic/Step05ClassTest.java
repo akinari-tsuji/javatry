@@ -15,11 +15,13 @@
  */
 package org.docksidestage.javatry.basic;
 
-import org.docksidestage.bizfw.basic.buyticket.Ticket;
-import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
-import org.docksidestage.bizfw.basic.buyticket.TicketBuyResult;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZoneId;
+
+import org.docksidestage.bizfw.basic.buyticket.*;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
-import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -308,7 +310,30 @@ public class Step05ClassTest extends PlainTestCase {
         // 1. そもそも落ちなくする（例外を投げない）
         // 2. テスト実行時に時間を指定できるようにする（引数で現在時間を渡す？）(確か、依存性注入とかいうやつ）
         // 3. Gemini案：Clock（時間を返すクラス）をメンバ変数に持たせる。UnitTestを実行する際には、固定時間を返すClockをコンストラクタに渡すようにする
-        // TODO akinari.tsuji [次回はここから＋読み物課題も] 2で十分な気がする...ので2で実装する (2025/09/10)
+        // done akinari.tsuji [次回はここから＋読み物課題も] 2で十分な気がする...ので2で実装する (2025/09/10)
+        // TODO akinari.tsuji [続き] 家に帰って考えたら2は不自然な気がしてきた (2025/09/16)
+        // ticket.doInPark(currentTime); という形で呼び出すのおかしくないのかな...
+        // 使う時間は絶対に使おうとしたタイミングだし、それを呼び出し側で伝えることに違和感
+        // 現実を考えた時に、遊園地で入園する際に、「今、16時です。チケット使わせてください」はおかしいような...
+        // というわけで、やはり案3を採用する...?
+        // あれ、でも、どのみち今回のTicketでいえば、使えるかどうかをticket.doInParkな時点でおかしい気するな...
+        // 実際にはブースの人が使えるか判断するし
+        // TODO akinari.tsuji [追加の疑問点] 現在のPolicy interfaceの実装でどうやって依存性を注入する？ (2025/09/16)
+        // IUsagePolicyのisAvailableに引数設定したら、AllDayPolicyの方でも引数必要になっちゃうけど、常にtrueを返す関数に渡してもしょうがない
+        // -> Geminiに相談してみる：前回、クラス図をplantUMLで作っておいたので、相談用のプロンプト作成が楽だった！！！
+        // ClockクラスをTimeBasedPolicyの定義でメンバ変数に持つように記述すればいいみたい（他のPolicyには影響がない）
+        // Enumのナイトパスを設定する部分で、new TimeBasedPolicy(Clock.systemDefaultZone())を渡してあげる
+        // さらに、EnumにsetUsagePolicyという、テスト時にポリシー書き換えるための関数を定義してあげる
+        // テストの時にはsetUsagePolicyの引数に、new TimeBasedPolicy(Clock.fixed(...))を渡してあげる
+        // これでやってみよう
+        // TODO akinari.tsuji [次回ここ！] (2025/09/16)
+        // TODO akinari.tsuji [理解する] Instant, ZoneId, Clockはいまいち理解せずに書いてるので次回調べる！ (2025/09/16)
+        // TODO akinari.tsuji [調べる] あと、こういうのは「テストダブル」というらしい。前に一回調べたけど忘れたから↓を読み直す (2025/09/16)
+        // https://goyoki.hatenablog.com/entry/20120301/1330608789
+        Instant fixedInstant = Instant.parse("2025-09-17T10:30:00Z"); // 日本時間で19:30なのでOK
+        ZoneId tokyoZone = ZoneId.of("Asia/Tokyo");
+        Clock fixedClock = Clock.fixed(fixedInstant, tokyoZone);
+        TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
         nightPassport.doInPark();
     }
 
