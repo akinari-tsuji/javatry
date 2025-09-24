@@ -7,6 +7,26 @@ import java.time.LocalTime;
 // https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
 // done jflute [javadoc記入しました！] akinari.tsuji  (2025/09/10)
 
+// #1on1: enumって、インスタンスを限定したクラス (2025/09/24)
+// あくまで TicketType っていうクラスだけども...普通のクラスだと何個でも new できちゃう。
+// enum は、列挙した意味のあるインスタンスしか new できないようになっている。
+// 
+// Java5 (2005年くらい) から導入された文法で、10年間enumなかった。
+// Java5より前のenumもどきクラス:
+// public class TicketType {
+//     public static final TicketType ONE_DAY = new TicketType(7400, ...);
+//     public static final TicketType TWO_DAY = new TicketType(13200, ...);
+//     ...
+//     private TicketType() {
+//     }
+//     ...
+// }
+// 使用感はほぼenumと同じになる。 e.g. TicketType.ONE_DAY
+// enumは、enum的普通クラスの定型パターンを文法化したもの。
+//
+// 列挙の業務的な意味を、インスタンスに込めたもの。
+
+// #1on1: IUsagePolicy でチェックの再利用をできるようにしてるのGood (2025/09/24)
 /**
  * 遊園地のチケットの種別を表すEnum
  * 金額、入園の上限回数、利用可能ポリシーをもつ

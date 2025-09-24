@@ -335,6 +335,9 @@ public class Step05ClassTest extends PlainTestCase {
         Clock fixedClock = Clock.fixed(fixedInstant, tokyoZone);
         TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
         nightPassport.doInPark();
+        
+        // #1on1: 実現できてるはできてるけど、共有インスタンスであるenumにpublicでsetして変えられるので...
+        // アプリが間違って setUsagePolicy() を呼び出してシステムを壊しちゃったら...
     }
 
     /**
@@ -365,4 +368,18 @@ public class Step05ClassTest extends PlainTestCase {
     //public void test_class_moreFix_yourSuperComments() {
     //    // your confirmation code here
     //}
+
+    // ===================================================================================
+    //                                                                         Devil Stage
+    //                                                                         ===========
+    // TODO tsuji 修行#: 最後にこれやってみましょう by jflute (2025/09/24)
+    /**
+     * If your specification is to share inventory (quantity) between OneDay/TwoDay/...,
+     * change the specification to separate inventory for each OneDay/TwoDay/.... <br>
+     * (もし、OneDay/TwoDay/...で在庫(quantity)を共有する仕様になってたら、
+     * OneDay/TwoDay/...ごとに在庫を分ける仕様に変えてみましょう)
+     */
+    public void test_class_moreFix_zonedQuantity() {
+        // your confirmation code here
+    }
 }
