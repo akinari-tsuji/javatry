@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 // done tsuji クラスjavadocお願いします (authorだけでも) by jflute (2025/08/27)
 // https://dbflute.seasar.org/ja/tutorial/handson/review/codingpolicy.html#minjavadoc
-// TODO jflute [javadoc記入しました！] akinari.tsuji  (2025/09/10)
+// done jflute [javadoc記入しました！] akinari.tsuji  (2025/09/10)
 
 /**
  * 遊園地のチケットの種別を表すEnum

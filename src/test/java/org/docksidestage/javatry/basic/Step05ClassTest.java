@@ -349,7 +349,7 @@ public class Step05ClassTest extends PlainTestCase {
     }
 
     // done tsuji ちょっとjavatry更新でお願いします by jflute (2025/08/15)
-    // TODO jflute [完了しました] akinari.tsuji  (2025/09/10)
+    // done jflute [完了しました] akinari.tsuji  (2025/09/10)
     /**
      * Write intelligent JavaDoc comments seriously on the public classes/constructors/methods of the Ticket class. <br>
      * (Ticketクラスのpublicなクラス/コンストラクター/メソッドに、気の利いたJavaDocコメントを本気で書いてみましょう)

@@ -134,7 +134,7 @@ public class Ticket {
 //     public Ticket(TicketType type) {
         // done tsuji this.を使ってたり使ってなかったりが不統一なのでどうにかしましょう by jflute (2025/08/27)
         // (this.が必要な場面だけで使うってのも一つの選択肢ですが、現状はそれでもなさそうなので)
-        // TODO jflute こちら修正いたしました！ akinari.tsuji  (2025/08/29)
+        // done jflute こちら修正いたしました！ akinari.tsuji  (2025/08/29)
 //        ticketType = type;
 //        this.totalEntrancesCount = 0;
 //        this.alreadyIn = false;
