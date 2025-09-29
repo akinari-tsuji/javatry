@@ -47,7 +47,6 @@ class TicketBooth {
 }
 
 interface IUsagePolicy {
-    + isAvailable()
     + validate()
 }
 
@@ -61,9 +60,17 @@ class TimeBasedPolicy {
     + validate()
 }
 
+class TicketInventory {
+    - Map<TicketType, Integer> quantities
+    + getQuantity()
+    + decreaseQuantity()
+}
+
 TicketBuyResult <.. TicketBooth
 TicketBuyResult o-- Ticket
 Ticket "*" o-- "1" TicketType
 TicketType o-- "1" IUsagePolicy
 IUsagePolicy <|.. AllDayPolicy
 IUsagePolicy <|.. TimeBasedPolicy
+TicketBooth "1" o-- "1" TicketInventory 
+TicketInventory ..> TicketType

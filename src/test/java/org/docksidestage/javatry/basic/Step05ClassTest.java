@@ -47,7 +47,7 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_howToUse_basic() {
         TicketBooth booth = new TicketBooth();
         booth.buyOneDayPassport(7400);
-        int sea = booth.getQuantity(); // 一つ購入したので9
+        int sea = booth.getQuantity(TicketType.ONE_DAY); // 一つ購入したので9
         log(sea); // your answer? => 9
     }
 
@@ -81,7 +81,7 @@ public class Step05ClassTest extends PlainTestCase {
         } catch (TicketShortMoneyException continued) {  // ここで例外キャッチ
             log("Failed to buy one-day passport: money=" + handedMoney, continued);
         }
-        return booth.getQuantity(); // 購入前（例外を投げる前）に先に在庫を減らしている
+        return booth.getQuantity(TicketType.ONE_DAY); // 購入前（例外を投げる前）に先に在庫を減らしている
     }
 
     // ===================================================================================
@@ -138,7 +138,7 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_letsFix_refactor_recycle() {
         TicketBooth booth = new TicketBooth();
         booth.buyOneDayPassport(10000);
-        log(booth.getQuantity(), booth.getSalesProceeds()); // should be same as before-fix
+        log(booth.getQuantity(TicketType.ONE_DAY), booth.getSalesProceeds()); // should be same as before-fix
     }
 
     // ===================================================================================
@@ -253,11 +253,19 @@ public class Step05ClassTest extends PlainTestCase {
         // TODO jflute [読みました]akinari.tsuji  (2025/09/10)
         // やはり手書きの方が障害がなく考えられていいですね...
         // 図を作る練習のためにPlantUMLでStep05のクラス図とシーケンス図を作ってみました（docs/Step05...）
-        // TODO tsuji [読み物課題] SIとスタートアップの違いを知ろう by jflute (2025/08/29)
+        // done tsuji [読み物課題] SIとスタートアップの違いを知ろう by jflute (2025/08/29)
         // https://jflute.hatenadiary.jp/entry/20151007/sista
-        // TODO tsuji [読み物課題] お世話になってる先輩が登壇する勉強会くらい行ってみたら？ by jflute (2025/08/29)
+        // TODO jfluet [読みました！] akinari.tsuji  (2025/09/29)
+        // てっきりSIの話を聞いて、「なるほどな」となるかと思ってましたが真逆でした笑
+        // 事業会社ではプログラマーは「サービスの価値を高める事業者のひとり」というのがとてもしっくりきました
+        // 仕事の優先順位の判断基準も、どこまで自分が責任を持っているのかも考え直させられました
+        // done tsuji [読み物課題] お世話になってる先輩が登壇する勉強会くらい行ってみたら？ by jflute (2025/08/29)
         // https://jflute.hatenadiary.jp/entry/20161201/gotomeeting
         // #1on1: 新卒研修の歴史のお話 (2025/08/29)
+        // TODO jflute [読みました！] akinari.tsuji  (2025/09/29)
+        // ↓が気になっており、直属の上司ではないですがビズリーチの方が登壇されるらしいので有給取って片方に行ってこようと思います！
+        // https://architecture-con.findy-tools.io/2025
+        // 参加しても話が分からなければ意味がないので、事前にアーキテクチャの勉強をもっとしておきます
         
         if (ticket.getTicketType() == TicketType.TWO_DAYS) { // write determination for two-day passport
             log("two-day passport");
@@ -380,6 +388,16 @@ public class Step05ClassTest extends PlainTestCase {
      * OneDay/TwoDay/...ごとに在庫を分ける仕様に変えてみましょう)
      */
     public void test_class_moreFix_zonedQuantity() {
-        // your confirmation code here
+        // TODO [メモ] どう実装するか考えた内容 akinari.tsuji  (2025/09/25)
+        // 当初以下を想定
+        // - TicketBoothに在庫管理用の配列を作成
+        // - TicketTypeに在庫番号を追加
+        // - 在庫を参照・変更するときは在庫番号を取得して、配列にアクセス
+        // Geminiに聞いてみたら
+        // Map<TicketType, int> というデータ構造がJavaにあるらしいのでこれを使うことに
+        // GeminiからはこのMapをTicketBoothのメンバに持たせると提案された
+        // しかし、今後、ネット販売が始まった場合にTicketBoothが在庫を管理していると不便そう...
+        // -> 在庫クラスとして切り出すことにする
+
     }
 }

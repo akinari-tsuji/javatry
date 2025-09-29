@@ -30,7 +30,7 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final int MAX_QUANTITY = 10;
+    // private static final int MAX_QUANTITY = 10;
 //    private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
 //    private static final int TWO_DAY_PRICE = 13200;
 //    private static final int FOUR_DAY_PRICE = 22400;
@@ -40,7 +40,8 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private int quantity = MAX_QUANTITY;
+    // private int quantity = MAX_QUANTITY;
+    private TicketInventory ticketInventory;
     private Integer salesProceeds; // null allowed: until first purchase
 
     // ===================================================================================
@@ -117,17 +118,19 @@ public class TicketBooth {
     /**
      * チケットを購入するメソッド
      * @param handedMoney 渡された金額
-     * @param type 購入しようとしているチケットの種類
+     * @param ticketType 購入しようとしているチケットの種類
      * @return ticketBuyResult 購入結果を返す
      * @throws TicketSoldOutException ブース内のチケットが売り切れだったら
      * @throws TicketShortMoneyException 買うのに金額が足りなかったら
      */
-    private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType type) {
-        final int numberOfPurchases = type.getEntranceLimit(); // getEntranceLimitだと意味が分かりにくいので格納
-        final int price = type.getPrice();
-        validateQuantity(numberOfPurchases);
-        validateShortMoney(handedMoney, type.getPrice());
-        quantity -= numberOfPurchases;
+    private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
+        final int numberOfPurchases = ticketType.getEntranceLimit(); // getEntranceLimitだと意味が分かりにくいので格納
+        final int price = ticketType.getPrice();
+        // validateQuantity(numberOfPurchases);
+        validateQuantity(ticketType);
+        validateShortMoney(handedMoney, ticketType.getPrice());
+//        quantity -= numberOfPurchases;
+        ticketInventory.decreaseQuantity(ticketType);
         // done jflute[質問]
         //  Ticketのインスタンスを作成するのが、TicketBuyResultの中なのか、TicketBooth内で作成するべきなのか判断がつかず、
         //  どのように切り分けるべきか、考え方をお伺いしたいです。
@@ -146,7 +149,7 @@ public class TicketBooth {
         // 元々、handedMoneyがIntegerだったのでどちらに揃えるべきか悩んでおります。
         // done tsuji [へんじ] いいと思いますー。あえて色々とバラけさせてるってのもあるので^^ by jflute (2025/08/15)
         // ありがとうございます！ akinari.tsuji  (2025/08/22)
-        Ticket purchasedTicket = new Ticket(type); // ticketBoothでチケットを発行するように修正
+        Ticket purchasedTicket = new Ticket(ticketType); // ticketBoothでチケットを発行するように修正
         TicketBuyResult ticketBuyResult = new TicketBuyResult(handedMoney - price, purchasedTicket);
         calculateSalesProceeds(price);
         return ticketBuyResult;
@@ -181,9 +184,12 @@ public class TicketBooth {
 //        }
 //    }
 
-    private void validateQuantity(int numberOfPurchases) {
-        if (quantity - numberOfPurchases < 0) {
-            throw new TicketSoldOutException("Sold out");
+    private void validateQuantity(TicketType ticketType) {
+//        if (quantity - numberOfPurchases < 0) {
+//            throw new TicketSoldOutException("Sold out");
+//        }
+        if (ticketInventory.getQuantity(ticketType) <= 0) {
+            throw new TicketSoldOutException(ticketType.name() + "is sold out");
         }
     }
 
@@ -208,8 +214,8 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getQuantity() {
-        return quantity;
+    public int getQuantity(TicketType ticketType) {
+        return ticketInventory.getQuantity(ticketType);
     }
 
     public Integer getSalesProceeds() {

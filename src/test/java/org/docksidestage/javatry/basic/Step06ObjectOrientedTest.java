@@ -199,7 +199,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     }
 
     private void doShowTicketBooth(TicketBooth booth) {
-        log("Ticket Booth: quantity={}, salesProceeds={}", booth.getQuantity(), booth.getSalesProceeds());
+        // 在庫の回収に合わせてコンパイルエラーが発生（quantityをmapで持たせるようにしたため、キーを引数で渡す必要あり）
+        // 一旦、one_dayの値を出すように変更しておく
+        log("Ticket Booth: quantity={}, salesProceeds={}", booth.getQuantity(TicketType.ONE_DAY), booth.getSalesProceeds());
     }
 
     private void doShowYourTicket(Ticket ticket) {

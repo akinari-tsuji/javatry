@@ -99,6 +99,16 @@ public class Ticket {
     // TODO tsuji [思考課題] MVCの V だけのシステムだったら何がつらい？ (想像でOK) by jflute (2025/09/10)
     // TODO shiny ↑しゃいにーさんも同じように考えてみてください by jflute (2025/09/10)
 
+    // TODO jflute [回答] akinari.tsuji  (2025/09/29)
+    // JSPがViewオンリーらしいので、geminiに文法を教えてもらいながら
+    // 以下の要素もviewに記述される
+    // Model: DBアクセス、ビジネスロジック　<% ... %>
+    // Controller: ない
+    // これらをファイル分けずにviewに全て書くので以下の問題起こりそう
+    // 1. 再利用性低い：　ファイルに分かれてないので、毎回コピペしてきそう
+    // 2. 保守性低い：　1の結果、修正箇所がわかりにくくなる。尚且つ、一つのファイルの中に責任が複数入っているので、修正箇所探すのが大変
+    // 分けた方がいいことはなんとなく伝わるものの、触ってみた方がいい気がしてきた...理屈だけわかって実感が無い
+
 
     // done tsuji git conflictのマージ作業で重複しちゃったんじゃないかと。変数が二重になってます。 by jflute (2025/08/27)
     // done ありがとうございます！消したつもりだったのですが...漏れてました akinari.tsuji  (2025/08/29)
@@ -148,7 +158,6 @@ public class Ticket {
      * チケットを使用するメソッド。
      * 入園回数を増加させ、入園中のステータスに切り替える。
      * ナイトパスの利用は18時以降。
-     * @throws NotNightException ナイトパスを日中に利用とした場合
      * @throws IllegalStateException チケットの入園回数を超えて利用しようとした場合
      */
     public void doInPark() {
@@ -242,14 +251,14 @@ public class Ticket {
         this.alreadyIn = true;
     }
 
-    // TODO tsuji unused by jflute (2025/09/24)
-    private static class NotNightException extends RuntimeException {
-        private static final long serialVersionUID = 1L;
-
-        public NotNightException(String msg) {
-            super(msg);
-        }
-    }
+    // done tsuji unused by jflute (2025/09/24)
+//    private static class NotNightException extends RuntimeException {
+//        private static final long serialVersionUID = 1L;
+//
+//        public NotNightException(String msg) {
+//            super(msg);
+//        }
+//    }
 
     // ===================================================================================
     //                                                                            Accessor
