@@ -15,11 +15,13 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+import java.time.LocalTime;
+
 //import java.time.LocalTime;
 //import java.time.format.DateTimeFormatter;
 
 // done tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
-// TODO jflute 修正いたしました！ akinari.tsuji  (2025/08/29)
+// done jflute 修正いたしました！ akinari.tsuji  (2025/08/29)
 /**
  * チケットの購入を管理するためのクラス (販売の責務)
  * @author jflute
