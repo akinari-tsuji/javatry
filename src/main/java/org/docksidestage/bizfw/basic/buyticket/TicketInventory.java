@@ -30,7 +30,7 @@ public class TicketInventory {
         //  for (TicketType ticketType : values) {
         //      quantities.put(ticketType,  ticketType.initialQuantity());
         /// }
-        // TODO tsuji ↑という風にしてみましょう by jflute (2025/10/08)
+        // done tsuji ↑という風にしてみましょう by jflute (2025/10/08)
 //        quantities.put(TicketType.ONE_DAY,  ONE_DAY_PASS_INITIAL_QUANTITY);
 //        quantities.put(TicketType.TWO_DAYS, TWO_DAYS_PASS_INITIAL_QUANTITY);
 //        quantities.put(TicketType.FOUR_DAYS, FOUR_DAYS_PASS_INITIAL_QUANTITY);

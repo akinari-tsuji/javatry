@@ -100,7 +100,7 @@ public enum TicketType {
     // なので、test都合でmainも多少影響は受ける。
     // ということで、最初からtestのことを考えて実装設計したほうがベターではある。
     // でも、testするときにリファクタリングすりゃいいといのもあるから、手が早ければそれでも。
-    // TODO tsuji 修行++: ↑のやり方でpublicのsetが無いようにしてみましょう by jflute (2025/10/08)
+    // done tsuji 修行++: ↑のやり方でpublicのsetが無いようにしてみましょう by jflute (2025/10/08)
     /**
      * テスト用に利用ポリシーを変更するための関数
      * @param usagePolicy 変更したい利用ポリシー
