@@ -96,7 +96,7 @@ public class Ticket {
     // #1on1: DDDのアーキテクチャの恩恵、MVCも何が良いのか？何が悪いのか？を知るの難しい話
     // #1on1: javatryでシンプルな V だけアーキテクチャと、C だけアーキテクチャのエクササイズあっても良いかも話
     
-    // TODO tsuji [思考課題] MVCの V だけのシステムだったら何がつらい？ (想像でOK) by jflute (2025/09/10)
+    // done tsuji [思考課題] MVCの V だけのシステムだったら何がつらい？ (想像でOK) by jflute (2025/09/10)
     // TODO shiny ↑しゃいにーさんも同じように考えてみてください by jflute (2025/09/10)
 
     // TODO jflute [回答] akinari.tsuji  (2025/09/29)
@@ -108,7 +108,6 @@ public class Ticket {
     // 1. 再利用性低い：　ファイルに分かれてないので、毎回コピペしてきそう
     // 2. 保守性低い：　1の結果、修正箇所がわかりにくくなる。尚且つ、一つのファイルの中に責任が複数入っているので、修正箇所探すのが大変
     // 分けた方がいいことはなんとなく伝わるものの、触ってみた方がいい気がしてきた...理屈だけわかって実感が無い
-
 
     // done tsuji git conflictのマージ作業で重複しちゃったんじゃないかと。変数が二重になってます。 by jflute (2025/08/27)
     // done ありがとうございます！消したつもりだったのですが...漏れてました akinari.tsuji  (2025/08/29)
@@ -160,7 +159,7 @@ public class Ticket {
      * ナイトパスの利用は18時以降。
      * @throws IllegalStateException チケットの入園回数を超えて利用しようとした場合
      */
-    public void doInPark() {
+    public void doInPark(LocalTime currentTime) {
         // ナイトパスを夜以外に使おうとした場合
 //        if (ticketType == TicketType.NIGHT) {
 //            // done tsuji 修行++: NIGHTのニュアンスが違う別のNIGHTのチケット(e.g. 17時から)が出てきた時でも対応できるように by jflute (2025/08/27)
@@ -171,7 +170,7 @@ public class Ticket {
               // 前者だとその分だけ項目をENUMに追加していく必要があると考えたため
               // #1on1: 個人的に、1と2のハイブリッドで柔軟性高く作られている印象です。GOod by jflute (2025/10/08)
 
-//            // TODO [作業メモ] akinari.tsuji  (2025/09/03)
+//            // [作業メモ] akinari.tsuji  (2025/09/03)
 //            // 以下のどちらで実装を行うか？
 //            // 1. enumに利用可能時間を持たせる：実装が楽だが、拡張性が低い（条件が増えていった時にenumがごちゃごちゃになる）
 //            // 2. チケットの利用ポリシーのinterface作り、個別の条件についてクラスを実装。enumにはポリシーを持たせる：実装大変だが、拡張性が高く柔軟
@@ -180,13 +179,13 @@ public class Ticket {
 //            LocalTime nowTime = LocalTime.now();
 //            // LocalTime nowTime = LocalTime.of(17, 59); // 日中使用した場合を確認するためのコード
 //            if (nowTime.isBefore(borderTime)) {
-//                // TODO tsuji [いいね] 例外メッセージに borderTime を入れているのいいね、デバッグしやすい by jflute (2025/08/27)
+//                // done tsuji [いいね] 例外メッセージに borderTime を入れているのいいね、デバッグしやすい by jflute (2025/08/27)
 //                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm");
 //                throw new NotNightException("You can't use this passport before " + borderTime.format(formatter) + ".");
 //            }
 //        }
 
-        // TODO [メモ] チケット利用可否の判断に伴う例外処理（上のthrow部分）をどこで行うべきか？ akinari.tsuji  (2025/09/03)
+        // [メモ] チケット利用可否の判断に伴う例外処理（上のthrow部分）をどこで行うべきか？ akinari.tsuji  (2025/09/03)
         // 候補は次
         // 1. Ticketクラス
         // 2. IUserPolicyクラス（とその継承クラス）
@@ -232,10 +231,10 @@ public class Ticket {
         // (jfluteとしては、少なくともイメージをする習慣を付けて欲しい)
         //
         // 再利用と役割分担のイメージ...常に考えてる。
-        ticketType.getUsagePolicy().validate();
+        ticketType.getUsagePolicy().validate(currentTime);
         
 
-        // TODO [メモ] to 自分 akinari.tsuji  (2025/09/03)
+        // [メモ] to 自分 akinari.tsuji  (2025/09/03)
         // ここの条件分岐もなんか嫌に思えてきてしまったけど、どうまとめるかわかってないので考えるところからやる
         // おそらく、チケットの利用可否と一言に言っても[利用ポリシーに基づく利用可否, 利用回数に基づく利用可否]がありそうなので
         // どのクラスの責務にするか、から考える

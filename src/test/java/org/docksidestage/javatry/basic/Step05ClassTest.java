@@ -155,7 +155,7 @@ public class Step05ClassTest extends PlainTestCase {
         Ticket oneDayPassport = buyResult.getTicket();
         log(oneDayPassport.getDisplayPrice()); // should be same as one-day price
         log(oneDayPassport.getRemainingEntranceCounts()); // should be false
-        oneDayPassport.doInPark();
+        oneDayPassport.doInPark(LocalTime.now());
         log(oneDayPassport.getRemainingEntranceCounts()); // should be true
     }
 
@@ -184,9 +184,9 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBuyResult buyResult = booth.buyTwoDayPassport(handedMoney);
         Ticket twoDayPassport = buyResult.getTicket();
         log(twoDayPassport.getRemainingEntranceCounts());
-        twoDayPassport.doInPark();
+        twoDayPassport.doInPark(LocalTime.now());
         log(twoDayPassport.getRemainingEntranceCounts());
-        twoDayPassport.doInPark();
+        twoDayPassport.doInPark(LocalTime.now());
         log(twoDayPassport.getRemainingEntranceCounts());
         // twoDayPassport.doInPark();
         // done akinari.tsuji Step06でalreadyInを利用するらしくエラーが出てしまった (2025/08/04)
@@ -294,7 +294,7 @@ public class Step05ClassTest extends PlainTestCase {
         log(fourDayPassport.getDisplayPrice());
         log(fourDayPassport.getRemainingEntranceCounts());
         for (int i = 0; i < fourDayPassport.getEntranceLimit(); i++) {
-            fourDayPassport.doInPark();
+            fourDayPassport.doInPark(LocalTime.now());
             log(fourDayPassport.getRemainingEntranceCounts());
         }
     }
@@ -312,22 +312,22 @@ public class Step05ClassTest extends PlainTestCase {
         log(nightPassport.getDisplayPrice());
         log(nightPassport.getEntranceLimit());
         
-        // TODO tsuji 修行++: UnitTestを昼に動かすと落ちるのどうにかしたいですね by jflute (2025/08/27)
+        // done tsuji 修行++: UnitTestを昼に動かすと落ちるのどうにかしたいですね by jflute (2025/08/27)
         // UnitTestの実行時間に依存せずに夜入園のテストができるようにできるといいなと。(難しいの後回しOK)
-        // TODO akinari.tsuji [メモ] doInParkの中で時間外の場合、例外を発生させるために落ちてしまっている (2025/09/10)
+        // [メモ] doInParkの中で時間外の場合、例外を発生させるために落ちてしまっている (2025/09/10)
         // これをどう修正することができるのかを考える
         // 1. そもそも落ちなくする（例外を投げない）
         // 2. テスト実行時に時間を指定できるようにする（引数で現在時間を渡す？）(確か、依存性注入とかいうやつ）
         // 3. Gemini案：Clock（時間を返すクラス）をメンバ変数に持たせる。UnitTestを実行する際には、固定時間を返すClockをコンストラクタに渡すようにする
         // done akinari.tsuji [次回はここから＋読み物課題も] 2で十分な気がする...ので2で実装する (2025/09/10)
-        // TODO akinari.tsuji [続き] 家に帰って考えたら2は不自然な気がしてきた (2025/09/16)
+        // akinari.tsuji [続き] 家に帰って考えたら2は不自然な気がしてきた (2025/09/16)
         // ticket.doInPark(currentTime); という形で呼び出すのおかしくないのかな...
         // 使う時間は絶対に使おうとしたタイミングだし、それを呼び出し側で伝えることに違和感
         // 現実を考えた時に、遊園地で入園する際に、「今、16時です。チケット使わせてください」はおかしいような...
         // というわけで、やはり案3を採用する...?
         // あれ、でも、どのみち今回のTicketでいえば、使えるかどうかをticket.doInParkな時点でおかしい気するな...
         // 実際にはブースの人が使えるか判断するし
-        // TODO akinari.tsuji [追加の疑問点] 現在のPolicy interfaceの実装でどうやって依存性を注入する？ (2025/09/16)
+        // akinari.tsuji [追加の疑問点] 現在のPolicy interfaceの実装でどうやって依存性を注入する？ (2025/09/16)
         // IUsagePolicyのisAvailableに引数設定したら、AllDayPolicyの方でも引数必要になっちゃうけど、常にtrueを返す関数に渡してもしょうがない
         // -> Geminiに相談してみる：前回、クラス図をplantUMLで作っておいたので、相談用のプロンプト作成が楽だった！！！
         // ClockクラスをTimeBasedPolicyの定義でメンバ変数に持つように記述すればいいみたい（他のPolicyには影響がない）
@@ -335,15 +335,16 @@ public class Step05ClassTest extends PlainTestCase {
         // さらに、EnumにsetUsagePolicyという、テスト時にポリシー書き換えるための関数を定義してあげる
         // テストの時にはsetUsagePolicyの引数に、new TimeBasedPolicy(Clock.fixed(...))を渡してあげる
         // これでやってみよう
-        // TODO akinari.tsuji [次回ここ！] (2025/09/16)
-        // TODO akinari.tsuji [理解する] Instant, ZoneId, Clockはいまいち理解せずに書いてるので次回調べる！ (2025/09/16)
-        // TODO akinari.tsuji [調べる] あと、こういうのは「テストダブル」というらしい。前に一回調べたけど忘れたから↓を読み直す (2025/09/16)
+        // akinari.tsuji [次回ここ！] (2025/09/16)
+        // akinari.tsuji [理解する] Instant, ZoneId, Clockはいまいち理解せずに書いてるので次回調べる！ (2025/09/16)
+        // akinari.tsuji [調べる] あと、こういうのは「テストダブル」というらしい。前に一回調べたけど忘れたから↓を読み直す (2025/09/16)
         // https://goyoki.hatenablog.com/entry/20120301/1330608789
-        Instant fixedInstant = Instant.parse("2025-09-17T10:30:00Z"); // 日本時間で19:30なのでOK
-        ZoneId tokyoZone = ZoneId.of("Asia/Tokyo");
-        Clock fixedClock = Clock.fixed(fixedInstant, tokyoZone);
-        TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
-        nightPassport.doInPark();
+//        Instant fixedInstant = Instant.parse("2025-09-17T10:30:00Z"); // 日本時間で19:30なのでOK
+//        ZoneId tokyoZone = ZoneId.of("Asia/Tokyo");
+//        Clock fixedClock = Clock.fixed(fixedInstant, tokyoZone);
+//        TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
+
+        nightPassport.doInPark(LocalTime.of(18, 0));
         
         // #1on1: 実現できてるはできてるけど、共有インスタンスであるenumにpublicでsetして変えられるので...
         // アプリが間違って setUsagePolicy() を呼び出してシステムを壊しちゃったら...
@@ -381,7 +382,7 @@ public class Step05ClassTest extends PlainTestCase {
     // ===================================================================================
     //                                                                         Devil Stage
     //                                                                         ===========
-    // TODO tsuji 修行#: 最後にこれやってみましょう by jflute (2025/09/24)
+    // done tsuji 修行#: 最後にこれやってみましょう by jflute (2025/09/24)
     /**
      * If your specification is to share inventory (quantity) between OneDay/TwoDay/...,
      * change the specification to separate inventory for each OneDay/TwoDay/.... <br>
@@ -389,7 +390,7 @@ public class Step05ClassTest extends PlainTestCase {
      * OneDay/TwoDay/...ごとに在庫を分ける仕様に変えてみましょう)
      */
     public void test_class_moreFix_zonedQuantity() {
-        // TODO [メモ] どう実装するか考えた内容 akinari.tsuji  (2025/09/25)
+        // [メモ] どう実装するか考えた内容 akinari.tsuji  (2025/09/25)
         // 当初以下を想定
         // - TicketBoothに在庫管理用の配列を作成
         // - TicketTypeに在庫番号を追加
@@ -399,6 +400,5 @@ public class Step05ClassTest extends PlainTestCase {
         // GeminiからはこのMapをTicketBoothのメンバに持たせると提案された
         // しかし、今後、ネット販売が始まった場合にTicketBoothが在庫を管理していると不便そう...
         // -> 在庫クラスとして切り出すことにする
-
     }
 }

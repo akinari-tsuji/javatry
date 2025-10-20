@@ -8,11 +8,11 @@ import java.util.Map;
  */
 public class TicketInventory {
     private Map<TicketType, Integer> quantities = new HashMap<>();
-    public final int ONE_DAY_PASS_INITIAL_QUANTITY = 10;
-    final int TWO_DAYS_PASS_INITIAL_QUANTITY = 10;
-    final int FOUR_DAYS_PASS_INITIAL_QUANTITY = 10;
-    final int NIGHT_FROM_EIGHTEEN_PASS_INITIAL_QUANTITY = 10;
-    final int NIGHT_FROM_SEVENTEEN_PASS_INITIAL_QUANTITY = 10;
+//    public final int ONE_DAY_PASS_INITIAL_QUANTITY = 10;
+//    final int TWO_DAYS_PASS_INITIAL_QUANTITY = 10;
+//    final int FOUR_DAYS_PASS_INITIAL_QUANTITY = 10;
+//    final int NIGHT_FROM_EIGHTEEN_PASS_INITIAL_QUANTITY = 10;
+//    final int NIGHT_FROM_SEVENTEEN_PASS_INITIAL_QUANTITY = 10;
 
     public TicketInventory() {
         // done jflute [質問] 初期化する値をこのようにクラス中に定数で持たせるのって悪くないのでしょうか？  akinari.tsuji(2025/09/29)
@@ -31,11 +31,15 @@ public class TicketInventory {
         //      quantities.put(ticketType,  ticketType.initialQuantity());
         /// }
         // TODO tsuji ↑という風にしてみましょう by jflute (2025/10/08)
-        quantities.put(TicketType.ONE_DAY,  ONE_DAY_PASS_INITIAL_QUANTITY);
-        quantities.put(TicketType.TWO_DAYS, TWO_DAYS_PASS_INITIAL_QUANTITY);
-        quantities.put(TicketType.FOUR_DAYS, FOUR_DAYS_PASS_INITIAL_QUANTITY);
-        quantities.put(TicketType.NIGHT_FROM_EIGHTEEN, NIGHT_FROM_EIGHTEEN_PASS_INITIAL_QUANTITY);
-        quantities.put(TicketType.NIGHT_FROM_SEVENTEEN, NIGHT_FROM_SEVENTEEN_PASS_INITIAL_QUANTITY);
+//        quantities.put(TicketType.ONE_DAY,  ONE_DAY_PASS_INITIAL_QUANTITY);
+//        quantities.put(TicketType.TWO_DAYS, TWO_DAYS_PASS_INITIAL_QUANTITY);
+//        quantities.put(TicketType.FOUR_DAYS, FOUR_DAYS_PASS_INITIAL_QUANTITY);
+//        quantities.put(TicketType.NIGHT_FROM_EIGHTEEN, NIGHT_FROM_EIGHTEEN_PASS_INITIAL_QUANTITY);
+//        quantities.put(TicketType.NIGHT_FROM_SEVENTEEN, NIGHT_FROM_SEVENTEEN_PASS_INITIAL_QUANTITY);
+        TicketType[] values = TicketType.values();
+        for (TicketType ticketType : values) {
+            quantities.put(ticketType, ticketType.getInitialQuantity());
+        }
     }
 
     public Integer getQuantity(TicketType ticketType) {

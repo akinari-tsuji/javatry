@@ -33,15 +33,16 @@ import java.time.LocalTime;
  * @author akinari.tsuji
  */
 public enum TicketType {
-    /** 金額, 入園上限回数, 利用可能ポリシー */
-    ONE_DAY(7400, 1, new AllDayPolicy()),
-    TWO_DAYS(13200, 2, new AllDayPolicy()),
-    FOUR_DAYS(22400, 4, new AllDayPolicy()),
-    NIGHT_FROM_EIGHTEEN(7400, 1, new TimeBasedPolicy(Clock.systemDefaultZone(), LocalTime.of(18, 0))),
-    NIGHT_FROM_SEVENTEEN(7400, 1, new TimeBasedPolicy(Clock.systemDefaultZone(), LocalTime.of(17, 0)));
+    /** 金額, 入園上限回数, 初期, 在庫数, 利用可能ポリシー */
+    ONE_DAY(7400, 1, 10, new AllDayPolicy()),
+    TWO_DAYS(13200, 2, 10, new AllDayPolicy()),
+    FOUR_DAYS(22400, 4, 10, new AllDayPolicy()),
+    NIGHT_FROM_EIGHTEEN(7400, 1, 10, new TimeBasedPolicy(LocalTime.of(18, 0))),
+    NIGHT_FROM_SEVENTEEN(7400, 1, 10, new TimeBasedPolicy(LocalTime.of(17, 0)));
 
     private final int price;
     private final int entranceLimit;
+    private final int initialQuantity;
     private IUsagePolicy usagePolicy;
 
     /**
@@ -50,9 +51,10 @@ public enum TicketType {
      * @param entranceLimit
      * @param usagePolicy
      */
-    TicketType(int price, int entranceLimit, IUsagePolicy usagePolicy) {
+    TicketType(int price, int entranceLimit, int initialQuantity, IUsagePolicy usagePolicy) {
         this.price = price;
         this.entranceLimit = entranceLimit;
+        this.initialQuantity = initialQuantity;
         this.usagePolicy = usagePolicy;
     }
 
@@ -71,6 +73,12 @@ public enum TicketType {
     public int getEntranceLimit() {
         return entranceLimit;
     }
+
+    /**
+     * 初期在庫数を返すゲッター
+     * @return 初期在庫数
+     */
+    public int getInitialQuantity() { return initialQuantity; }
 
     /**
      * 利用ポリシーのインスタンスを返すゲッター
@@ -97,9 +105,9 @@ public enum TicketType {
      * テスト用に利用ポリシーを変更するための関数
      * @param usagePolicy 変更したい利用ポリシー
      */
-    public void setUsagePolicy(IUsagePolicy usagePolicy) {
-        this.usagePolicy = usagePolicy;
-    }
+//    public void setUsagePolicy(IUsagePolicy usagePolicy) {
+//        this.usagePolicy = usagePolicy;
+//    }
     // #1on1: 一方で、public-setのままでも、@deprecatedでtest用であることを目立たせたり、
     // あとは、lock解除の手続きを増やしたり、メソッド名をトリッキーにして気持ち悪くさせる(目立たなくさせる)、
     // DBFluteConfig の例。

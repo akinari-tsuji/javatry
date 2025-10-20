@@ -49,7 +49,9 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TicketBooth() {}
+    public TicketBooth() {
+        ticketInventory = new TicketInventory();
+    }
 
     // ===================================================================================
     //                                                                          Buy Ticket

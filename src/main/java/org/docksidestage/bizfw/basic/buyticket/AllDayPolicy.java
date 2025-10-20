@@ -1,13 +1,19 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO tsuji javadocよろしく by jflute (2025/09/24)
+// done tsuji javadocよろしく by jflute (2025/09/24)
+
+import java.time.LocalTime;
+
+/**
+ * 一日中利用可能なポリシーを表すクラス
+ * @author akinari.tsuji
+ */
 public class AllDayPolicy implements IUsagePolicy {
-    // TODO tsuji ちょっとjavadoc変 by jflute (2025/09/24)
+    // done tsuji ちょっとjavadoc変 by jflute (2025/09/24)
     /**
-     * 金額を返すゲッター
-     * @return チケットの金額
+     * 利用可能かどうかを返す関数
+     * @return 利用可能であればtrue
      */
-    @Override
     public boolean isAvailable() {
         // done jflute このクラス・メソッドはいるのでしょうか？　akinari.tsuji  (2025/09/03)
         // interfaceを利用して、doInParkのif文を減らすために、当たり前すぎるメソッドを定義するのが良いのかと気になります
@@ -28,13 +34,13 @@ public class AllDayPolicy implements IUsagePolicy {
         return true;
     }
 
-    // TODO tsuji ちょっとjavadoc変 by jflute (2025/09/24)
+    // done tsuji ちょっとjavadoc変 by jflute (2025/09/24)
     /**
-     * 入園上限回数を返すゲッター
-     * @return チケットの入園上限回数
+     * 利用可能かを判定する関数
+     * @throws IllegalStateException 利用不可の場合
      */
     @Override
-    public void validate() throws IllegalStateException {
+    public void validate(LocalTime currentTime) throws IllegalStateException {
         if(!isAvailable()) {
             throw new IllegalStateException();
         }
