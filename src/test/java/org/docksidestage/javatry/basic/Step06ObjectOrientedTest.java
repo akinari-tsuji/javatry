@@ -313,11 +313,15 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_6th_overriddenWithoutSuper() {
         Animal animal = new Zombie();
-        BarkedSound sound = animal.bark();
-        String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        BarkedSound sound = animal.bark(); // BarkSound("uooo")
+        String sea = sound.getBarkWord(); // "uooo"
+        log(sea); // your answer? => "uooo"
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => -1
+        // -1から変わっていないので、downHitPointはZombie側のものが呼ばれたことがわかる
+        // Zombie.breathIn()の中でsuper.breathIn()を実行しており、Animal.breathIn()の中でdownHitPoint()を呼び出している
+        // この時、オーバーライドされた関数のうち親クラスの関数を実行するのはsuperで指定したものだけ
+        // super.method_name()の中ではオーバーライドされた関数が実行される
     }
 
     /**
@@ -328,8 +332,39 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is happy?
-        //
+        // Animalを継承するクラス分だけ変数や条件分岐を用意しなくて良いためコードが簡潔で済む
         // _/_/_/_/_/_/_/_/_/_/
+
+        // もしも代入できない場合,,,
+        int animalType = 1; // 吠えさせたい動物のコード（1: Dog, 2: Cat, 3: Zombie）
+        switch (animalType) {
+        case 1:
+            Dog dog = new Dog();
+            BarkedSound sound = dog.bark();
+            String sea = sound.getBarkWord();
+            log(sea);
+            break;
+        case 2:
+            Cat cat = new Cat();
+            BarkedSound sound2 = cat.bark();
+            String sea2 = sound2.getBarkWord();
+            log(sea2);
+            break;
+        case 3:
+            Zombie zombie = new Zombie();
+            BarkedSound sound3 = zombie.bark();
+            String sea3 = sound3.getBarkWord();
+            log(sea3);
+            break;
+        default:
+            break;
+        }
+
+        // 代入できるおかげで
+        Animal targetAnimal = new Dog(); // ここで指定すれば済む
+        BarkedSound sound = targetAnimal.bark();
+        String sea = sound.getBarkWord();
+        log(sea);
     }
 
     // ===================================================================================
@@ -339,18 +374,28 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_polymorphism_interface_dispatch() {
         Loudable loudable = new Zombie();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => "uooo"
         String land = ((Zombie) loudable).bark().getBarkWord();
-        log(land); // your answer? => 
+        log(land); // your answer? => "uooo"
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_interface_hierarchy() {
         Loudable loudable = new AlarmClock();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => "jiri jiri jiri---"
         boolean land = loudable instanceof Animal;
-        log(land); // your answer? => 
+        log(land); // your answer? => false
+
+        // 実験
+        Loudable loudable2 = new Zombie();
+        log(loudable2 instanceof Animal);
+        // こちらはtrueになる
+        log(loudable2 instanceof Loudable);
+
+        // loudableはLoudableという抽象クラスを具象化したAlarmClockクラスのインスタンス（型はLoudableで宣言）, Animalのインスタンスではない
+        // loudable2はLoudableという抽象クラスを具象化したZombieクラスのインスタンス（型はLoudableで宣言）, Animalのインスタンスとして扱われる
+        // -> 継承するクラスの型（ここではLoudable）を利用しても、内部（コンストラクタ？）としてはちゃんとAlarmClock型、Zombie型として扱われている模様
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
