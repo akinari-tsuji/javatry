@@ -16,6 +16,7 @@
 package org.docksidestage.javatry.basic;
 
 import java.time.LocalTime;
+import java.util.Arrays;
 
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
@@ -403,9 +404,18 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal seaAnimal = new Cat();
         Animal landAnimal = new Zombie();
         boolean sea = seaAnimal instanceof FastRunner;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
         boolean land = landAnimal instanceof FastRunner;
-        log(land); // your answer? => 
+        log(land); // your answer? => false
+        // CatはFastRunnerのinterfaceを継承？しているのでFastRunnerのインスタンスとなる
+        log("seaAnimal Class Name: " + seaAnimal.getClass().getName());
+        log("seaAnimal Super Class Name: "  + seaAnimal.getClass().getSuperclass().getName());
+        log("landAnimal Class Name: " + landAnimal.getClass().getName());
+        log("landAnimal Super Class Name: " + landAnimal.getClass().getSuperclass().getSuperclass().getName());
+        Class<?>[] interfaces = landAnimal.getClass().getSuperclass().getInterfaces();
+        String[] interfacesName = Arrays.stream(interfaces).map(Class::getName).toArray(String[]::new);
+        String joinedInterfaces = String.join(", ", interfacesName);
+        log(joinedInterfaces);
     }
 
     /**
@@ -414,6 +424,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_interface_runnerImpl() {
         // your confirmation code here
+        Dog seaAnimal = new Dog();
+        seaAnimal.run();
     }
 
     /**
@@ -424,7 +436,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is difference?
-        //
+        // 抽象クラスは概念として親子関係にあるもの
+        // インターフェースは概念として親子関係になく、共通のメソッドを持つ
         // _/_/_/_/_/_/_/_/_/_/
     }
 

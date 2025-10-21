@@ -98,4 +98,6 @@ public abstract class Animal implements Loudable {
     public int getHitPoint() {
         return hitPoint;
     }
+
+    public void hoge() {}
 }
