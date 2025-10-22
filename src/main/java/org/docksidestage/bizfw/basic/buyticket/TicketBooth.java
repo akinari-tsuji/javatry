@@ -43,6 +43,7 @@ public class TicketBooth {
     //                                                                           Attribute
     //                                                                           =========
     // private int quantity = MAX_QUANTITY;
+    // TODO tsuji Constructorでnewしてその後変更しないので、final付けられる by jflute (2025/10/22)
     private TicketInventory ticketInventory;
     private Integer salesProceeds; // null allowed: until first purchase
 
@@ -128,6 +129,7 @@ public class TicketBooth {
      * @throws TicketShortMoneyException 買うのに金額が足りなかったら
      */
     private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
+        // TODO tsuji 変数がunused警告 (いまいちどunused系の警告を全体に見直してみてください) by jflute (2025/10/22)
         final int numberOfPurchases = ticketType.getEntranceLimit(); // getEntranceLimitだと意味が分かりにくいので格納
         final int price = ticketType.getPrice();
         // validateQuantity(numberOfPurchases);

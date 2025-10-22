@@ -60,6 +60,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         int quantity = 10;
         Integer salesProceeds = null;
 
+        // TODO tsuji 間違い探し、あと2つ by jflute (2025/10/22)
         //
         // [buy one-day passport]
         //
@@ -221,6 +222,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     // _/_/_/_/_/_/_/_/_/_/
     // done tsuji [回答] 責任が切り分けられて、ってのがすごく良い表現ですね！ by jflute (2025/08/27)
     // ありがとうございます！
+    // #1on1: オブジェクトの概念化を、いかにうまくやるか？ (2025/10/22)
+    // 先に横の関係性から見出して、次に縦の関係性 by つじさん
+    // 意味のある言葉で集まれるかどうか？ただまとめればいいというわけではない。
+    // 業務のクラスを作るので、業務用語の解釈がしっかりできていること。← 現実世界
+    // 現実世界 == 物理だけとは限らない (論理上の現実世界の概念もある e.g. 売上、口座、振込)
+    // → 業務理解がしっかりできてるか？ってのはとてもコードの実装設計において重要になる。
 
     // ===================================================================================
     //                                                              Polymorphism Beginning

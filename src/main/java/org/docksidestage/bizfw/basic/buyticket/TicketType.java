@@ -43,8 +43,10 @@ public enum TicketType {
     private final int price;
     private final int entranceLimit;
     private final int initialQuantity;
+    // TODO tsuji setUsagePolicyがなくなったので、final付けられるかなと by jflute (2025/10/22)
     private IUsagePolicy usagePolicy;
 
+    // TODO tsuji javadocの@paramの説明ぜひ書きましょう by jflute (2025/10/22)
     /**
      * コンストラクタ
      * @param price

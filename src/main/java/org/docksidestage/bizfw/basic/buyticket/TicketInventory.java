@@ -7,6 +7,7 @@ import java.util.Map;
  * チケットの在庫を管理するクラス
  */
 public class TicketInventory {
+    // TODO tsuji finalを付けてみましょう by jflute (2025/10/22)
     private Map<TicketType, Integer> quantities = new HashMap<>();
 //    public final int ONE_DAY_PASS_INITIAL_QUANTITY = 10;
 //    final int TWO_DAYS_PASS_INITIAL_QUANTITY = 10;

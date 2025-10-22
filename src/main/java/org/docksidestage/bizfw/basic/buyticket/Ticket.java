@@ -18,7 +18,7 @@ package org.docksidestage.bizfw.basic.buyticket;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-// TODO jflute 次回1on1で、javadoc周りのお話 (2025/09/24)
+// done jflute 次回1on1で、javadoc周りのお話 (2025/09/24)
 /**
  * 遊園地のチケットを表すクラス。
  * データとしては、チケット種別（金額・回数）、今までの利用回数、現在入園中かを表す変数を持つ。
@@ -97,9 +97,9 @@ public class Ticket {
     // #1on1: javatryでシンプルな V だけアーキテクチャと、C だけアーキテクチャのエクササイズあっても良いかも話
     
     // done tsuji [思考課題] MVCの V だけのシステムだったら何がつらい？ (想像でOK) by jflute (2025/09/10)
-    // TODO shiny ↑しゃいにーさんも同じように考えてみてください by jflute (2025/09/10)
+    // done shiny ↑しゃいにーさんも同じように考えてみてください by jflute (2025/09/10)
 
-    // TODO jflute [回答] akinari.tsuji  (2025/09/29)
+    // done jflute [回答] akinari.tsuji  (2025/09/29)
     // JSPがViewオンリーらしいので、geminiに文法を教えてもらいながら
     // 以下の要素もviewに記述される
     // Model: DBアクセス、ビジネスロジック　<% ... %>
@@ -108,6 +108,9 @@ public class Ticket {
     // 1. 再利用性低い：　ファイルに分かれてないので、毎回コピペしてきそう
     // 2. 保守性低い：　1の結果、修正箇所がわかりにくくなる。尚且つ、一つのファイルの中に責任が複数入っているので、修正箇所探すのが大変
     // 分けた方がいいことはなんとなく伝わるものの、触ってみた方がいい気がしてきた...理屈だけわかって実感が無い
+    // #1on1: Good, JSPの例でVのみベタ書きシミュレーションをしてみた。(2025/10/22)
+    // Mの詳細、Vの詳細を、色々な方法論で探ってる段階なのかもしれない。
+    // CQRSのちょこっと紹介
 
     // done tsuji git conflictのマージ作業で重複しちゃったんじゃないかと。変数が二重になってます。 by jflute (2025/08/27)
     // done ありがとうございます！消したつもりだったのですが...漏れてました akinari.tsuji  (2025/08/29)
@@ -153,6 +156,8 @@ public class Ticket {
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
+    // TODO tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
+    // TODO tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
     /**
      * チケットを使用するメソッド。
      * 入園回数を増加させ、入園中のステータスに切り替える。
@@ -163,7 +168,7 @@ public class Ticket {
         // ナイトパスを夜以外に使おうとした場合
 //        if (ticketType == TicketType.NIGHT) {
 //            // done tsuji 修行++: NIGHTのニュアンスが違う別のNIGHTのチケット(e.g. 17時から)が出てきた時でも対応できるように by jflute (2025/08/27)
-              // TODO jflute [やりました！] 利用可否を判断するためのクラス（IUsagePolicy）を作成してENUMで種類ごとに適切なポリシーを持つ形で実装しました akinari.tsuji  (2025/09/10)
+              // done jflute [やりました！] 利用可否を判断するためのクラス（IUsagePolicy）を作成してENUMで種類ごとに適切なポリシーを持つ形で実装しました akinari.tsuji  (2025/09/10)
               // ややInterfaceを使ってみたい＆条件分岐を減らしてみたいという欲求メインで考えた実装なのですがやり方として妥当なのかどうか、教えていただけますと嬉しいです！
               // 自分としては、①enumに項目（利用可能時間）を持たせる、②利用可否を判断するクラスを作成する、の２パターンを考えました
               // そして、利用可否の判断が複雑になる（3/1は使える、9:00~13:00と18:00~に入園可能）可能性がある？のかなと考え後者を採用しました
@@ -231,6 +236,11 @@ public class Ticket {
         // (jfluteとしては、少なくともイメージをする習慣を付けて欲しい)
         //
         // 再利用と役割分担のイメージ...常に考えてる。
+        // TODO tsuji 修行++: 引数で時間を受け取ると、mainコードの呼び出し側が、間違った現在時刻を渡すこともできてしまう by jflute (2025/10/22)
+        // 現在時刻を取得するのは、中で隠蔽したいところ。例えば、こんな感じで、ここでどこかからか現在時刻を取る。
+        //  e.g. LocalTime currentTime = getCurrentTime()
+        // そして、UnitTestでは、このgetの処理を差し替えられるようにしたいところ。
+        // hint1: step5だけの知識ではなかなか難しいので、step6とか7,8とかやってからアプローチしても良い。
         ticketType.getUsagePolicy().validate(currentTime);
         
 
@@ -306,6 +316,7 @@ public class Ticket {
      */
     public int getEntranceLimit() { return ticketType.getEntranceLimit(); }
 
+    // TODO tsuji javadoc, getterだと、説明は省略しちゃってもOK by jflute (2025/10/22)
     /**
      * チケットの種別を返す関数。
      * TicketTypeでマスタを管理しているチケット種別を返す。
