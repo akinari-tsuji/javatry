@@ -22,6 +22,22 @@ import java.time.LocalTime;
 
 // done tsuji ↑コードを消したりの影響だと思いますが、unusedのimport文があります by jflute (2025/08/27)
 // done jflute 修正いたしました！ akinari.tsuji  (2025/08/29)
+/* #1on1:
+pp どの勉強する？
+o 切羽詰まって役立つものを勉強する // 役に立つけど、楽しいとは限らない
+o 自分の興味のものを勉強する // 楽しいけど、役に立つとは限らない
+
+o 本気で勉強していれば、役に立たないことはない
+o 深層記憶に残るキリのいいところまでやっておく (踊り場)
+ */
+
+// TODO tsuji [読み物課題]あれもこれもやらなきゃプレッシャーが集中力を阻害する by jflute (2025/11/07)
+// https://jflute.hatenadiary.jp/entry/20180527/keepconce
+
+// TODO tsuji [読み物課題]まず何より、目の前の道具を使いこなしてください by jflute (2025/11/07)
+// https://jflute.hatenadiary.jp/entry/20180223/mastercurrent
+
+
 /**
  * チケットの購入を管理するためのクラス (販売の責務)
  * @author jflute
