@@ -77,6 +77,13 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
+    protected void upHitPoint() {
+        ++hitPoint;
+        if (hitPoint > 10) {
+            throw new IllegalStateException("I have slept too much that I can't more " + getBarkWord());
+        }
+    }
+
     protected void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {

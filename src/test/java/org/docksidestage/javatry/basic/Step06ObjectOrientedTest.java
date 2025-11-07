@@ -25,6 +25,7 @@ import org.docksidestage.bizfw.basic.objanimal.Animal;
 import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.Cat;
 import org.docksidestage.bizfw.basic.objanimal.Dog;
+import org.docksidestage.bizfw.basic.objanimal.Turtle;
 import org.docksidestage.bizfw.basic.objanimal.Zombie;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
@@ -57,9 +58,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // simulation: actually these variables should be more wide scope
         // TODO [メモ]　チケット購入プロセスの初期値 akinari.tsuji  (2025/08/15)
         int oneDayPrice = 7400;
-        int quantity = 10;
-        Integer salesProceeds = null;
-
+        int quantity = 10; // ここもTicketBoothを利用するべき？
+        Integer salesProceeds = null; // ここがnullなのはいいのでしょうか？0の方が好ましい？
+        log(salesProceeds);
         // TODO tsuji 間違い探し、あと2つ by jflute (2025/10/22)
         //
         // [buy one-day passport]
@@ -76,7 +77,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
         --quantity;
-        salesProceeds = handedMoney;
+        salesProceeds = handedMoney; // += にしないといけない？ここでは1人しか購入してないですが。
 
         //
         // [ticket info]
@@ -85,7 +86,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // TODO [メモ] displayPriceは購入したチケットの金額のはず akinari.tsuji  (2025/08/15)
         // int displayPrice = quantity;
         int displayPrice = oneDayPrice;
-        boolean alreadyIn = false;
+        boolean alreadyIn = false; // TicketクラスのalreadyInを参照するべき?
 
         // other processes here...
         // ...
@@ -444,7 +445,16 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is difference?
         // 抽象クラスは概念として親子関係にあるもの
-        // インターフェースは概念として親子関係になく、共通のメソッドを持つ
+        // インターフェースは概念として親子関係になく、共通のメソッド（機能)を持つ
+        // 抽象クラス
+//        abstract class Animal {}
+//        class Cat extends Animal {}
+//        class Dog extends Animal {}
+//
+//        interface Swimmer {}
+//        abstract class Robot {}
+//        class Penguin extends Animal implements Swimmer {}
+//        class SwimRobot{} extends Robot implements Swimmer {}
         // _/_/_/_/_/_/_/_/_/_/
     }
 
@@ -457,6 +467,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeConcrete() {
         // your confirmation code here
+        Turtle turtle = new Turtle();
+        BarkedSound barkedSound = turtle.bark();
+        String barkedWord= barkedSound.getBarkWord();
+        log(barkedWord);
     }
 
     /**
@@ -465,6 +479,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeInterface() {
         // your confirmation code here
+        // TODO jfulte Javaに詳しくないのですが、パッケージってどのような粒度で分けるものなのでしょうか？ (2025/11/06)
+        // intefaceとそれを実装するクラスは同一のパッケージに入れるべきでしょうか？
+        Turtle turtle = new Turtle();
+        for (int i = 0; i < 20; i++) {
+            turtle.sleep();
+        }
     }
 
     // ===================================================================================
