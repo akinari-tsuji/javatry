@@ -21,10 +21,16 @@ public class TicketBuyResult {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
+    /**
+     * @return 購入したチケット
+     */
     public Ticket getTicket() {
         return ticket;
     }
 
+    /**
+     * @return お釣り
+     */
     public int getChange() {
         return change;
     }

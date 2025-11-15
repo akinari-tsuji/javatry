@@ -15,7 +15,6 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
-import java.time.LocalTime;
 
 //import java.time.LocalTime;
 //import java.time.format.DateTimeFormatter;
@@ -31,12 +30,16 @@ o 本気で勉強していれば、役に立たないことはない
 o 深層記憶に残るキリのいいところまでやっておく (踊り場)
  */
 
-// TODO tsuji [読み物課題]あれもこれもやらなきゃプレッシャーが集中力を阻害する by jflute (2025/11/07)
+// TODO done tsuji [読み物課題]あれもこれもやらなきゃプレッシャーが集中力を阻害する by jflute (2025/11/07)
 // https://jflute.hatenadiary.jp/entry/20180527/keepconce
+// 何をやったとしても工夫・努力を続けていれば、抽象的な能力が身について他に役に立つのだなと感じました
+// なんにせよ具体的な目の前の一つ一つの仕事をちゃんとやらないと、抽象的な力もつかないし、抽象化して捉える機会もないと思うのでやはりRuby, Railsやらねばですね
 
-// TODO tsuji [読み物課題]まず何より、目の前の道具を使いこなしてください by jflute (2025/11/07)
+// TODO done tsuji [読み物課題]まず何より、目の前の道具を使いこなしてください by jflute (2025/11/07)
 // https://jflute.hatenadiary.jp/entry/20180223/mastercurrent
+// 文句を言わずに頑張らねばと感じました。仕事で使うRuby, RailsなのにAI無しじゃまともに書けない状況を早めに脱します。
 
+import java.time.Clock;
 
 /**
  * チケットの購入を管理するためのクラス (販売の責務)
@@ -60,15 +63,26 @@ public class TicketBooth {
     //                                                                           =========
     // private int quantity = MAX_QUANTITY;
     // TODO tsuji Constructorでnewしてその後変更しないので、final付けられる by jflute (2025/10/22)
-    private TicketInventory ticketInventory;
+    private final TicketInventory ticketInventory;
     private Integer salesProceeds; // null allowed: until first purchase
+    private final Clock clock;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public TicketBooth() {
         ticketInventory = new TicketInventory();
+        clock = Clock.systemDefaultZone();
     }
+
+//    /**
+//     * テスト用のコンストラクタ
+//     * @param clock 時間を測定するための時計
+//     */
+//    public TicketBooth(Clock clock) {
+//        ticketInventory = new TicketInventory();
+//        this.clock = clock;
+//    }
 
     // ===================================================================================
     //                                                                          Buy Ticket
@@ -146,7 +160,7 @@ public class TicketBooth {
      */
     private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
         // TODO tsuji 変数がunused警告 (いまいちどunused系の警告を全体に見直してみてください) by jflute (2025/10/22)
-        final int numberOfPurchases = ticketType.getEntranceLimit(); // getEntranceLimitだと意味が分かりにくいので格納
+        // final int numberOfPurchases = ticketType.getEntranceLimit(); // getEntranceLimitだと意味が分かりにくいので格納
         final int price = ticketType.getPrice();
         // validateQuantity(numberOfPurchases);
         validateQuantity(ticketType);
@@ -171,10 +185,14 @@ public class TicketBooth {
         // 元々、handedMoneyがIntegerだったのでどちらに揃えるべきか悩んでおります。
         // done tsuji [へんじ] いいと思いますー。あえて色々とバラけさせてるってのもあるので^^ by jflute (2025/08/15)
         // ありがとうございます！ akinari.tsuji  (2025/08/22)
-        Ticket purchasedTicket = new Ticket(ticketType); // ticketBoothでチケットを発行するように修正
+        Ticket purchasedTicket = new Ticket(ticketType, getCurrentClock()); // ticketBoothでチケットを発行するように修正
         TicketBuyResult ticketBuyResult = new TicketBuyResult(handedMoney - price, purchasedTicket);
         calculateSalesProceeds(price);
         return ticketBuyResult;
+    }
+
+    protected Clock getCurrentClock() {
+        return clock;
     }
     
     public static class TicketSoldOutException extends RuntimeException {
@@ -236,10 +254,17 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
+    /**
+     * @param ticketType チケット種別
+     * @return 指定のチケット種別の在庫数
+     */
     public int getQuantity(TicketType ticketType) {
         return ticketInventory.getQuantity(ticketType);
     }
 
+    /**
+     * @return 売上合計金額
+     */
     public Integer getSalesProceeds() {
         return salesProceeds;
     }

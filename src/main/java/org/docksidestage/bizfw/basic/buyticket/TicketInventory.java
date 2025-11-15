@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class TicketInventory {
     // TODO tsuji finalを付けてみましょう by jflute (2025/10/22)
-    private Map<TicketType, Integer> quantities = new HashMap<>();
+    private final Map<TicketType, Integer> quantities = new HashMap<>();
 //    public final int ONE_DAY_PASS_INITIAL_QUANTITY = 10;
 //    final int TWO_DAYS_PASS_INITIAL_QUANTITY = 10;
 //    final int FOUR_DAYS_PASS_INITIAL_QUANTITY = 10;
@@ -43,10 +43,18 @@ public class TicketInventory {
         }
     }
 
+    /**
+     * @param ticketType チケット種別
+     * @return 指定のチケット種別のチケット在庫
+     */
     public Integer getQuantity(TicketType ticketType) {
         return quantities.get(ticketType);
     }
 
+    /**
+     * 指定のチケット種別の在庫を1減らす
+     * @param ticketType チケット種別
+     */
     public void decreaseQuantity(TicketType ticketType) {
         quantities.put(ticketType, quantities.get(ticketType) - 1);
     }

@@ -15,10 +15,7 @@
  */
 package org.docksidestage.javatry.basic;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 
 import org.docksidestage.bizfw.basic.buyticket.*;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
@@ -56,7 +53,7 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBooth booth = new TicketBooth();
         booth.buyOneDayPassport(10000);
         Integer sea = booth.getSalesProceeds();
-        log(sea); // your answer? => 10000（修正後は7400)
+        log(sea); // your answer? => 10000（修正後は7400）
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -69,7 +66,7 @@ public class Step05ClassTest extends PlainTestCase {
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_class_howToUse_wrongQuantity() {
         Integer sea = doTest_class_ticket_wrongQuantity();
-        log(sea); // your answer? => 9（修正後は10)
+        log(sea); // your answer? => 9（修正後は10）
     }
 
     private Integer doTest_class_ticket_wrongQuantity() {
@@ -155,7 +152,7 @@ public class Step05ClassTest extends PlainTestCase {
         Ticket oneDayPassport = buyResult.getTicket();
         log(oneDayPassport.getDisplayPrice()); // should be same as one-day price
         log(oneDayPassport.getRemainingEntranceCounts()); // should be false
-        oneDayPassport.doInPark(LocalTime.now());
+        oneDayPassport.doInPark();
         log(oneDayPassport.getRemainingEntranceCounts()); // should be true
     }
 
@@ -184,9 +181,9 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBuyResult buyResult = booth.buyTwoDayPassport(handedMoney);
         Ticket twoDayPassport = buyResult.getTicket();
         log(twoDayPassport.getRemainingEntranceCounts());
-        twoDayPassport.doInPark(LocalTime.now());
+        twoDayPassport.doInPark();
         log(twoDayPassport.getRemainingEntranceCounts());
-        twoDayPassport.doInPark(LocalTime.now());
+        twoDayPassport.doInPark();
         log(twoDayPassport.getRemainingEntranceCounts());
         // twoDayPassport.doInPark();
         // done akinari.tsuji Step06でalreadyInを利用するらしくエラーが出てしまった (2025/08/04)
@@ -294,7 +291,7 @@ public class Step05ClassTest extends PlainTestCase {
         log(fourDayPassport.getDisplayPrice());
         log(fourDayPassport.getRemainingEntranceCounts());
         for (int i = 0; i < fourDayPassport.getEntranceLimit(); i++) {
-            fourDayPassport.doInPark(LocalTime.now());
+            fourDayPassport.doInPark();
             log(fourDayPassport.getRemainingEntranceCounts());
         }
     }
@@ -305,12 +302,12 @@ public class Step05ClassTest extends PlainTestCase {
      */
     public void test_class_moreFix_wonder_night() {
         // your confirmation code here
-        TicketBooth booth = new TicketBooth();
-        TicketBuyResult nightPassportBuyResult = booth.buyNightPassport(10000);
-        log(nightPassportBuyResult.getChange());
-        Ticket nightPassport = nightPassportBuyResult.getTicket();
-        log(nightPassport.getDisplayPrice());
-        log(nightPassport.getEntranceLimit());
+//        TicketBooth booth = new TicketBooth();
+//        TicketBuyResult nightPassportBuyResult = booth.buyNightPassport(10000);
+//        log(nightPassportBuyResult.getChange());
+//        Ticket nightPassport = nightPassportBuyResult.getTicket();
+//        log(nightPassport.getDisplayPrice());
+//        log(nightPassport.getEntranceLimit());
         
         // done tsuji 修行++: UnitTestを昼に動かすと落ちるのどうにかしたいですね by jflute (2025/08/27)
         // UnitTestの実行時間に依存せずに夜入園のテストができるようにできるといいなと。(難しいの後回しOK)
@@ -339,13 +336,53 @@ public class Step05ClassTest extends PlainTestCase {
         // akinari.tsuji [理解する] Instant, ZoneId, Clockはいまいち理解せずに書いてるので次回調べる！ (2025/09/16)
         // akinari.tsuji [調べる] あと、こういうのは「テストダブル」というらしい。前に一回調べたけど忘れたから↓を読み直す (2025/09/16)
         // https://goyoki.hatenablog.com/entry/20120301/1330608789
-//        Instant fixedInstant = Instant.parse("2025-09-17T10:30:00Z"); // 日本時間で19:30なのでOK
-//        ZoneId tokyoZone = ZoneId.of("Asia/Tokyo");
-//        Clock fixedClock = Clock.fixed(fixedInstant, tokyoZone);
-//        TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
+        // Instant fixedInstant = Instant.parse("2025-09-17T10:30:00Z"); // 日本時間で19:30なのでOK
+        // ZoneId tokyoZone = ZoneId.of("Asia/Tokyo");
+        // Clock fixedClock = Clock.fixed(fixedInstant, tokyoZone);
+        // TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
 
-        nightPassport.doInPark(LocalTime.of(18, 0));
-        
+        // nightPassport.doInPark();
+        // TODO akinari.tsuji doInParkの実装を変更する[doInPark内で時間を取得するように変更] (2025/11/15)
+        // 目的としては、そもそもdoInParkに対して時間を渡せてしまうと不正を行えてしまい不自然なため
+        // それに伴って、テストコードにdoInParkをモック？にする修正が必要
+        // 手順
+        // 1. まずはdoInParkの実装を修正して、このメソッドが実行できなくなる（昼間はエラーが出る）ことを確認する -> 夜なので確認はできない
+        // 2. https://goyoki.hatenablog.com/entry/20120301/1330608789を読んで、ダブルやらモックやらを理解し直す
+        // 3. Javaでのモックの実装方法を調べてこのメソッドが実行できる（夜以外に実行してもエラーが出ない）ように修正する
+
+        /**
+         * 記事[https://goyoki.hatenablog.com/entry/20120301/1330608789]のメモ
+         * TestDouble: Mock, Stub, Fake, Dummy, Dummy Object。テスト対象が依存する、テスト対象外のコンポーネントを置き換えるもの。
+         * 前提知識（間接入力と間接出力）
+         *  間接入力：テスト対象が外部メソッドを呼び出して戻り値を利用する。
+         *  間接出力：テスト対象が中で実行する外部メソッドへの引数。
+         * 1. Dummy Object：テストに影響を与えない代替オブジェクト（TDDの時の初めのtrueだけを返す実装みたいなやつ）
+         * 2. Test Stub：テスト対象への間接入力を操作する。（これが今回やりたいことに近い？）テスト対象：Ticket.doInParkの中でLocalTimeからの返り値を変更したい
+         * 3. Test Spy：テスト対象の間接出力を記録してテストコードから参照可能にする。テスト対象が外部メソッドの引数に何を与えているかを確認したい？
+         * 4. Mock Object：テスト対象が外部メソッドに渡す間接出力（引数）と間接出力の期待値を比較する。Mock Objectに事前に間接出力の期待値を設定しておき、内部で比較を行い、検証結果をテストコードに返す。
+         * 5. Fake Object：テスト中、本物と同じように動けるもの。
+         */
+
+        // geminiと話したら、ClockをTicketのコンストラクタに与えて、doInParkの中ではそれを呼び出すようにすればいいと
+        // doInParkをテストするときは、特殊なTicketを作って渡せばいいらしい
+        // でも、TicketBoothから購入するからClockを設定とかできないよな...
+        // TicketBoothにClockを引数にとるコンストラクタを作れ、と言っている
+        Instant fixedInstant = LocalDateTime.of(2025, 11, 15, 19, 0, 0)
+                                            .atZone(ZoneId.of("Asia/Tokyo"))
+                                            .toInstant();
+        ZoneId jst = ZoneId.of("Asia/Tokyo");
+        Clock stubClock = Clock.fixed(fixedInstant, jst);
+
+        TicketBooth booth = new StubbedTicketBooth(stubClock);
+        TicketBuyResult nightPassportBuyResult = booth.buyNightPassport(10000);
+        Ticket nightPassport = nightPassportBuyResult.getTicket();
+        nightPassport.doInPark();
+
+        // これで時間によらないテストは実装できた...？
+        // 懸念点として、TicketBoothにテスト用のコンストラクタが残ってるので微妙だよな...
+        // -> テストディレクトリに、TicketBoothを継承したテスト用のClockクラスを作成する
+        // テストディレクトリに置いてるから、本番コードからは利用できない
+
         // #1on1: 実現できてるはできてるけど、共有インスタンスであるenumにpublicでsetして変えられるので...
         // アプリが間違って setUsagePolicy() を呼び出してシステムを壊しちゃったら...
     }

@@ -1,6 +1,5 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
-import java.time.Clock;
 import java.time.LocalTime;
 
 // done tsuji クラスjavadocお願いします (authorだけでも) by jflute (2025/08/27)
@@ -44,14 +43,14 @@ public enum TicketType {
     private final int entranceLimit;
     private final int initialQuantity;
     // TODO tsuji setUsagePolicyがなくなったので、final付けられるかなと by jflute (2025/10/22)
-    private IUsagePolicy usagePolicy;
+    private final IUsagePolicy usagePolicy;
 
     // TODO tsuji javadocの@paramの説明ぜひ書きましょう by jflute (2025/10/22)
     /**
      * コンストラクタ
-     * @param price
-     * @param entranceLimit
-     * @param usagePolicy
+     * @param price 金額
+     * @param entranceLimit 入園上限
+     * @param usagePolicy 入園ポリシー
      */
     TicketType(int price, int entranceLimit, int initialQuantity, IUsagePolicy usagePolicy) {
         this.price = price;
@@ -103,10 +102,11 @@ public enum TicketType {
     // ということで、最初からtestのことを考えて実装設計したほうがベターではある。
     // でも、testするときにリファクタリングすりゃいいといのもあるから、手が早ければそれでも。
     // done tsuji 修行++: ↑のやり方でpublicのsetが無いようにしてみましょう by jflute (2025/10/08)
-    /**
-     * テスト用に利用ポリシーを変更するための関数
-     * @param usagePolicy 変更したい利用ポリシー
-     */
+
+    // /**
+    // * テスト用に利用ポリシーを変更するための関数
+    // * @param usagePolicy 変更したい利用ポリシー
+    // */
 //    public void setUsagePolicy(IUsagePolicy usagePolicy) {
 //        this.usagePolicy = usagePolicy;
 //    }

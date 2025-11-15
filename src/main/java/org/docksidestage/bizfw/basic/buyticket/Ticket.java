@@ -15,8 +15,8 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+import java.time.Clock;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 // done jflute 次回1on1で、javadoc周りのお話 (2025/09/24)
 /**
@@ -43,6 +43,9 @@ public class Ticket {
 
     /** 現在、入園中かを表す。true: 入園中, false： 非入園中 */
     private boolean alreadyIn;
+
+    /** 入園時間を測定する時計 */
+    private Clock clock;
 
     // done tsuji [いいね] インスタンス変数とコンストラクターでのset順序が同じなのでわかりやすい by jflute (2025/08/15)
     // ありがとうございます！ by akinari.tsuji
@@ -125,10 +128,11 @@ public class Ticket {
      * TicketBoothクラスからの呼び出しを想定。
      * @param type 作成するチケットの種類。
      */
-    public Ticket(TicketType type) {
+    public Ticket(TicketType type, Clock clock) {
         ticketType = type;
         totalEntrancesCount = 0;
         alreadyIn = false;
+        this.clock = clock;
     }
 
     // done tsuji [いいね] 複数のコンストラクターに対して、コメントで役割を書いているのGood by jflute (2025/08/15)
@@ -164,7 +168,7 @@ public class Ticket {
      * ナイトパスの利用は18時以降。
      * @throws IllegalStateException チケットの入園回数を超えて利用しようとした場合
      */
-    public void doInPark(LocalTime currentTime) {
+    public void doInPark() {
         // ナイトパスを夜以外に使おうとした場合
 //        if (ticketType == TicketType.NIGHT) {
 //            // done tsuji 修行++: NIGHTのニュアンスが違う別のNIGHTのチケット(e.g. 17時から)が出てきた時でも対応できるように by jflute (2025/08/27)
@@ -241,6 +245,7 @@ public class Ticket {
         //  e.g. LocalTime currentTime = getCurrentTime()
         // そして、UnitTestでは、このgetの処理を差し替えられるようにしたいところ。
         // hint1: step5だけの知識ではなかなか難しいので、step6とか7,8とかやってからアプローチしても良い。
+        LocalTime currentTime = LocalTime.now(clock);
         ticketType.getUsagePolicy().validate(currentTime);
         
 
@@ -274,8 +279,7 @@ public class Ticket {
     //                                                                            Accessor
     //                                                                            ========
 
-    /**
-     * チケットの販売金額を返すゲッター
+    /*
      * @return チケットの金額
      */
     public int getDisplayPrice() { return ticketType.getPrice(); }
@@ -295,7 +299,6 @@ public class Ticket {
     // (マスターテーブルになっても、enum自体は作りますが)
 
     /**
-     * チケットの残りの利用回数を返すゲッター
      * @return チケットの残り利用回数
      */
     public int getRemainingEntranceCounts() { return ticketType.getEntranceLimit() - totalEntrancesCount; }
@@ -310,16 +313,13 @@ public class Ticket {
     // そこはあってもなくてもくらいな感じですね。さっきの「どの項目とどの項目を引き算」を隠蔽していることの方が重要。
 
     /**
-     * チケットの利用上限回数。
-     * 残りの利用回数ではなく、チケット種類に紐づく合計利用回数の上限を返します。
      * @return チケットの合計利用回数の上限
      */
     public int getEntranceLimit() { return ticketType.getEntranceLimit(); }
 
-    // TODO tsuji javadoc, getterだと、説明は省略しちゃってもOK by jflute (2025/10/22)
+    // TODO done tsuji javadoc, getterだと、説明は省略しちゃってもOK by jflute (2025/10/22)
+    // TODO jflute getterなので返り値だけjavadocを記載するように修正しました  by akinari.tsuji (2025/11/15)
     /**
-     * チケットの種別を返す関数。
-     * TicketTypeでマスタを管理しているチケット種別を返す。
      * @return チケット種別
      */
     public TicketType getTicketType() { return ticketType; }
