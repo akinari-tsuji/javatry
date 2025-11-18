@@ -17,8 +17,9 @@ package org.docksidestage.javatry.basic.st6.dbms;
 
 /**
  * @author jflute
+ * @author akinari.tsuji
  */
-public class St6MySql {
+public class St6MySql extends St6Sql {
 
     public String buildPagingQuery(int pageSize, int pageNumber) {
         int offset = pageSize * (pageNumber - 1);

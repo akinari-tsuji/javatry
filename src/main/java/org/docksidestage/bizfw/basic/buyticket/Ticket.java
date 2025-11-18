@@ -160,8 +160,8 @@ public class Ticket {
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
-    // TODO tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
-    // TODO tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
+    // TODO done tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
+    // TODO done tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
     /**
      * チケットを使用するメソッド。
      * 入園回数を増加させ、入園中のステータスに切り替える。
@@ -240,7 +240,7 @@ public class Ticket {
         // (jfluteとしては、少なくともイメージをする習慣を付けて欲しい)
         //
         // 再利用と役割分担のイメージ...常に考えてる。
-        // TODO tsuji 修行++: 引数で時間を受け取ると、mainコードの呼び出し側が、間違った現在時刻を渡すこともできてしまう by jflute (2025/10/22)
+        // TODO done tsuji 修行++: 引数で時間を受け取ると、mainコードの呼び出し側が、間違った現在時刻を渡すこともできてしまう by jflute (2025/10/22)
         // 現在時刻を取得するのは、中で隠蔽したいところ。例えば、こんな感じで、ここでどこかからか現在時刻を取る。
         //  e.g. LocalTime currentTime = getCurrentTime()
         // そして、UnitTestでは、このgetの処理を差し替えられるようにしたいところ。
@@ -258,7 +258,7 @@ public class Ticket {
         // 上のUsagePolicyとはまた質が違うもの。もちろん、privateや別クラスで1行にしてもいいけど...
         // あくまでチケット主体のチェック処理と解釈されるので、上と同じによう考えなくてもいいかなと。
         if (totalEntrancesCount >= ticketType.getEntranceLimit()) {
-            throw new IllegalStateException("This ticket is already exhausted: displayedPrice=" + ticketType.getPrice());
+            throw new OutOfHoursUseException("Tickets can not use at " + currentTime + ".");
         }
 
         // チケットの利用とそれに伴う処理
@@ -274,6 +274,17 @@ public class Ticket {
 //            super(msg);
 //        }
 //    }
+
+    /**
+     * 時間外利用の例外
+     */
+    public static class OutOfHoursUseException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+
+        public OutOfHoursUseException(String msg) {
+            super(msg);
+        }
+    }
 
     // ===================================================================================
     //                                                                            Accessor

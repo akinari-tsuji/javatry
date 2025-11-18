@@ -21,13 +21,6 @@ package org.docksidestage.javatry.basic.st6.os;
 public class St6OperationSystem {
 
     // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-    private static final String OS_TYPE_MAC = "Mac";
-    private static final String OS_TYPE_WINDOWS = "Windows";
-    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
-
-    // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     private final String osType;
@@ -52,11 +45,11 @@ public class St6OperationSystem {
     }
 
     protected String getFileSeparator() {
-        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
+        if (OperatingSystemType.OS_TYPE_MAC.getValue().equalsIgnoreCase(osType)) {
             return "/";
-        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
+        } else if (OperatingSystemType.OS_TYPE_WINDOWS.getValue().equalsIgnoreCase(osType)) {
             return "\\";
-        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
+        } else if (OperatingSystemType.OS_TYPE_OLD_WINDOWS.getValue().equalsIgnoreCase(osType)) {
             return "\\";
         } else {
             throw new IllegalStateException("Unknown osType: " + osType);
@@ -64,11 +57,11 @@ public class St6OperationSystem {
     }
 
     protected String getUserDirectory() {
-        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
+        if (OperatingSystemType.OS_TYPE_MAC.getValue().equalsIgnoreCase(osType)) {
             return "/Users/" + loginId;
-        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
+        } else if (OperatingSystemType.OS_TYPE_WINDOWS.getValue().equalsIgnoreCase(osType)) {
             return "/Users/" + loginId;
-        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
+        } else if (OperatingSystemType.OS_TYPE_OLD_WINDOWS.getValue().equalsIgnoreCase(osType)) {
             return "/Documents and Settings/" + loginId;
         } else {
             throw new IllegalStateException("Unknown osType: " + osType);

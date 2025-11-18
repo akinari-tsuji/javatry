@@ -31,6 +31,11 @@ import org.docksidestage.bizfw.basic.objanimal.Zombie;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
+import org.docksidestage.javatry.basic.st6.dbms.St6MySql;
+import org.docksidestage.javatry.basic.st6.dbms.St6PostgreSql;
+import org.docksidestage.javatry.basic.st6.dbms.St6Sql;
+import org.docksidestage.javatry.basic.st6.os.St6OperationSystem;
+import org.docksidestage.javatry.basic.st6.os.St06MacOperatingSystem;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -497,6 +502,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
         // your confirmation code here
+        St6Sql sql = new St6MySql();
+        log(sql.buildPagingQuery(100, 10));
+        sql = new St6PostgreSql();
+        log(sql.buildPagingQuery(100, 10));
     }
 
     /**
@@ -505,6 +514,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_specialization_extractToConcrete() {
         // your confirmation code here
+        St06MacOperatingSystem os = new St06MacOperatingSystem("root");
+        log(os.buildUserResourcePath("hogehoge"));
+
+        // protected: 同一パッケージ・子クラスからアクセス可能
+        // 何も設定しない：クラス内・同一パッケージからアクセス可能
+        // パッケージは名前空間。フォルダ構成と一致する必要あり
+        // このファイルでは　package org.docksidestage.javatry.basic;
+        // ディレクトリは java/org.docksidestage/javatry/basic/Step06...
     }
 
     // ===================================================================================
