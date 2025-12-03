@@ -35,16 +35,16 @@ public class Ticket {
     //                                                                           =========
     // done tsuji コメント形式がjavadoc形式になってないです。最初スラアスタアスタというように * が二つ必要です by jflute (2025/08/27)
     // done jflute ありがとうございます！まだjavadocを理解しきれておらずすみません！ 修正しますakinari.tsuji  (2025/08/29)
-    // TODO tsuji こちらも、インスタンス変数の順序、固定でmaster的な情報を上に持ってきてみましょう by jflute (2025/11/19)
+    // TODO done tsuji こちらも、インスタンス変数の順序、固定でmaster的な情報を上に持ってきてみましょう by jflute (2025/11/19)
 
     // -----------------------------------------------------
     //                                                 Basic
     //                                                 -----
-    /** チケットの種類 */
-    private final TicketType ticketType;
-
     /** 入園時間を測定する時計 */
     private Clock clock;
+
+    /** チケットの種類 */
+    private final TicketType ticketType;
 
     // -----------------------------------------------------
     //                                        mutable result

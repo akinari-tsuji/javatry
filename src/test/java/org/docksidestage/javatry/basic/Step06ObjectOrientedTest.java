@@ -537,6 +537,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_withDelegation() {
         // your confirmation code here
+        // まずは今の実装を整理
+        // 抽象クラスAnimalの中でbark()を実装している
+        // bark()の中では
+        // protected breathIn()
+        // protected prepareAbdominalMuscle()
+        // protected getBarkWord(),
+        // protected abstract doBark()
+        // を呼び出している
     }
 
     /**

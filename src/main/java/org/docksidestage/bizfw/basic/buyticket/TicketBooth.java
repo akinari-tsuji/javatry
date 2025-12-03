@@ -63,20 +63,25 @@ public class TicketBooth {
     //                                                                           =========
     // private int quantity = MAX_QUANTITY;
     // done tsuji Constructorでnewしてその後変更しないので、final付けられる by jflute (2025/10/22)
-    // TODO tsuji インスタンス変数の定義順序、少ないですがカテゴリを意識してみましょう by jflute (2025/11/19)
+    // TODO done tsuji インスタンス変数の定義順序、少ないですがカテゴリを意識してみましょう by jflute (2025/11/19)
     // 固定でmaster的なオブジェクトは先頭に定義することが多いのでオススメ。(Clockが最初)
     // #1on1: 「何かを追加するときは、何も考えず一番下ではなく、クラス全体のデザインバランスを考えて追加するべし」
+    private final Clock clock;
+
     private final TicketInventory ticketInventory;
     private Integer salesProceeds; // null allowed: until first purchase
-    private final Clock clock;
 
     // #1on1: カテゴライズ系の話、片付けの話 (2025/11/19)
     // 「複数のもののつながりを見出してカテゴリを導出する」
     // LikeSearchOptionのインスタンス変数の例。
     // 実装しながら考えるのか？ yes, 一方で最後のリファクタリングの仕上げのときにも考える。
     // 日常の片付けに通じる。
-    // TODO tsuji [読み物課題] リファクタリングは思考のツール by jflute (2025/11/19)
+    // TODO done tsuji [読み物課題] リファクタリングは思考のツール by jflute (2025/11/19)
     // https://jflute.hatenadiary.jp/entry/20121202/1354442627
+    // ちょうど目の前の作業と全体を振り返る時間のバランス・タイミングが難しいと感じていたので参考になりました
+    // 毎日xx:xxからは10分振り返りとかの自分ルールをつけたいなと思って卓上時計を調べてました笑
+    // 細かめなリファクタリングを通じて、コード全体を見直す時間ができるのだなーと思いました
+    // コーディングに関わらず、仕事の流れのテンプレを確立できるととても便利そうです
 
     // #1on1: どう整えたらいいのか？を考え続けること (2025/11/19)
     // これをやめたら、ずっとかわらない。考え続けたら、徐々にスムーズになっていく。
