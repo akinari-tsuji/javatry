@@ -62,10 +62,31 @@ public class TicketBooth {
     //                                                                           Attribute
     //                                                                           =========
     // private int quantity = MAX_QUANTITY;
-    // TODO done tsuji Constructorでnewしてその後変更しないので、final付けられる by jflute (2025/10/22)
+    // done tsuji Constructorでnewしてその後変更しないので、final付けられる by jflute (2025/10/22)
+    // TODO tsuji インスタンス変数の定義順序、少ないですがカテゴリを意識してみましょう by jflute (2025/11/19)
+    // 固定でmaster的なオブジェクトは先頭に定義することが多いのでオススメ。(Clockが最初)
+    // #1on1: 「何かを追加するときは、何も考えず一番下ではなく、クラス全体のデザインバランスを考えて追加するべし」
     private final TicketInventory ticketInventory;
     private Integer salesProceeds; // null allowed: until first purchase
     private final Clock clock;
+
+    // #1on1: カテゴライズ系の話、片付けの話 (2025/11/19)
+    // 「複数のもののつながりを見出してカテゴリを導出する」
+    // LikeSearchOptionのインスタンス変数の例。
+    // 実装しながら考えるのか？ yes, 一方で最後のリファクタリングの仕上げのときにも考える。
+    // 日常の片付けに通じる。
+    // TODO tsuji [読み物課題] リファクタリングは思考のツール by jflute (2025/11/19)
+    // https://jflute.hatenadiary.jp/entry/20121202/1354442627
+
+    // #1on1: どう整えたらいいのか？を考え続けること (2025/11/19)
+    // これをやめたら、ずっとかわらない。考え続けたら、徐々にスムーズになっていく。
+
+    // #1on1: 書きながら考えるが大変 (2025/11/19)
+    // 徐々に定理が積み上がってくれば、スムーズになてくる。
+    // 徐々に片付けのセオリーみたいなのが自分の中で身についてくればスムーズに。
+    //
+    // もう一個は、ショートカットキー、打つのに頭を使わないようにする。
+    // (叩き込む、ちゃんと反復練習してる)
 
     // ===================================================================================
     //                                                                         Constructor
@@ -191,6 +212,8 @@ public class TicketBooth {
         return ticketBuyResult;
     }
 
+    // #1on1: protectedだからこそ、オーバーライドができて、拡張ポイント。
+    // 一方で、privateは拡張性がないもの、完全に隠してしまう。
     protected Clock getCurrentClock() {
         return clock;
     }

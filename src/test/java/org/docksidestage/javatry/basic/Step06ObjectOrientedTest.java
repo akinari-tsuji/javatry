@@ -485,8 +485,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeInterface() {
         // your confirmation code here
-        // TODO jfulte Javaに詳しくないのですが、パッケージってどのような粒度で分けるものなのでしょうか？ (2025/11/06)
-        // intefaceとそれを実装するクラスは同一のパッケージに入れるべきでしょうか？
+        // done jflute Javaに詳しくないのですが、パッケージってどのような粒度で分けるものなのでしょうか？ (2025/11/06)
+        // interfaceとそれを実装するクラスは同一のパッケージに入れるべきでしょうか？
+        // #1on1: これも、カテゴリを見出して、カテゴリごとにパッケージを。
+        // interfaceとそれを実装するクラスは、実際にはinterfaceと実装クラスの管理するレイヤーが別の可能性もある。
+        // 同じ世界にいるときなら一緒でもいいけど。AlarmClock は「うるさい系」でloudに入っているけど...
+        // 実際にちゃんとした業務クラスにするのであれば、そもそもobjanimal配下ではなく、clockパッケージの方がベター。
         Turtle turtle = new Turtle();
         for (int i = 0; i < 20; i++) {
             turtle.sleep();
