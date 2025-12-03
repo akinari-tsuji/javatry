@@ -342,7 +342,7 @@ public class Step05ClassTest extends PlainTestCase {
         // TicketType.NIGHT_FROM_EIGHTEEN.setUsagePolicy(new TimeBasedPolicy(fixedClock, LocalTime.of(18, 0)));
 
         // nightPassport.doInPark();
-        // TODO done akinari.tsuji doInParkの実装を変更する[doInPark内で時間を取得するように変更] (2025/11/15)
+        // done akinari.tsuji doInParkの実装を変更する[doInPark内で時間を取得するように変更] (2025/11/15)
         // 目的としては、そもそもdoInParkに対して時間を渡せてしまうと不正を行えてしまい不自然なため
         // それに伴って、テストコードにdoInParkをモック？にする修正が必要
         // 手順

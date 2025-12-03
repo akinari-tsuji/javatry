@@ -67,7 +67,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         int quantity = 10; // ここもTicketBoothを利用するべき？
         Integer salesProceeds = null; // ここがnullなのはいいのでしょうか？0の方が好ましい？
         log(salesProceeds);
-        // TODO tsuji 間違い探し、あと2つ by jflute (2025/10/22)
+        // done tsuji 間違い探し、あと2つ by jflute (2025/10/22)
         //
         // [buy one-day passport]
         //
@@ -98,6 +98,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // ...
         // ...
 
+        // TODO tsuji あと一個↓ by jflute (2025/12/03)
         //
         // [do in park now!!!]
         //
@@ -106,6 +107,29 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
             throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
         }
         alreadyIn = true;
+
+        // #1on1: 間違えない話
+        // もしメソッドを提供する側だったら...
+        // o オブジェクト作ったりとかして、極力int, int, ...になるようなメソッドを作らない
+        // o また、Value的Objectを導入したりして、入れ替えがコンパイルエラーになるようにする
+        // o あと、軽微な対応で、boolean alreadyIn を真ん中に混ぜたり (軽減策)
+        // o あと、JavaDocで大げさにしておく (軽減策)
+        // 
+        // もしメソッドを呼び出す側だったら...
+        // o オーソドックスなところでは、5秒指差し確認する
+        // o じゃあ、すべてのコードで指差し確認をしますか？ → ちょっと大変で現実的ではない
+        // o じゃあ、指差し確認が必要な場面だけで指差し確認をする？ → どこが必要な場面？
+        // o ここぞが判別できるか？
+        //
+        // o 間違えポイントを知ってる、思い出として積み重ねてる
+        // o 正しく「怖い」って思えるかどうか？思えたら勝ち
+        // o 体験と経験の違い、体験だけしても積み重ならないので、思考して経験にするかどうか？
+        //
+        // o さらに、自分の間違えポイントも積み重ねるかどうか？
+        //
+        // o これは技術力というよりかは開発力
+        // o 個人的には、ものづくりスキル
+        //
 
         //
         // [final process]
@@ -349,6 +373,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // what is happy?
         // Animalを継承するクラス分だけ変数や条件分岐を用意しなくて良いためコードが簡潔で済む
         // _/_/_/_/_/_/_/_/_/_/
+        // #1on1: ↑ちゃんと呼び出し側のメリットの話でしたm(_ _)m (2025/12/03)
+        // 日常でもポリモーフィズムいっぱい使ってる。それをプログラミングでも使いたいだけ。っていう考え方。
 
         // もしも代入できない場合,,,
         int animalType = 1; // 吠えさせたい動物のコード（1: Dog, 2: Cat, 3: Zombie）
@@ -381,6 +407,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         String sea = sound.getBarkWord();
         log(sea);
     }
+    // TODO jflute 次回1on1ここから (2025/12/03)
 
     // ===================================================================================
     //                                                              Polymorphism Interface

@@ -30,12 +30,12 @@ o 本気で勉強していれば、役に立たないことはない
 o 深層記憶に残るキリのいいところまでやっておく (踊り場)
  */
 
-// TODO done tsuji [読み物課題]あれもこれもやらなきゃプレッシャーが集中力を阻害する by jflute (2025/11/07)
+// done tsuji [読み物課題]あれもこれもやらなきゃプレッシャーが集中力を阻害する by jflute (2025/11/07)
 // https://jflute.hatenadiary.jp/entry/20180527/keepconce
 // 何をやったとしても工夫・努力を続けていれば、抽象的な能力が身について他に役に立つのだなと感じました
 // なんにせよ具体的な目の前の一つ一つの仕事をちゃんとやらないと、抽象的な力もつかないし、抽象化して捉える機会もないと思うのでやはりRuby, Railsやらねばですね
 
-// TODO done tsuji [読み物課題]まず何より、目の前の道具を使いこなしてください by jflute (2025/11/07)
+// done tsuji [読み物課題]まず何より、目の前の道具を使いこなしてください by jflute (2025/11/07)
 // https://jflute.hatenadiary.jp/entry/20180223/mastercurrent
 // 文句を言わずに頑張らねばと感じました。仕事で使うRuby, RailsなのにAI無しじゃまともに書けない状況を早めに脱します。
 
@@ -63,7 +63,7 @@ public class TicketBooth {
     //                                                                           =========
     // private int quantity = MAX_QUANTITY;
     // done tsuji Constructorでnewしてその後変更しないので、final付けられる by jflute (2025/10/22)
-    // TODO done tsuji インスタンス変数の定義順序、少ないですがカテゴリを意識してみましょう by jflute (2025/11/19)
+    // done tsuji インスタンス変数の定義順序、少ないですがカテゴリを意識してみましょう by jflute (2025/11/19)
     // 固定でmaster的なオブジェクトは先頭に定義することが多いのでオススメ。(Clockが最初)
     // #1on1: 「何かを追加するときは、何も考えず一番下ではなく、クラス全体のデザインバランスを考えて追加するべし」
     private final Clock clock;
@@ -76,7 +76,7 @@ public class TicketBooth {
     // LikeSearchOptionのインスタンス変数の例。
     // 実装しながら考えるのか？ yes, 一方で最後のリファクタリングの仕上げのときにも考える。
     // 日常の片付けに通じる。
-    // TODO done tsuji [読み物課題] リファクタリングは思考のツール by jflute (2025/11/19)
+    // done tsuji [読み物課題] リファクタリングは思考のツール by jflute (2025/11/19)
     // https://jflute.hatenadiary.jp/entry/20121202/1354442627
     // ちょうど目の前の作業と全体を振り返る時間のバランス・タイミングが難しいと感じていたので参考になりました
     // 毎日xx:xxからは10分振り返りとかの自分ルールをつけたいなと思って卓上時計を調べてました笑
@@ -185,7 +185,7 @@ public class TicketBooth {
      * @throws TicketShortMoneyException 買うのに金額が足りなかったら
      */
     private TicketBuyResult doBuyTicket(Integer handedMoney, TicketType ticketType) {
-        // TODO done tsuji 変数がunused警告 (いまいちどunused系の警告を全体に見直してみてください) by jflute (2025/10/22)
+        // done tsuji 変数がunused警告 (いまいちどunused系の警告を全体に見直してみてください) by jflute (2025/10/22)
         // final int numberOfPurchases = ticketType.getEntranceLimit(); // getEntranceLimitだと意味が分かりにくいので格納
         final int price = ticketType.getPrice();
         // validateQuantity(numberOfPurchases);

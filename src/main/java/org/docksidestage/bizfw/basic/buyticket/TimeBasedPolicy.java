@@ -4,6 +4,8 @@ import java.time.Clock;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+// TODO tsuji unusedのimport文 by jflute (2025/12/03)
+
 /**
  * 利用可能時間に基づく利用可能ポリシーを表すクラス
  * @author akinari.tsuji
@@ -11,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class TimeBasedPolicy implements IUsagePolicy {
     private final LocalTime availableFrom;
 
+    // TODO tsuji @param, 全角空白が入ってしまっている by jflute (2025/12/03)
     /**
      * コンストラクタ
      * @param availableFrom　何時以降利用可能か
@@ -19,6 +22,7 @@ public class TimeBasedPolicy implements IUsagePolicy {
         this.availableFrom = availableFrom;
     }
 
+    // TODO tsuji @param がない by jflute (2025/12/03)
     /**
      * 利用可能かを判定する関数
      * @return 利用可能かどうか　

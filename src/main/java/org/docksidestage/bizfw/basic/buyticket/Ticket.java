@@ -35,11 +35,12 @@ public class Ticket {
     //                                                                           =========
     // done tsuji コメント形式がjavadoc形式になってないです。最初スラアスタアスタというように * が二つ必要です by jflute (2025/08/27)
     // done jflute ありがとうございます！まだjavadocを理解しきれておらずすみません！ 修正しますakinari.tsuji  (2025/08/29)
-    // TODO done tsuji こちらも、インスタンス変数の順序、固定でmaster的な情報を上に持ってきてみましょう by jflute (2025/11/19)
+    // done tsuji こちらも、インスタンス変数の順序、固定でmaster的な情報を上に持ってきてみましょう by jflute (2025/11/19)
 
     // -----------------------------------------------------
     //                                                 Basic
     //                                                 -----
+    // TODO tsuji final付けられるので付けておきましょう by jflute (2025/12/03)
     /** 入園時間を測定する時計 */
     private Clock clock;
 
@@ -131,6 +132,8 @@ public class Ticket {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+    // TODO tsuji 引数順序、インスタンス変数でclockをトップに持ってくるなら、こっちも順序合わせておきましょう by jflute (2025/12/03)
+    // TODO tsuji clock の @param を書きましょう by jflute (2025/12/03)
     /**
      * Ticketクラスのコンストラクタ。
      * TicketBoothクラスからの呼び出しを想定。
@@ -168,8 +171,8 @@ public class Ticket {
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
-    // TODO done tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
-    // TODO done tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
+    // done tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
+    // TODO tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
     /**
      * チケットを使用するメソッド。
      * 入園回数を増加させ、入園中のステータスに切り替える。
@@ -248,7 +251,7 @@ public class Ticket {
         // (jfluteとしては、少なくともイメージをする習慣を付けて欲しい)
         //
         // 再利用と役割分担のイメージ...常に考えてる。
-        // TODO done tsuji 修行++: 引数で時間を受け取ると、mainコードの呼び出し側が、間違った現在時刻を渡すこともできてしまう by jflute (2025/10/22)
+        // done tsuji 修行++: 引数で時間を受け取ると、mainコードの呼び出し側が、間違った現在時刻を渡すこともできてしまう by jflute (2025/10/22)
         // 現在時刻を取得するのは、中で隠蔽したいところ。例えば、こんな感じで、ここでどこかからか現在時刻を取る。
         //  e.g. LocalTime currentTime = getCurrentTime()
         // そして、UnitTestでは、このgetの処理を差し替えられるようにしたいところ。
@@ -336,8 +339,8 @@ public class Ticket {
      */
     public int getEntranceLimit() { return ticketType.getEntranceLimit(); }
 
-    // TODO done tsuji javadoc, getterだと、説明は省略しちゃってもOK by jflute (2025/10/22)
-    // TODO jflute getterなので返り値だけjavadocを記載するように修正しました  by akinari.tsuji (2025/11/15)
+    // done tsuji javadoc, getterだと、説明は省略しちゃってもOK by jflute (2025/10/22)
+    // done jflute getterなので返り値だけjavadocを記載するように修正しました  by akinari.tsuji (2025/11/15)
     /**
      * @return チケット種別
      */
