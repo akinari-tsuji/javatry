@@ -417,7 +417,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Loudable loudable = new Zombie();
         String sea = loudable.soundLoudly();
         log(sea); // your answer? => "uooo"
-        String land = ((Zombie) loudable).bark().getBarkWord();
+        String land = ((Zombie) loudable).getBarkWord();
         log(land); // your answer? => "uooo"
     }
 
@@ -572,6 +572,15 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // protected getBarkWord(),
         // protected abstract doBark()
         // を呼び出している
+
+        // どのメソッドまで切り出すべきかな...？
+        // bark: 要件なので必須
+        // breathIn: barkのためだけの処理なので移す
+        // prepareAbdominalMuscle: barkのためだけの処理なので移す
+        // getBarkWord: 各動物固有の情報なので残す（鳴き声）
+        // doBark: 移す
+        // HitPoint系: 無関係なのでそのまま
+        // soundLoudly
     }
 
     /**
