@@ -15,14 +15,11 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
-import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
-import org.docksidestage.bizfw.basic.objanimal.sleeper.Sleeper;
-
 /**
  * The object for zombie(ゾンビ).
  * @author jflute
  */
-public class Zombie extends Animal implements Loudable {
+public class Zombie extends Animal {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -56,13 +53,14 @@ public class Zombie extends Animal implements Loudable {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
+    @Override
     protected void breatheIn() {
-        barker.breatheIn();
+        super.breatheIn();
         zombieDiary.countBreatheIn();
     }
 
     @Override
-    public String getBarkWord() {
+    protected String getBarkWord() {
         return "uooo"; // what in English?
     }
 
@@ -70,7 +68,7 @@ public class Zombie extends Animal implements Loudable {
     //                                                                           Hit Point
     //                                                                           =========
     @Override
-    public void downHitPoint() {
+    protected void downHitPoint() {
         // do nothing, infinity hit point
     }
 
@@ -80,7 +78,4 @@ public class Zombie extends Animal implements Loudable {
     public ZombieDiary getZombieDiary() {
         return zombieDiary;
     }
-
-    @Override
-    public String soundLoudly() { return "uooo uooo uooo---"; }
 }

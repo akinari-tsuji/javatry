@@ -40,7 +40,7 @@ public class Cat extends Animal implements FastRunner {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    public String getBarkWord() {
+    protected String getBarkWord() {
         return "nya-"; // mew? in English
     }
 

@@ -15,7 +15,6 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
-import org.docksidestage.bizfw.basic.objanimal.barker.Barker;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +23,12 @@ import org.slf4j.LoggerFactory;
  * The object for animal(動物).
  * @author jflute
  */
-public abstract class Animal {
+public abstract class Animal implements Loudable {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
     private static final Logger logger = LoggerFactory.getLogger(Animal.class);
-    protected final Barker barker = new Barker(this);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -48,23 +46,57 @@ public abstract class Animal {
         return 10; // as default
     }
 
-    public abstract String getBarkWord();
+    // ===================================================================================
+    //                                                                               Bark
+    //                                                                              ======
+    public BarkedSound bark() {
+        breatheIn();
+        prepareAbdominalMuscle();
+        String barkWord = getBarkWord();
+        BarkedSound barkedSound = doBark(barkWord);
+        return barkedSound;
+    }
+
+    protected void breatheIn() { // actually depends on barking
+        logger.debug("...Breathing in for barking"); // dummy implementation
+        downHitPoint();
+    }
+
+    protected void prepareAbdominalMuscle() { // also actually depends on barking
+        logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
+        downHitPoint();
+    }
+
+    protected abstract String getBarkWord();
+
+    protected BarkedSound doBark(String barkWord) {
+        downHitPoint();
+        return new BarkedSound(barkWord);
+    }
 
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    public void upHitPoint() {
+    protected void upHitPoint() {
         ++hitPoint;
         if (hitPoint > 10) {
             throw new IllegalStateException("I have slept too much that I can't more " + getBarkWord());
         }
     }
 
-    public void downHitPoint() {
+    protected void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());
         }
+    }
+
+    // ===================================================================================
+    //                                                                               Loud
+    //                                                                              ======
+    @Override
+    public String soundLoudly() {
+        return bark().getBarkWord();
     }
 
     // ===================================================================================

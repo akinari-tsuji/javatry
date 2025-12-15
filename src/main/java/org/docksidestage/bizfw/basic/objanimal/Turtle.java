@@ -21,7 +21,7 @@ public class Turtle extends Animal implements Sleeper {
     //                                                                         ===========
     public Turtle() {}
 
-    public String getBarkWord() {
+    protected String getBarkWord() {
         return "pii?";
     }
 
