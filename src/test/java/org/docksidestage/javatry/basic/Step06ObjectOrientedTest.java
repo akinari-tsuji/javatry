@@ -188,7 +188,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //Ticket ticket = booth.buyOneDayPassport(10000);
 //       // TODO [メモ] クラスのメソッド内部で処理をするように切り分けているので、このtest_...メソッドでの条件分岐がなくなり、読みやすいです　akinari.tsuji  (2025/08/15)
         booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
-        Ticket ticket = new Ticket(TicketType.ONE_DAY, Clock.systemDefaultZone()); // also here
+        Ticket ticket = new Ticket(Clock.systemDefaultZone(), TicketType.ONE_DAY); // also here
 
         // *buyOneDayPassport() has this process:
         //if (quantity <= 0) {

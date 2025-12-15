@@ -40,9 +40,9 @@ public class Ticket {
     // -----------------------------------------------------
     //                                                 Basic
     //                                                 -----
-    // TODO tsuji final付けられるので付けておきましょう by jflute (2025/12/03)
+    // TODO done tsuji final付けられるので付けておきましょう by jflute (2025/12/03)
     /** 入園時間を測定する時計 */
-    private Clock clock;
+    private final Clock clock;
 
     /** チケットの種類 */
     private final TicketType ticketType;
@@ -132,18 +132,19 @@ public class Ticket {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    // TODO tsuji 引数順序、インスタンス変数でclockをトップに持ってくるなら、こっちも順序合わせておきましょう by jflute (2025/12/03)
-    // TODO tsuji clock の @param を書きましょう by jflute (2025/12/03)
+    // TODO done tsuji 引数順序、インスタンス変数でclockをトップに持ってくるなら、こっちも順序合わせておきましょう by jflute (2025/12/03)
+    // TODO done tsuji clock の @param を書きましょう by jflute (2025/12/03)
     /**
      * Ticketクラスのコンストラクタ。
      * TicketBoothクラスからの呼び出しを想定。
+     * @param clock チケット利用時間を取得するためのClockインスタンス
      * @param type 作成するチケットの種類。
      */
-    public Ticket(TicketType type, Clock clock) {
+    public Ticket(Clock clock, TicketType type) {
+        this.clock = clock;
         ticketType = type;
         totalEntrancesCount = 0;
         alreadyIn = false;
-        this.clock = clock;
     }
 
     // done tsuji [いいね] 複数のコンストラクターに対して、コメントで役割を書いているのGood by jflute (2025/08/15)
@@ -172,11 +173,18 @@ public class Ticket {
     //                                                                             In Park
     //                                                                             =======
     // done tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
-    // TODO tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
+    // TODO done tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
+    // そもそも例外投げる場所間違えてたので、TimeBasedPolicyの方で例外を定義・throwするように修正しました
+    // TODO jflute 例外って果たして誰が投げて、誰がキャッチするべきなのでしょうか？ akinari.tsuji  (2025/12/15)
+    // プロジェクト全体で整合性のあるルールを決めておかないと、例外が発生しなかったり、キャッチされなかったりしてしまいそうです
+    // 今回も、以下のパターンを考えたのですが、どっちがいいか分からず後者を採用しました
+    // 1. TimeBasedPolicy側で適当な例外を投げて、doInPark側でキャッチしてOutOfHoursUseExceptionを投げる
+    // 2. TimeBasedPolicy側でOutOfHoursUseExceptionを投げる
     /**
      * チケットを使用するメソッド。
      * 入園回数を増加させ、入園中のステータスに切り替える。
      * ナイトパスの利用は18時以降。
+     * @throws TimeBasedPolicy.OutOfHoursUseException 利用可能時間外に利用した場合
      * @throws IllegalStateException チケットの入園回数を超えて利用しようとした場合
      */
     public void doInPark() {
@@ -269,7 +277,7 @@ public class Ticket {
         // 上のUsagePolicyとはまた質が違うもの。もちろん、privateや別クラスで1行にしてもいいけど...
         // あくまでチケット主体のチェック処理と解釈されるので、上と同じによう考えなくてもいいかなと。
         if (totalEntrancesCount >= ticketType.getEntranceLimit()) {
-            throw new OutOfHoursUseException("Tickets can not use at " + currentTime + ".");
+            throw new IllegalStateException("Tickets can not use at " + currentTime + ".");
         }
 
         // チケットの利用とそれに伴う処理
@@ -285,17 +293,6 @@ public class Ticket {
 //            super(msg);
 //        }
 //    }
-
-    /**
-     * 時間外利用の例外
-     */
-    public static class OutOfHoursUseException extends RuntimeException {
-        private static final long serialVersionUID = 1L;
-
-        public OutOfHoursUseException(String msg) {
-            super(msg);
-        }
-    }
 
     // ===================================================================================
     //                                                                            Accessor

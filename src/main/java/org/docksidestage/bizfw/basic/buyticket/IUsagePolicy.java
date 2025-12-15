@@ -13,7 +13,7 @@ public interface IUsagePolicy {
     /**
      * 利用可能か判定を行う関数
      * @param currentTime 現在時刻
-     * @throws IllegalStateException　利用不可の場合
+     * @throws RuntimeException 利用不可の場合
      */
-    void validate(LocalTime currentTime) throws IllegalStateException;
+    void validate(LocalTime currentTime) throws RuntimeException;
 }

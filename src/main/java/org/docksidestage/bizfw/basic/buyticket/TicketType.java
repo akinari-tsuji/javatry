@@ -46,11 +46,12 @@ public enum TicketType {
     private final IUsagePolicy usagePolicy;
 
     // done tsuji javadocの@paramの説明ぜひ書きましょう by jflute (2025/10/22)
-    // TODO tsuji @paramが足りてない by jflute (2025/12/03)
+    // TODO done tsuji @paramが足りてない by jflute (2025/12/03)
     /**
      * コンストラクタ
      * @param price 金額
      * @param entranceLimit 入園上限
+     * @param initialQuantity 初期在庫数
      * @param usagePolicy 入園ポリシー
      */
     TicketType(int price, int entranceLimit, int initialQuantity, IUsagePolicy usagePolicy) {

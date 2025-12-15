@@ -211,7 +211,7 @@ public class TicketBooth {
         // 元々、handedMoneyがIntegerだったのでどちらに揃えるべきか悩んでおります。
         // done tsuji [へんじ] いいと思いますー。あえて色々とバラけさせてるってのもあるので^^ by jflute (2025/08/15)
         // ありがとうございます！ akinari.tsuji  (2025/08/22)
-        Ticket purchasedTicket = new Ticket(ticketType, getCurrentClock()); // ticketBoothでチケットを発行するように修正
+        Ticket purchasedTicket = new Ticket(getCurrentClock(), ticketType); // ticketBoothでチケットを発行するように修正
         TicketBuyResult ticketBuyResult = new TicketBuyResult(handedMoney - price, purchasedTicket);
         calculateSalesProceeds(price);
         return ticketBuyResult;
