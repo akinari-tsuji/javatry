@@ -40,7 +40,7 @@ public class Ticket {
     // -----------------------------------------------------
     //                                                 Basic
     //                                                 -----
-    // TODO done tsuji final付けられるので付けておきましょう by jflute (2025/12/03)
+    // done tsuji final付けられるので付けておきましょう by jflute (2025/12/03)
     /** 入園時間を測定する時計 */
     private final Clock clock;
 
@@ -132,8 +132,8 @@ public class Ticket {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    // TODO done tsuji 引数順序、インスタンス変数でclockをトップに持ってくるなら、こっちも順序合わせておきましょう by jflute (2025/12/03)
-    // TODO done tsuji clock の @param を書きましょう by jflute (2025/12/03)
+    // done tsuji 引数順序、インスタンス変数でclockをトップに持ってくるなら、こっちも順序合わせておきましょう by jflute (2025/12/03)
+    // done tsuji clock の @param を書きましょう by jflute (2025/12/03)
     /**
      * Ticketクラスのコンストラクタ。
      * TicketBoothクラスからの呼び出しを想定。
@@ -173,13 +173,38 @@ public class Ticket {
     //                                                                             In Park
     //                                                                             =======
     // done tsuji ナイトパスの利用, 具体的過ぎると変更に追従できないので、もう少しぼかして by jflute (2025/10/22)
-    // TODO done tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
+    // done tsuji せっかくなので、夜チケットの例外もthrowsで書いておきましょう by jflute (2025/10/22)
     // そもそも例外投げる場所間違えてたので、TimeBasedPolicyの方で例外を定義・throwするように修正しました
-    // TODO jflute 例外って果たして誰が投げて、誰がキャッチするべきなのでしょうか？ akinari.tsuji  (2025/12/15)
+    // done jflute 例外って果たして誰が投げて、誰がキャッチするべきなのでしょうか？ akinari.tsuji  (2025/12/15)
     // プロジェクト全体で整合性のあるルールを決めておかないと、例外が発生しなかったり、キャッチされなかったりしてしまいそうです
     // 今回も、以下のパターンを考えたのですが、どっちがいいか分からず後者を採用しました
     // 1. TimeBasedPolicy側で適当な例外を投げて、doInPark側でキャッチしてOutOfHoursUseExceptionを投げる
     // 2. TimeBasedPolicy側でOutOfHoursUseExceptionを投げる
+    //
+    // #1on1: まず↑の個別の話で言うと、TimeBasedPolicy@validate()は、利用しようとしたときにvalidateっていうニュアンスなので... (2025/12/17)
+    // それを知ってるレイヤーだから、OutOfHoursUseExceptionをthrowしても自然ではあるかなと。
+    // (別の方の Quantity@reduce() の OutOfStock例外なのかSoldOut例外なのか？の例 "1" の例)
+    // そういう意味では、ルールは決めておきたいところですが、基本の考え方は、こんな感じで...
+    // 例外クラスの名前も、そのレイヤーで意識できるまでの情報だけに留める。
+    // その考え方をみんなでしっかり理解していれば、そこまでルールがなくても変なことにはなりにくい。
+    // 一方で、レイヤーの区切りでcatch(例外翻訳)することが多いと言えそう。(常にではないけど)
+    /*
+ tx?                tx?            tx?
+  |     web(http)    |              |  business       table(RDB or KVS or RemoteApi or ...)
+  |   +------------+ |  +---------+ |  +-------+    +------------+
+  |   | Controller | => | Service | => | Logic | => | Repository |
+  |   +------------+    +---------+    +-------+    +------------+
+
+        Controller        Service        Logic        Repository
+        Action            Facade        (Various)     Dao / Model
+
+        (↓has)            (↓has)        (↓has)        (↓has)
+
+        Form/Model      Model/Param   Model/Param     Entity/Param
+     */
+    // 例外がって言うよりかは、レイヤードアーキテクチャがって言うよりかは...
+    // 「クラス間の依存を排除するって難しいこと」と言える。
+    // コンパイルレベルで依存を排除するだけじゃなく、潜在的なロジック依存を排除する必要がある。
     /**
      * チケットを使用するメソッド。
      * 入園回数を増加させ、入園中のステータスに切り替える。

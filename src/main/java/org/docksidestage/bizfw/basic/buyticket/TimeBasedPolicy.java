@@ -3,7 +3,7 @@ package org.docksidestage.bizfw.basic.buyticket;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-// TODO tsuji unusedのimport文 by jflute (2025/12/03)
+// done tsuji unusedのimport文 by jflute (2025/12/03)
 
 /**
  * 利用可能時間に基づく利用可能ポリシーを表すクラス
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class TimeBasedPolicy implements IUsagePolicy {
     private final LocalTime availableFrom;
 
-    // TODO done tsuji @param, 全角空白が入ってしまっている by jflute (2025/12/03)
+    // done tsuji @param, 全角空白が入ってしまっている by jflute (2025/12/03)
     // IntelliJで警告も出なかったので、全然気づけなかったです。修正する時も一瞬分からずでした。
     // 設定必要ですね...
     /**
@@ -23,7 +23,7 @@ public class TimeBasedPolicy implements IUsagePolicy {
         this.availableFrom = availableFrom;
     }
 
-    // TODO done tsuji @param がない by jflute (2025/12/03)
+    // done tsuji @param がない by jflute (2025/12/03)
     /**
      * 利用可能かを判定する関数
      * @param currentTime 現在時刻
