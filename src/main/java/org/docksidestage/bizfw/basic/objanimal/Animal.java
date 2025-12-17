@@ -29,6 +29,7 @@ public abstract class Animal implements Loudable {
     //                                                                          Definition
     //                                                                          ==========
     private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+    protected final Barker barker = new Barker(this);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -50,29 +51,10 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        breatheIn();
-        prepareAbdominalMuscle();
-        String barkWord = getBarkWord();
-        BarkedSound barkedSound = doBark(barkWord);
-        return barkedSound;
-    }
-
-    protected void breatheIn() { // actually depends on barking
-        logger.debug("...Breathing in for barking"); // dummy implementation
-        downHitPoint();
-    }
-
-    protected void prepareAbdominalMuscle() { // also actually depends on barking
-        logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
-        downHitPoint();
+        return barker.bark();
     }
 
     protected abstract String getBarkWord();
-
-    protected BarkedSound doBark(String barkWord) {
-        downHitPoint();
-        return new BarkedSound(barkWord);
-    }
 
     // ===================================================================================
     //                                                                           Hit Point
@@ -96,7 +78,7 @@ public abstract class Animal implements Loudable {
     //                                                                              ======
     @Override
     public String soundLoudly() {
-        return bark().getBarkWord();
+        return barker.bark().getBarkWord();
     }
 
     // ===================================================================================

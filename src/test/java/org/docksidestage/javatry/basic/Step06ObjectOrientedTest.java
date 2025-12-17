@@ -583,6 +583,38 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // - 厳密にはBarkerクラスの該当メソッドを書き換えたい、けどそんなことできるのかな
         // - ここで、そもそもBarkerクラスに切り出すことでどこまで影響範囲があるのか考えてなかったことに気づく
         // TODO そういう訳で次は切り出す前のクラスの整理をするところから akinari.tsuji  (2025/12/15)
+        /**
+         * Animal implements Loudable
+         *  abstract: getBarkWord()
+         *
+         *      Dog implements FastRunner
+         *          override: getBarkWord
+         *
+         *      Cat implements FastRunner
+         *          override: getBarkWord
+         *
+         *      Turtle implements Sleeper
+         *          override: getBarkWord
+         *
+         *      Zombie
+         *          override: getBarkWord, breathIn
+         *
+         * 切り出したいのは？
+         *  bark
+         * barkの中で、breathInとgetBarkWordを呼び出す（またこれらは移動させない）
+         * BarkerでAnimalインスタンスをメンバ変数にもち、breathIn, getBarkWordを呼び出す
+         * Animalインスタンス側でbarkを呼び出す場合をどう扱う？
+         * animal.bark()の中でbarker.bark()を呼び出せばいい？
+         *
+         * -> つまり
+         * Barkerにbark, breathIn, prepareAbdominalMuscle, doBarkを切り出す
+         *  切り出したbark, doBark内ではメンバ変数のbreathIn, getBarkWord, downHitPointを呼び出す
+         * Animal側では切り出された関数を変わらず呼び出せるように、barkを定義して、barkerのbarkを実行する
+         */
+        // TODO [memo] せっかく切り出したのに、barkメソッドをAnimalに残さなきゃいけないのはいいのだろうか？ akinari.tsuji  (2025/12/17)
+        Animal animal = new Dog();
+        log(animal.bark().getBarkWord());
+        // bark実行できることを確認
     }
 
     /**
