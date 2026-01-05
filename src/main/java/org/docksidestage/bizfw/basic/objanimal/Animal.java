@@ -15,6 +15,8 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public abstract class Animal implements Loudable {
     //                                                                          Definition
     //                                                                          ==========
     private static final Logger logger = LoggerFactory.getLogger(Animal.class);
-    protected final Barker barker = new Barker(this);
+    protected final BarkingProcess barkingProcess = new BarkingProcess(this);
 
     // ===================================================================================
     //                                                                           Attribute
@@ -51,10 +53,10 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        return barker.bark();
+        return barkingProcess.bark();
     }
 
-    protected abstract String getBarkWord();
+    public abstract String getBarkWord();
 
     // ===================================================================================
     //                                                                           Hit Point
@@ -66,7 +68,7 @@ public abstract class Animal implements Loudable {
         }
     }
 
-    protected void downHitPoint() {
+    public void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());
@@ -78,7 +80,7 @@ public abstract class Animal implements Loudable {
     //                                                                              ======
     @Override
     public String soundLoudly() {
-        return barker.bark().getBarkWord();
+        return barkingProcess.bark().getBarkWord();
     }
 
     // ===================================================================================

@@ -165,7 +165,6 @@ public class TicketBooth {
         // 一応要件としては "夜しか使えないように" ということなので「昼は買えるけど使えない」というように。
         // done jflute 使用時のチェックを追加するため、夜しか買えないようにするコードはコメントアウトします！ akinari.tsuji  (2025/08/22)
         // done jflute TicketクラスのdoInParkメソッドで判定をするように変更しました akinari.tsuji  (2025/08/22)
-        // 作業が終わるまで上のtodoは残しておきます←完了しました
 //        LocalTime nowTime = LocalTime.now();
 //        if (nowTime.isBefore(borderTime)) {
 //            // done tsuji borderTimeが変わったときに例外メッセージ修正し忘れしそうなので、同期するようにしましょう by jflute (2025/08/15)

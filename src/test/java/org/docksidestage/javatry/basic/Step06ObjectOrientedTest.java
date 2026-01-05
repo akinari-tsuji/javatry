@@ -16,14 +16,13 @@
 package org.docksidestage.javatry.basic;
 
 import java.time.Clock;
-import java.time.LocalTime;
 import java.util.Arrays;
 
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.buyticket.TicketType;
 import org.docksidestage.bizfw.basic.objanimal.Animal;
-import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.Cat;
 import org.docksidestage.bizfw.basic.objanimal.Dog;
 import org.docksidestage.bizfw.basic.objanimal.Turtle;
@@ -34,7 +33,6 @@ import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
 import org.docksidestage.javatry.basic.st6.dbms.St6MySql;
 import org.docksidestage.javatry.basic.st6.dbms.St6PostgreSql;
 import org.docksidestage.javatry.basic.st6.dbms.St6Sql;
-import org.docksidestage.javatry.basic.st6.os.St6OperationSystem;
 import org.docksidestage.javatry.basic.st6.os.St06MacOperatingSystem;
 import org.docksidestage.unit.PlainTestCase;
 
@@ -672,6 +670,18 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_withPackageRefactoring() {
         // your confirmation code here
+        // ミスが発覚、BarkerではなくBarkingProcessクラスにするべきだった（見落としてた）
+
+        // 先にとりあえずパッケージを作って、 barkingに移動させた
+        // protected をつけたメソッドでエラーが大量発生
+        // javaのprotected: 同じパッケージ内のクラス or 子クラスならアクセス可能
+        // Gemini：Rubyの protected は、一言で言うと**「自分自身、または同じクラス（とその子クラス）のインスタンスからなら呼べる」**というルールです。
+        // なので、とても間違えそう.
+        // 昔少しだけC＋＋を触った時も全然違った記憶。
+        // そしてpythonには存在しなかった（知らないだけだと思ってました笑）
+
+        // 次にBarkerクラスをBarkingProcessに変更する
+        // IDEの機能で一発でした
     }
 
     /**
@@ -682,7 +692,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // is it corrent?
-        //
+        // 今のAnimalクラスはhitPointとそれに関する操作を持っているのでやや違和感があり。今回でいえばヒットポイントが減らないように
+        // Animal animal = new Zombie みたいな処理があるのかな（ゾンビを動物として扱いたいケース...
+        // ない気もするし、ある気もするし...ケースバイケースとは思うのですが、猫とゾンビが並列なのは違和感あります
+        // CatZombie, DogZombieとかもいるだろうし...
         // _/_/_/_/_/_/_/_/_/_/
     }
 }
