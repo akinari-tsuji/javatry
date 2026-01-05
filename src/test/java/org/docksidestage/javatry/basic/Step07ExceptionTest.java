@@ -25,7 +25,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りに実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step07ExceptionTest extends PlainTestCase {
 
@@ -40,14 +40,15 @@ public class Step07ExceptionTest extends PlainTestCase {
         St7BasicExceptionThrower thrower = new St7BasicExceptionThrower();
         StringBuilder sea = new StringBuilder();
         try {
-            thrower.land();
-            sea.append("dockside");
-        } catch (IllegalStateException e) {
+            thrower.land(); // ここでIllegalStateExceptionが投げられる
+            sea.append("dockside"); // なのでこの行は実行されない
+        } catch (IllegalStateException e) { // キャッチ！
             sea.append("hangar");
         } finally {
-            sea.append("broadway");
+            sea.append("broadway"); // javaではfinallyで最後に確実に処理するらしい
+            // Rubyではensure
         }
-        log(sea); // your answer? =>
+        log(sea); // your answer? => hangarbroadway
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -55,12 +56,13 @@ public class Step07ExceptionTest extends PlainTestCase {
         St7BasicExceptionThrower thrower = new St7BasicExceptionThrower();
         String sea = null;
         try {
-            thrower.land();
-            fail("no way here");
+            thrower.land(); // IllegalStateExceptionが投げられる
+            fail("no way here"); // failは期待する例外が発生しないときに、テストを失敗させるために利用されるらしい
+            // 今回は期待する例外が投げられるのでスルー
         } catch (IllegalStateException e) {
-            sea = e.getMessage();
+            sea = e.getMessage(); // oneman at showbase
         }
-        log(sea); // your answer? =>
+        log(sea); // your answer? => oneman at showbase
     }
 
     /**
@@ -74,8 +76,12 @@ public class Step07ExceptionTest extends PlainTestCase {
             fail("no way here");
         } catch (IllegalStateException e) {
             log(e);
+            StackTraceElement element = e.getStackTrace()[0];
+            log("Class: " + element.getClassName());
+            log("Method: " + element.getMethodName());
+            log("Line: " + element.getLineNumber());
         }
-        // your answer? => 
+        // your answer? => St7BasicExceptionThrower, oneman(), 40行目
     }
 
     // ===================================================================================
@@ -88,35 +94,43 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_hierarchy_Runtime_instanceof_RuntimeException() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof RuntimeException;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
+        // IllegalStateExceptionはRuntimeExceptionをextendsしているのでtrue
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Exception() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Exception;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
+        // RuntimeExceptionがさらにExceptionをextendsしているのでtrue
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Error() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Error;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => false
+        // Throwable
+        //      Exception
+        //          RuntimeException
+        //              IllegalStateException
+        //      Error
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Throwable() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Throwable;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Throwable_instanceof_Exception() {
         Object exp = new Throwable("mystic");
         boolean sea = exp instanceof Exception;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => false
+        // 逆なのでfalse
     }
 
     // ===================================================================================
