@@ -53,11 +53,24 @@ public class Zombie extends Animal {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
+    // TODO tsuji 元々オーバーライドしてたということは...bark()したときの息を吸うでcount処理が入ってた... by jflute (2026/01/07)
+    // わけですが、いまZombieをnewしてbark()してもcountされないのでは？
+    // Animal@bark() から BarkingProcess に処理が移って、BarkingProcessのbreatheIn()が呼ばれるけど...
+    // ↓ここのオーバーライドでもない単発メソッドのbreatheIn()が呼ばれることはない。(デグレが発生している)
+    // Zombieの挙動をしっかり復旧しましょう。
     protected void breatheIn() {
         barkingProcess.breatheIn();
         zombieDiary.countBreatheIn();
     }
 
+    // 元々のコードがこちら: AnimalにいたbreatheIn()をオーバーライドしていた。
+    // そして、Animalのbark()が↓このオーバーライドのbreatheIn()を呼び出していた。
+    //@Override
+    //protected void breatheIn() {
+    //    barkingProcess.breatheIn();
+    //    zombieDiary.countBreatheIn();
+    //}
+    
     @Override
     public String getBarkWord() {
         return "uooo"; // what in English?

@@ -21,6 +21,7 @@ import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO tsuji せっっかくなのでauthorを by jflute (2026/01/07)
 /**
  * The object for animal(動物).
  * @author jflute
@@ -30,7 +31,9 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
+    // TODO tsuji loggerがすでにunusedになっている by jflute (2026/01/07)
     private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+    // TODO tsuji インスタンス変数は Attribute でお願いします。 by jflute (2026/01/07)
     protected final BarkingProcess barkingProcess = new BarkingProcess(this);
 
     // ===================================================================================
@@ -56,6 +59,7 @@ public abstract class Animal implements Loudable {
         return barkingProcess.bark();
     }
 
+    // TODO tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
     public abstract String getBarkWord();
 
     // ===================================================================================
@@ -68,6 +72,12 @@ public abstract class Animal implements Loudable {
         }
     }
 
+    // TODO tsuji 修行#: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
+    // #1on1: protected は、「サブクラス、もしくは、同じパッケージ」なら呼べるという可視性
+    // なので、現状だと、AnimalとBarkingProcessは別パッケージなので、protectedのままだと呼べない。
+    // ということで、publicにされたのだと思われますが、カプセル化的には避けたいところ。
+    // 外部からは呼ばれたくないけど、内部のBarkingProcessからは呼ばれたい...
+    // でもBarkingProcessもパッケージ的には外部扱いになっちゃう。(近いのに)
     public void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
