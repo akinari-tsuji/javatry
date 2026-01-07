@@ -574,6 +574,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (St6MySql, St6PostgreSql (basic.st6.dbms) から抽象クラスを抽出してみましょう (スーパークラスとサブクラスの関係に))
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
+        // TODO jflute 次回1on1ここのふぉろー (2026/01/07)
         // your confirmation code here
         St6Sql sql = new St6MySql();
         log(sql.buildPagingQuery(100, 10));
