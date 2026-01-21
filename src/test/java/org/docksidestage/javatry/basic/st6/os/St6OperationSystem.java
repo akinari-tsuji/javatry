@@ -45,6 +45,7 @@ public class St6OperationSystem {
     }
 
     protected String getFileSeparator() {
+        // TODO tsuji せっかく具象クラスを作るので、このif文をどうにかクラス構造で解決したい by jflute (2026/01/21)
         if (OperatingSystemType.OS_TYPE_MAC.getValue().equalsIgnoreCase(osType)) {
             return "/";
         } else if (OperatingSystemType.OS_TYPE_WINDOWS.getValue().equalsIgnoreCase(osType)) {

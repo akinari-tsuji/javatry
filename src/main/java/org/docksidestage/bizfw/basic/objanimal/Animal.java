@@ -60,6 +60,10 @@ public abstract class Animal implements Loudable {
     }
 
     // TODO tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
+    // #1on1: BarkingProcessは、getBarkWord()を呼びたいのではなく、barkWordが欲しいだけ。
+    // Animalに対して、更新とかはせず、(文字列の)参照だけなので、メソッドを呼ぶ必要はない。
+    // 文字列そのものを何かしらでもらってしまえば良い。「引数/戻り値デザイン」。
+    // 「あっ、なんだ、そんな簡単なことか!?」って体験の思い出を得ることが大事。灯台下暗し。
     public abstract String getBarkWord();
 
     // ===================================================================================
