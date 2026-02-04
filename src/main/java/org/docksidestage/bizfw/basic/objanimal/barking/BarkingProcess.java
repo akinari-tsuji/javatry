@@ -1,6 +1,5 @@
 package org.docksidestage.bizfw.basic.objanimal.barking;
 
-import org.docksidestage.bizfw.basic.objanimal.Animal;
 import org.docksidestage.bizfw.basic.objanimal.BarkingContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ public class BarkingProcess {
     public BarkingProcess(BarkingContext barkingContext) {
         this.barkingContext = barkingContext;
     }
-
+    
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======

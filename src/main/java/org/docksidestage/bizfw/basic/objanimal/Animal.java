@@ -18,8 +18,6 @@ package org.docksidestage.bizfw.basic.objanimal;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // TODO tsuji せっっかくなのでauthorを by jflute (2026/01/07)
 /**
@@ -31,9 +29,9 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    // TODO tsuji loggerがすでにunusedになっている by jflute (2026/01/07)
+    // done tsuji loggerがすでにunusedになっている by jflute (2026/01/07)
     // private static final Logger logger = LoggerFactory.getLogger(Animal.class);
-    // TODO tsuji インスタンス変数は Attribute でお願いします。 by jflute (2026/01/07)
+    // done tsuji インスタンス変数は Attribute でお願いします。 by jflute (2026/01/07)
 
     // ===================================================================================
     //                                                                           Attribute
@@ -66,8 +64,69 @@ public abstract class Animal implements Loudable {
     public BarkedSound bark() {
         return barkingProcess.bark();
     }
+    
+    // #1on1: BarkingContextから...Animalしかnewできない仲介役を作るまで (2026/02/04)
+    // 1: まずstaticのインナークラスで、privateコンストラクターにする。
+    // (privateでもインナークラスなら、外側のクラスがnewできる)
+    // e.g. public static class InnerBarkingContext {
+    //          private InnerBarkingContext(Animal animal) {
+    //
+    // 2: さらに、それをstaticじゃなく、インスタンス所属のインナークラスにする。
+    // 直接Animalのメソッドを呼べる。Animalをコンストラクターで受け取らなくていい。
+    // e.g. public class InnerBarkingContext {
+    //          private InnerBarkingContext() {
+    //
+    // でも、1と2は、なんか隠蔽はできてるけど、BarkingProcessがAnimalの持ち物に深く依存する。
+    //
+    // 3: したら、interfaceを用意する (BarkingProcessを呼ぶ時はそのインターフェースを満たす)
+    // private class InnerBarkingContext implements BarkingRequiredCall {
+    // ↑こうすると、class自体もprivateにできちゃう。BarkingProcess側で直接参照しないから。
+    // (インスタンス自体は、privateとかは関係ないので。privateはあくまでコンパイル時の話)
+    //
+    // 4: もはや、Animalで閉じた具象クラスで、一箇所でしか使わないので、名前をつける必要もない。
+    // 無名インナークラスにしてしまっても良い。(これは、private class, private constructor と同じ)
+    /* e.g.
+    return new BarkingRequiredCall() {
+        @Override
+        public String getBarkWord() {
+            return Animal.this.getBarkWord();
+        }
+        @Override
+        public void downHitPoint() {
+            Animal.this.downHitPoint();
+        }
+    };
+     */
+    // 5: そして、そもそもgetBarkWord()は引数で渡してしまえば良いものなの、Callに入れる必要がない。
+    // すると、Callのメソッドは、downHitPoint()のみ。
+    /*
+     return new BarkingRequiredCall() {
+        @Override
+        public void downHitPoint() {
+            Animal.this.downHitPoint();
+        }
+     }
+     */
+    // 6: すると、Java8から入ったLambda式の形に当てはまる。インターフェースにメソッドが一個。
+    /*
+    return () -> {
+        downHitPoint();
+    }
+    
+    　↓ (expression styleに)
+    
+    return () -> downHitPoint();
+    
+    　↓ (Factoryメソッドやめる)
+    
+    ... = new BarkingProcess(getBarkWord(), () -> downHitPoint());
+     */
+    // 補足: 5のところで、getBarkWord()を外してメソッドを一つにしましたが、
+    // 仲介役を個別に用意すれば、それぞれLambda式で書くこともできる。
+    // e.g. ... = new BarkingProcess(() -> getBarkWord(), () -> downHitPoint());
+    // これをやるかどうかは別。あまりに引数多くなると、逆に見辛くなるかも。
 
-    // TODO done tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
+    // done tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
     // #1on1: BarkingProcessは、getBarkWord()を呼びたいのではなく、barkWordが欲しいだけ。
     // Animalに対して、更新とかはせず、(文字列の)参照だけなので、メソッドを呼ぶ必要はない。
     // 文字列そのものを何かしらでもらってしまえば良い。「引数/戻り値デザイン」。
@@ -84,13 +143,13 @@ public abstract class Animal implements Loudable {
         }
     }
 
-    // TODO done tsuji 修行#: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
+    // done tsuji 修行#: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
     // #1on1: protected は、「サブクラス、もしくは、同じパッケージ」なら呼べるという可視性
     // なので、現状だと、AnimalとBarkingProcessは別パッケージなので、protectedのままだと呼べない。
     // ということで、publicにされたのだと思われますが、カプセル化的には避けたいところ。
     // 外部からは呼ばれたくないけど、内部のBarkingProcessからは呼ばれたい...
     // でもBarkingProcessもパッケージ的には外部扱いになっちゃう。(近いのに)
-    // TODO jflute やったこと by akinari.tsuji (2026/02/04)
+    // done jflute やったこと by akinari.tsuji (2026/02/04)
     // 1. Contextクラスを作成する。メンバ変数にAnimalのインスタンスを持つ。コンストラクタをpackage-privateにすることで、他での作成・利用を回避する。
     // 2. Animalクラスにpackage-privateなメソッド（downHitPointForContext)を作成し、privateなdownHitPointをラップする
     // 3. Contextクラスに、publicなdownHitPointメソッドを作成し、内部でanimal.downHitPointContextを呼び出すようにする
@@ -112,7 +171,7 @@ public abstract class Animal implements Loudable {
     //     -> objanimal中で、Animalインスタンスを用いて、Contextを作成し、downHitPointを呼び出せば、減らせてはしまう...
     // これ以上、防ぐ方法は（あるかもですが）、一旦、理解追いついてないのでここまでになります...
 
-    protected void downHitPoint() {
+    private void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());
@@ -143,3 +202,5 @@ public abstract class Animal implements Loudable {
 
     public void hoge() {}
 }
+
+
