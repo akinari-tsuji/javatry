@@ -21,12 +21,8 @@ import java.util.Arrays;
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.buyticket.TicketType;
-import org.docksidestage.bizfw.basic.objanimal.Animal;
+import org.docksidestage.bizfw.basic.objanimal.*;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
-import org.docksidestage.bizfw.basic.objanimal.Cat;
-import org.docksidestage.bizfw.basic.objanimal.Dog;
-import org.docksidestage.bizfw.basic.objanimal.Turtle;
-import org.docksidestage.bizfw.basic.objanimal.Zombie;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
@@ -701,6 +697,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
 
         // 次にBarkerクラスをBarkingProcessに変更する
         // IDEの機能で一発でした
+
+        // TODO jflute Contextを悪用して体力を減らす by akinari.tsuji (2026/02/04)
+        // 出来はするけど、そのためのクラスをobjanimalパッケージに作らなければいけないので、privateよりは安全かと思います（多分）
+        Animal animal = new Dog();
+        log("Before:" + animal.getHitPoint());
+        MaliciousClass maliciousClass = new MaliciousClass(animal);
+        maliciousClass.downHitPointDeliberately();
+        log("After:" + animal.getHitPoint());
     }
 
     /**

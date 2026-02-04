@@ -32,14 +32,22 @@ public abstract class Animal implements Loudable {
     //                                                                          Definition
     //                                                                          ==========
     // TODO tsuji loggerがすでにunusedになっている by jflute (2026/01/07)
-    private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+    // private static final Logger logger = LoggerFactory.getLogger(Animal.class);
     // TODO tsuji インスタンス変数は Attribute でお願いします。 by jflute (2026/01/07)
-    protected final BarkingProcess barkingProcess = new BarkingProcess(this);
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
+    protected final BarkingProcess barkingProcess = new BarkingProcess(createBarkingContext());
     protected int hitPoint; // is HP
+
+    /**
+     * BarkingContextを作成するメソッド
+     * これを通じて、privateなdownHitPointを呼び出させる
+     */
+    private BarkingContext createBarkingContext() {
+        return new BarkingContext(this);
+    }
 
     // ===================================================================================
     //                                                                         Constructor
@@ -56,15 +64,15 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        return barkingProcess.bark();
+        return barkingProcess.bark(getBarkWord());
     }
 
-    // TODO tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
+    // TODO done tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
     // #1on1: BarkingProcessは、getBarkWord()を呼びたいのではなく、barkWordが欲しいだけ。
     // Animalに対して、更新とかはせず、(文字列の)参照だけなので、メソッドを呼ぶ必要はない。
     // 文字列そのものを何かしらでもらってしまえば良い。「引数/戻り値デザイン」。
     // 「あっ、なんだ、そんな簡単なことか!?」って体験の思い出を得ることが大事。灯台下暗し。
-    public abstract String getBarkWord();
+    protected abstract String getBarkWord();
 
     // ===================================================================================
     //                                                                           Hit Point
@@ -76,25 +84,54 @@ public abstract class Animal implements Loudable {
         }
     }
 
-    // TODO tsuji 修行#: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
+    // TODO done tsuji 修行#: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
     // #1on1: protected は、「サブクラス、もしくは、同じパッケージ」なら呼べるという可視性
     // なので、現状だと、AnimalとBarkingProcessは別パッケージなので、protectedのままだと呼べない。
     // ということで、publicにされたのだと思われますが、カプセル化的には避けたいところ。
     // 外部からは呼ばれたくないけど、内部のBarkingProcessからは呼ばれたい...
     // でもBarkingProcessもパッケージ的には外部扱いになっちゃう。(近いのに)
-    public void downHitPoint() {
+    // TODO jflute やったこと by akinari.tsuji (2026/02/04)
+    // 1. Contextクラスを作成する。メンバ変数にAnimalのインスタンスを持つ。コンストラクタをpackage-privateにすることで、他での作成・利用を回避する。
+    // 2. Animalクラスにpackage-privateなメソッド（downHitPointForContext)を作成し、privateなdownHitPointをラップする
+    // 3. Contextクラスに、publicなdownHitPointメソッドを作成し、内部でanimal.downHitPointContextを呼び出すようにする
+    // 4. BarkingProcessクラスはコンストラクタで、Contextのインスタンスを受け取り、これを通じてanimalの体力を減らすようにする
+    // 5. 最後に、AnimalがBarkingProcessのインスタンスを作成できるように、Contextを作成するprivateなメソッドを作成し、これを使ってBarkingProcessを作るようにする
+
+    // やりたかったこと：吠える、という振る舞いの中で、動物の体力を消費させたかった
+    // Before
+    // - BarkingProcessのbarkを呼び出す
+    // - barkの中でAnimalの体力を減らしたいがprotectedなので呼び出せない
+    // - publicにすると、誰でも体力を減らせてしまう...
+
+    // After
+    // - BarkingProcessのbarkを呼び出す
+    // - Contextを経由して体力を減らす
+    // - 他がAnimalの体力を減らすには？
+    //     1. Contextが必要(contextを使わないと、downHitPointを呼び出せない）
+    //     2. Contextを作成できるのはobjanimalパッケージ中のみ（コンストラクタがpackage-privateなので）
+    //     -> objanimal中で、Animalインスタンスを用いて、Contextを作成し、downHitPointを呼び出せば、減らせてはしまう...
+    // これ以上、防ぐ方法は（あるかもですが）、一旦、理解追いついてないのでここまでになります...
+
+    protected void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());
         }
     }
 
+    void downHitPointForContext() { downHitPoint(); }
+
     // ===================================================================================
     //                                                                               Loud
     //                                                                              ======
+    // TODO akinari.tsuji getBarkWordをprotectedにするために、bark()の引数でgetBarkWordを渡すようにしたら、↓がキモくなってしまった (2026/02/04)
+    // そもそも、barkingProcess.barkの返り値が、getBarkWord()を呼び出せることまで知っていていいのかな...メソッドチェーンあんまり良くないっていうけど
+    // -> barkと同じなのでそっちを使えばいいや, でもこれだとbark()とSoundLoudlyでほとんど違いがないや...
     @Override
     public String soundLoudly() {
-        return barkingProcess.bark().getBarkWord();
+        // return barkingProcess.bark(getBarkWord()).getBarkWord();
+        BarkedSound barkedSound = bark();
+        return barkedSound.getBarkWord();
     }
 
     // ===================================================================================
