@@ -705,6 +705,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         MaliciousClass maliciousClass = new MaliciousClass(animal);
         maliciousClass.downHitPointDeliberately();
         log("After:" + animal.getHitPoint());
+
+        // barkに引数渡していたのも解消（でもこんなことをやっていると、そのうちcontextが肥大化していくのでは...？）
+        animal.bark();
+        log("After bark: " + animal.getHitPoint());
     }
 
     /**

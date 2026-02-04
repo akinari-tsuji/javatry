@@ -24,4 +24,11 @@ public class BarkingContext {
     public void downHitPoint() {
         animal.downHitPointForContext();
     }
+
+    // ===================================================================================
+    //                                                                            BarkWord
+    //                                                                           =========
+    public String getBarkWord() {
+        return animal.getBarkWord();
+    }
 }

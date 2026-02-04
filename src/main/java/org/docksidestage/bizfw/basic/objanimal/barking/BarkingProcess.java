@@ -48,9 +48,10 @@ public class BarkingProcess {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
-    public BarkedSound bark(String barkWord) {
+    public BarkedSound bark() {
         breatheIn();
         prepareAbdominalMuscle();
+        String barkWord = barkingContext.getBarkWord();
         BarkedSound barkedSound = doBark(barkWord);
         return barkedSound;
     }

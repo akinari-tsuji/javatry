@@ -64,7 +64,7 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        return barkingProcess.bark(getBarkWord());
+        return barkingProcess.bark();
     }
 
     // TODO done tsuji 修行++: publicになっちゃいましたが、protectedに戻せるようにしましょう by jflute (2026/01/07)
