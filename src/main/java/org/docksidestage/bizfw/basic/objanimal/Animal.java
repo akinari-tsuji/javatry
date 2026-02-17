@@ -172,7 +172,7 @@ public abstract class Animal implements Loudable {
     //     -> objanimal中で、Animalインスタンスを用いて、Contextを作成し、downHitPointを呼び出せば、減らせてはしまう...
     // これ以上、防ぐ方法は（あるかもですが）、一旦、理解追いついてないのでここまでになります...
 
-    private void downHitPoint() {
+    protected void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());
