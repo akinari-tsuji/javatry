@@ -228,21 +228,32 @@ public class Step07ExceptionTest extends PlainTestCase {
         String land = "oneman";
         try {
             throwCauseFirstLevel();
+            // ↑でIllegalStateExceptionが発生、
             fail("always exception but none");
         } catch (IllegalStateException e) {
             Throwable cause = e.getCause();
             sea = cause.getMessage();
             land = cause.getClass().getSimpleName();
-            log(sea); // your answer? => 
-            log(land); // your answer? => 
-            log(e); // your answer? => 
+            log(sea); // your answer? => "Failed to call the third help method: symbol= -1"
+            log(land); // your answer? => IllegalStateException
+            log(e); // your answer? => java.lang.IllegalStateException: Failed to call the second help method: symbol=1
+
+            // eにはその例外の例外クラスやエラーメッセージが入っていて、そのまま出力すると"[例外クラス]: [エラーメッセージ]"の形式で出してくれる
+            // getCause()を呼び出すと、一つ手前の例外を取り出す。
+            // 今回の例外発生順が、手前から
+            //  a. throw new IllegalStateException("Failed to call the second help method: symbol=" + symbol, e);
+            //  b. throw new IllegalArgumentException("Failed to call the third help method: symbol=" + symbol, e);
+            //  c. NumberFormatException
+            // となっているので、eにはaが入っていて、e.getCause()にはbが入っている
+
         }
     }
 
     private void throwCauseFirstLevel() {
-        int symbol = Integer.MAX_VALUE - 0x7ffffffe;
+        int symbol = Integer.MAX_VALUE - 0x7ffffffe; // 1
         try {
             throwCauseSecondLevel(symbol);
+            // ↑でIllegalArgumentExceptionが発生、"Failed to call the second help method: symbol=" + symbol
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("Failed to call the second help method: symbol=" + symbol, e);
         }
@@ -253,7 +264,8 @@ public class Step07ExceptionTest extends PlainTestCase {
             --symbol;
             symbol--;
             if (symbol < 0) {
-                throwCauseThirdLevel(symbol);
+                throwCauseThirdLevel(symbol); // -1
+                // ↑でNumberFormatExceptionが発生、"Failed to call the third help method: symbol=" + symbol
             }
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Failed to call the third help method: symbol=" + symbol, e);
@@ -262,7 +274,7 @@ public class Step07ExceptionTest extends PlainTestCase {
 
     private void throwCauseThirdLevel(int symbol) {
         if (symbol < 0) {
-            Integer.valueOf("piari");
+            Integer.valueOf("piari"); // -> NumberFormatExceptionが発生する
         }
     }
 
@@ -282,9 +294,20 @@ public class Step07ExceptionTest extends PlainTestCase {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             // What happens? Write situation and cause here. (何が起きた？状況と原因をここに書いてみましょう)
             // - - - - - - - - - -
+            // まずは処理を追う
+            // 1. SupercarDealerを作成
+            //      SupercarDealerのインスタンスを作るだけなので、例外は発生しなさそう
+            // 2. clientRequirementを作成 -> "steering wheel is like sea"
+            //      これも要求を文字列で返すだけなので例外は発生しない
+            // 3. Supercarをdealerに発注
+            //      - dealerに発注した時、要求が想定外の場合は例外が発生するが、今回はこれではなさそう
+            //      - SupercarManufacturerを作成し、製造を依頼（piari）
+            //      ここら辺かなー
+            // 4. 注文済みリストに車を追加
+            //      ここはただcollectionに追加しているだけだから、問題ない気がする
             //
-            //
-            //
+            // TODO akinari.tsuji これはコード追うのが面倒になってきたので、シーケンス図に起こす方が楽そう (2026/02/18)
+            // あと、ちょっとずるいけど例外メッセージから発生箇所がSpecialScrewManufactuereであることはわかった
             // _/_/_/_/_/_/_/_/_/_/
         }
     }
