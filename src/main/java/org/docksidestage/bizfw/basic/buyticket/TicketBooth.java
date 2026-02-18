@@ -159,6 +159,9 @@ public class TicketBooth {
      * @return ナイトパスの購入結果
      */
     public TicketBuyResult buyNightPassport(Integer handedMoney) {
+        if (handedMoney == null) {
+            throw new IllegalArgumentException("The argument 'handedMoney' should not be null.");
+        }
 //        LocalTime borderTime = LocalTime.of(18, 0);
         // done tsuji [いいね] 買うタイミングが夜じゃないいけないというのも一つのありえる業務ですね^^ by jflute (2025/08/15)
         // dibe tsuji 一方で、事前購入が可能で、入園するタイミングでチェックされるような仕様にしてみましょう by jflute (2025/08/15)

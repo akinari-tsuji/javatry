@@ -136,6 +136,47 @@ public class Step07ExceptionTest extends PlainTestCase {
         // 逆なのでfalse
     }
 
+    // #1on1: (自然言語の)例外とエラーという言葉の違い、JavaのExceptionとErrorの違い (2026/02/18)
+    // (自然言語の)例外とエラー: エラーという言葉には、ダメというニュアンスが含まれている。
+    // 例外という言葉には、「ダメではないけどまあまあまあみたい」by つじさん
+    // Good, ダメとは限らなくて、「普通と違う」ってことしか言ってない。
+    // 普通と違うの中に、「ダメなもの」もあるかもだし、「普通じゃないだけでOKなもの」もあるかも。
+    //
+    // JavaのExceptionとErrorの違い。
+    // IllegalArgumentException は、なぜ IllegalArgumentError じゃないの？
+    // throwした瞬間(クラス)は、超厳密には「システムエラー」なのか「正常なレアケース」なのか判断つかない。
+    // そのメソッドを呼び出した側の全体業務を司っているクラスがcatchして初めてどっちなのか判断できる。
+    // IllegalArgument というイベントそのものが固定的にエラーと定義づけられるわけじゃない。(ある意味相対的)
+    // 一方で、OutOfMemoryError と NoSuchMethodError は、throwした瞬間にダメと定義付けできる。
+    // (自然言語の)例外とエラー、実装上のExceptionとErrorの対比。
+    // 
+    // TypeScript, Rubyの例。
+    // 異常系 (from つじさん) という言葉は、確かにダメ感が入っている。
+    /*
+                           +-----------------+
+                           |                 |
+                  +------------------+       |
+                  |     Throwable    | <>----+
+                  +------------------+
+                           △ 
+                           ｜
+            +------------------------------+
+            |                              |
+   +--------------------+        +-------------------+
+   |       Error        |        |    Exception      |
+   +--------------------+        +-------------------+
+     NoSuchMethodError                    △ 
+     OutOfMemoryError                     ｜
+                           +------------------------------+
+                           |                              |
+                 +--------------------+        +-------------------+
+                 |  RuntimeException  |        |    XxxException   |
+                 +--------------------+        +-------------------+
+                           △                 IOException, SQLException
+                           ｜
+                   NullPointerException            
+                   IllegalStateException
+     */
     // ===================================================================================
     //                                                                         NullPointer
     //                                                                         ===========
@@ -183,6 +224,9 @@ public class Step07ExceptionTest extends PlainTestCase {
             String piari = !!!sea.equals("mystic") ? "plaza" : null;
             int sum = land.length();
             sum += piari.length(); // なんかこれでわかるようになるけど、微妙に感じてしまう...なぜだ？気のせい？
+            // #1on1: その微妙な感情、合ってると思います (2026/02/18)
+            // コードを綺麗にするための切り出しじゃなくて、Javaの例外情報の少なさをカバーする切り出し。
+            // TODO jflute 次回1on1 (2026/02/18)
             log(sum);
         } catch (NullPointerException e) {
             log(e);

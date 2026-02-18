@@ -19,7 +19,7 @@ import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 
-// TODO tsuji せっっかくなのでauthorを by jflute (2026/01/07)
+// done tsuji せっっかくなのでauthorを by jflute (2026/01/07)
 /**
  * The object for animal(動物).
  * @author jflute
