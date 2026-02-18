@@ -15,6 +15,9 @@
  */
 package org.docksidestage.javatry.basic;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.docksidestage.bizfw.basic.supercar.SupercarClient;
 import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
@@ -143,27 +146,30 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_nullpointer_basic() {
         try {
             String sea = "mystic";
-            String land = sea.equals("mystic") ? null : "oneman";
-            String lowerCase = land.toLowerCase();
+            String land = sea.equals("mystic") ? null : "oneman"; // landにnullが入る
+            String lowerCase = land.toLowerCase(); // nullに対してメソッドを呼び出すのでここでエラーが発生する
             log(lowerCase);
         } catch (NullPointerException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? => land, 147行目
+        // log
+        // at org.docksidestage.javatry.basic.Step07ExceptionTest.test_exception_nullpointer_basic(Step07ExceptionTest.java:147)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_nullpointer_headache() {
         try {
             String sea = "mystic";
-            String land = !!!sea.equals("mystic") ? null : "oneman";
-            String piari = !!!sea.equals("mystic") ? "plaza" : null;
-            int sum = land.length() + piari.length();
+            String land = !!!sea.equals("mystic") ? null : "oneman"; // landはoneman
+            String piari = !!!sea.equals("mystic") ? "plaza" : null; // piariはnull
+            int sum = land.length() + piari.length(); // piari.length()で発生
             log(sum);
         } catch (NullPointerException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? =>  piari.length(), 163行目
+        // 	at org.docksidestage.javatry.basic.Step07ExceptionTest.test_exception_nullpointer_headache(Step07ExceptionTest.java:163)
     }
 
     /**
@@ -175,7 +181,8 @@ public class Step07ExceptionTest extends PlainTestCase {
             String sea = "mystic";
             String land = !!!sea.equals("mystic") ? null : "oneman";
             String piari = !!!sea.equals("mystic") ? "plaza" : null;
-            int sum = land.length() + piari.length();
+            int sum = land.length();
+            sum += piari.length(); // なんかこれでわかるようになるけど、微妙に感じてしまう...なぜだ？気のせい？
             log(sum);
         } catch (NullPointerException e) {
             log(e);
@@ -190,6 +197,22 @@ public class Step07ExceptionTest extends PlainTestCase {
      * (new java.io.File(".") の canonical path を取得してログに表示、I/Oエラーの時はメッセージとスタックトレースを代わりに表示)
      */
     public void test_exception_checkedException_basic() {
+        File file = new File(".");
+        try {
+            String canonicalPath = file.getCanonicalPath();
+            log(canonicalPath);
+            throw new IOException();
+        } catch (IOException e) {
+            // TODO jflute 良いエラーメッセージってなんでしょう？ by akinari.tsuji (2026/02/17)
+            // 何が起こっているか、原因は何か、どう直せばいいか、がわかれば嬉しい気がしますが、↓は過剰な気もしてしまい...
+            // また、そもそもどう直せばいいかわかるなら、その時点で治せる気もする...？
+            //
+            // また、そもそも例外って、なんなんでしょう。
+            // 想定内の例外は都度つどのtry-catchという処理フローの中で、別途管理されている（システム本来の処理とは別の経路で管理するために例外クラスを投げる？）
+            // 想定外の例外はどこかで最終防御壁的なcatchがある、という感じでしょうか？
+            // プロセスを止めないために、エラーを管理してあげるためのもので、想定されるエラーと想定外のエラーで止め方が異なる？
+            log("canonical pathの取得時にエラーが発生しました:", e);
+        }
     }
 
     // ===================================================================================
