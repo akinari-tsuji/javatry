@@ -352,6 +352,51 @@ public class Step07ExceptionTest extends PlainTestCase {
             //
             // TODO akinari.tsuji これはコード追うのが面倒になってきたので、シーケンス図に起こす方が楽そう (2026/02/18)
             // あと、ちょっとずるいけど例外メッセージから発生箇所がSpecialScrewManufactuereであることはわかった
+            //
+            // buySupercar()でorderSupercarして、その中で製造者がmakeSupercarをする
+            // makeSuperCarする時に、wheelの製造をSupercarSteringWheelManufacturerに依頼する（makeSteeringWheel）
+            // wheel製造時にscrewの製造を依頼してmakeSpecialScrewを呼び出して、
+            // screwが可愛いテキストを含んでるのでScrewCannotMakeBySpecExceptionの例外が発生する
+            //
+            // 1. Client
+            // 2. Dealer
+            // 3. SuperCarManufacturer
+            // 4. WheelManufacturer
+            // 5. ScrewManufacturer: ここでScrewCannotMakeBySpecException例外が発生する
+            // これをどうやって戻していってクライアントまで伝えるか？
+            // ClientでScrewCannnotMakeBySpecExceptionをキャッチするのはおかしい
+            // スーパーカー注文したら、「ネジが原因で無理」と言われても仕方ない
+            // 案としては、
+            // A. 1つずつカスタム例外クラスを作って、一つずつ戻していく
+            // B. どこか適当なところでキャッチをする
+            //
+            // Geminiに相談：「ドメインごとに分けてキャッチして翻訳する」
+            // 1. 注文・顧客対応 (Client, Dealer)
+            // 2. 自動車製造 (SuperCarManufacturer)
+            // 3. 部品製造 (WheelManufacturer, ScrewManufacturer)
+            // つまり、案Bの方
+            // 案Aだと
+            // まさにその通りです！「それならCやGoのように返り値でエラーハンドリングすればいい」というのは、めちゃくちゃ鋭い視点です。
+            // 例外処理（try-catch）の最大のメリットは、「中間のクラスが細かいエラーを気にせず、ハッピーパス（正常系の処理）だけをスッキリ書けること」にあります。案Aのようにすべてのクラスでバケツリレーのようにキャッチして投げ直すと、そのメリットが完全に死んでしまいますよね。」
+            //
+            // 1. Dealer -> Client: OrderFailedException
+            // 2. SuperCarManufacturer -> Dealer: SupercarManufacturingException
+            // 3. 部品製造 -> SuperCarManufacturer: ScrewCannotMakeBySpecException
+            // ↑を勧められたが、OrderFailedExceptionは広すぎる気がする
+            // Clientから見たときに失敗したと言うことしかわからない
+            //
+            // アプローチ2：Client向けに例外をサブクラス化する
+            // OrderFailedException を親クラスとして、子クラスを作る方法です。
+            // PaymentFailedException extends OrderFailedException
+            // OutOfStockException extends OrderFailedException
+            // SystemTroubleException extends OrderFailedException
+            //
+            // どう直そう？
+            // Screw: throw ScrewCannotMakeBySpecException, 可愛いはサポート切れ
+            // Wheel: throw 仕様に合う部品がないことException
+            // SuperCar: throw Wheelの部品がないことException
+            // Dealer: throw 車の部品がないことException
+            // Client: 知りたいことは注文失敗とその原因
             // _/_/_/_/_/_/_/_/_/_/
         }
     }
