@@ -18,6 +18,8 @@ package org.docksidestage.bizfw.basic.supercar;
 import org.docksidestage.bizfw.basic.screw.ScrewSpec;
 import org.docksidestage.bizfw.basic.screw.SpecialScrew;
 import org.docksidestage.bizfw.basic.screw.SpecialScrewManufacturer;
+import org.docksidestage.bizfw.basic.screw.exception.ScrewCannotMakeBySpecException;
+import org.docksidestage.bizfw.basic.supercar.exception.InsufficientPartsException;
 
 /**
  * The manufacturer(製造業者) of supercar steering wheel(車のハンドル).
@@ -36,8 +38,13 @@ public class SupercarSteeringWheelManufacturer {
         ScrewSpec screwSpec = new ScrewSpec(specText);
 
         SpecialScrewManufacturer screwManufacturer = createSpecialScrewManufacturer();
-        SpecialScrew screw = screwManufacturer.makeSpecialScrew(screwSpec);
+        SpecialScrew screw;
 
+        try {
+            screw = screwManufacturer.makeSpecialScrew(screwSpec);
+        } catch (ScrewCannotMakeBySpecException e) {
+            throw new InsufficientPartsException("ステアリングホイールの製造に必要な部品が不足しています", e);
+        }
         return new SteeringWheel(screw);
     }
 

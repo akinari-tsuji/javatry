@@ -33,7 +33,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りに実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author akinari.tsuji
  */
 public class Step08Java8FunctionTest extends PlainTestCase {
 
@@ -50,6 +50,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_lambda_callback_basic() {
         String title = "over";
 
+        // TODO メモ：なんとなくしか文法わかんないけど、きっとコールバックをクラスでやったり匿名クラスでやったり、ラムダでやったり... akinari.tsuji  (2026/03/18)
+        // acceptっていうのが文法なのかな、Consumerインターフェースをimplementsしてacceptが動く的な
         log("...Executing named class callback(!?)");
         helpCallbackConsumer(new St8BasicConsumer(title));
 
@@ -68,10 +70,15 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         log("...Executing lambda expression style callback");
         helpCallbackConsumer(stage -> log(stage + ": " + title));
 
-        // your answer? => 
+        // your answer? => yes
 
         // cannot reassign because it is used at callback process
-        //title = "wave";
+//        title = "wave";
+        // java: 内部クラスから参照されるローカル変数は、finalまたは事実上のfinalである必要があります 61
+        // java: ラムダ式から参照されるローカル変数は、finalまたは事実上のfinalである必要があります 67
+        // java: ラムダ式から参照されるローカル変数は、finalまたは事実上のfinalである必要があります71
+        // TODO jflute なぜfinalである必要があるのでしょう...？ by akinari.tsuji (2026/03/18)
+        // St8BasicConsumerはエラーが出てないので、なんか納得はするのですが、うまく言葉にできないです...
     }
 
     /**
@@ -84,7 +91,15 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             log(stage);
         });
         log("lost river");
-        // your answer? => 
+        // your answer? =>
+        /**
+         * harbor
+         * broadway
+         * dockside
+         * harbor
+         * lost river
+         */
+        // ラスト二つ目はhangerでした（見間違えてた笑
     }
 
     private class St8BasicConsumer implements Consumer<String> {
@@ -116,7 +131,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         String sea = helpCallbackFunction(number -> {
             return label + ": " + number;
         });
-        log(sea); // your answer? => 
+        log(sea); // your answer? => "number: 7"
+        // FunctionはRepresents a function that accepts one argument and produces a result.
+        // Consumerは値を返さないけど、Functionは値を返す
     }
 
     private String helpCallbackFunction(Function<Integer, String> oneArgLambda) {
@@ -136,24 +153,28 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (このようにコールバックスタイルを変えてみましょう:)
      * <pre>
      * o sea: BlockのLambda式に
-     * o land: ExpressionのLambda式に
-     * o piari: BlockのLambda式に
+     * o land: ExpressionのLambda式に a -> 処理
+     * o piari: BlockのLambda式に a -> { 処理 }
      * </pre>
      */
     public void test_java8_lambda_convertStyle_basic() {
-        helpCallbackSupplier(new Supplier<String>() { // sea
-            public String get() {
-                return "broadway";
-            }
-        });
+        helpCallbackSupplier(
+                // new Supplier<String>() { // sea
+//            public String get() {
+//                return "broadway";
+//            }
+                () -> { return "boradway"; }
+            );
 
-        helpCallbackSupplier(() -> { // land
-            return "dockside";
-        });
+//        helpCallbackSupplier(() -> { // land
+//            return "dockside";
+//        });
+        helpCallbackSupplier(() -> "dockside");
 
-        helpCallbackSupplier(() -> "hangar"); // piari
+        helpCallbackSupplier(() -> { return "hangar"; }); // piari
     }
 
+    // Supplierは毎回同じ値を返す時に使う？
     private void helpCallbackSupplier(Supplier<String> oneArgLambda) {
         String supplied = oneArgLambda.get();
         log(supplied);

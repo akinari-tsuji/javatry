@@ -16,6 +16,7 @@
 package org.docksidestage.bizfw.basic.supercar;
 
 import org.docksidestage.bizfw.basic.supercar.SupercarSteeringWheelManufacturer.SteeringWheel;
+import org.docksidestage.bizfw.basic.supercar.exception.InsufficientPartsException;
 
 /**
  * The manufacturer(製造業者) of supercar.
@@ -29,7 +30,13 @@ public class SupercarManufacturer {
         Integer steeringWheelId = catalog.findSteeringWheelSpecId(catalogKey);
 
         SupercarSteeringWheelManufacturer wheelManufacturer = createSupercarSteeringWheelManufacturer();
-        SteeringWheel steeringWheel = wheelManufacturer.makeSteeringWheel(steeringWheelId);
+        SteeringWheel steeringWheel;
+
+        try {
+            steeringWheel = wheelManufacturer.makeSteeringWheel(steeringWheelId);
+        } catch (InsufficientPartsException e) {
+            throw new InsufficientPartsException("部品不足のためスーパーカーを製造できませんでした", e);
+        }
 
         return new Supercar(steeringWheel);
     }

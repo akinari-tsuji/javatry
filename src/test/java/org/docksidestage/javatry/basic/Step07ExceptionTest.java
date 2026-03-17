@@ -265,8 +265,11 @@ public class Step07ExceptionTest extends PlainTestCase {
             // throw new DstoreException();
             // "かなぶんぶーんでもえびいんびーん" もぜひ調べてみて
             //
-            // TODO tsuji タイトルより、そのエラーきっかけの対象オブジェクトの情報を載せたい by jflute (2026/03/04)
-            //
+            // TODO done tsuji タイトルより、そのエラーきっかけの対象オブジェクトの情報を載せたい by jflute (2026/03/04)
+            // fileをlogに出すようにしました
+            // かなぶんぶーんでもえびいんびーん 調べました（会社PCなので見てはないです笑）
+            // 歌詞だけ見ましたが、ほとんどPPAPです？笑
+             //
             // また、そもそも例外って、なんなんでしょう。
             //
             // 想定内の例外は都度つどのtry-catchという処理フローの中で、別途管理されている
@@ -287,7 +290,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             // 最終防御のcatchは、大抵エラーファイルに例外情報を記録するというのが仕事。
             // (Javaまでthrowしちゃうと、コンソールにしか出力されなくて、(基本的には)保存ができない)
             //
-            log("canonical pathの取得時にエラーが発生しました:", e);
+            log("canonical pathの取得時にエラーが発生しました。file: " + file, e);
         }
     }
 
@@ -474,6 +477,23 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_translation_improveChallenge() {
         try {
             new SupercarClient().buySupercar(); // you can fix the classes
+            // TODO jflute カスタム例外クラスを作ってみたものの、これでいいのだろうか感 by akinari.tsuji (2026/03/18)
+            // どこまで分けるべきか、と、InsufficientPartsExceptionをwheel, manufacturerで投げてる点
+
+            // Screw:
+            //      throw: ScrewCannnotMakeBySpecException
+            // Wheel:
+            //      catch: ScrewCannnotMakeBySpecException
+            //      throw: InsufficientParsException
+            // SuperCarManufacturer
+            //      catch: InsufficientPartsException
+            //      throw: InsufficientPartsException
+            // Dealer
+            //      catch: InsufficientPartsException
+            //      throw: SuperCartManufacturingException
+            // Client
+            //      catch: SuperCarManufacturingException
+            //      throw: SuperCarOrderFailedException
             fail("always exception but none");
         } catch (RuntimeException e) {
             log("*No hint here for training.", e);
@@ -499,7 +519,9 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             helpThrowIllegalState();
         } catch (IllegalStateException e) {
-            throw new St7ConstructorChallengeException("Failed to do something.");
+            // TODO jflute ↓の例外クラスがキャッチした例外の情報を握り潰していたのがやばかった by akinari.tsuji (2026/03/18)
+            // 何が起こったのか大事な情報が見られなくなっていた
+            throw new St7ConstructorChallengeException("Failed to do something.", e);
         }
     }
 
@@ -521,8 +543,8 @@ public class Step07ExceptionTest extends PlainTestCase {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // Write here. (ここに書いてみましょう)
         // - - - - - - - - - -
-        //
-        //
+        // error: throwした瞬間にダメ（エラー）とわかるもの
+        // exception: throwした瞬間、throwした奴にはそれがダメ（エラー）なのか業務例外なのかがわからない
         //
         // _/_/_/_/_/_/_/_/_/_/
     }

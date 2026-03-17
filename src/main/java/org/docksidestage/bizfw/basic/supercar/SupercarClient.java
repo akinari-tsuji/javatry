@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.docksidestage.bizfw.basic.supercar.SupercarManufacturer.Supercar;
+import org.docksidestage.bizfw.basic.supercar.exception.SuperCarManufacturingException;
+import org.docksidestage.bizfw.basic.supercar.exception.SuperCarOrderFailedException;
 
 /**
  * The client(顧客) of supercar.
@@ -31,7 +33,12 @@ public class SupercarClient {
     public void buySupercar() {
         SupercarDealer dealer = createDealer();
         String clientRequirement = prepareClientRequirement();
-        Supercar orderedCustomCar = dealer.orderSupercar(clientRequirement);
+        Supercar orderedCustomCar;
+        try {
+            orderedCustomCar = dealer.orderSupercar(clientRequirement);
+        } catch (SuperCarManufacturingException e) {
+            throw new SuperCarOrderFailedException("スーパーカーの注文に失敗したよ (: ;)/", e);
+        }
         orderedCustomCarCollection.add(orderedCustomCar);
     }
 

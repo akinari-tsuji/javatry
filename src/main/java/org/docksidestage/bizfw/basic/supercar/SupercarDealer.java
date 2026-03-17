@@ -16,6 +16,7 @@
 package org.docksidestage.bizfw.basic.supercar;
 
 import org.docksidestage.bizfw.basic.supercar.SupercarManufacturer.Supercar;
+import org.docksidestage.bizfw.basic.supercar.exception.SuperCarManufacturingException;
 
 /**
  * The dealer(販売業者) of supercar.
@@ -26,7 +27,14 @@ public class SupercarDealer {
     public Supercar orderSupercar(String clientRequirement) {
         SupercarManufacturer supercarManufacturer = createSupercarManufacturer();
         if (clientRequirement.contains("steering wheel is like sea")) {
-            return supercarManufacturer.makeSupercar("piari");
+            Supercar supercar;
+            // TODO jflute 他のif文の中でも例外が発生する可能性は否めないと思うのですが、このブロックにだけtry-catchを入れるのは妥当でしょうか...? by akinari.tsuji (2026/03/18)
+            try {
+                 supercar = supercarManufacturer.makeSupercar("piari");
+            } catch (SuperCarManufacturingException e) {
+                throw new SuperCarManufacturingException("スーパーカーの製造に失敗しました", e);
+            }
+            return supercar;
         } else if (clientRequirement.contains("steering wheel is useful on land")) {
             return supercarManufacturer.makeSupercar("land");
         } else if (clientRequirement.contains("steering wheel has many shop")) {
