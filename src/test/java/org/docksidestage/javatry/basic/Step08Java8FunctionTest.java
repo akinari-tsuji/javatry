@@ -56,6 +56,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         helpCallbackConsumer(new St8BasicConsumer(title));
 
         log("...Executing anonymous class callback");
+        // #1on1: A → B
+        //        A ← B
+        // コールバックとは？
         helpCallbackConsumer(new Consumer<String>() {
             public void accept(String stage) {
                 log(stage + ": " + title);

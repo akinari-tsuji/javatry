@@ -27,12 +27,14 @@ public class SupercarDealer {
     public Supercar orderSupercar(String clientRequirement) {
         SupercarManufacturer supercarManufacturer = createSupercarManufacturer();
         if (clientRequirement.contains("steering wheel is like sea")) {
-            Supercar supercar;
             // TODO jflute 他のif文の中でも例外が発生する可能性は否めないと思うのですが、このブロックにだけtry-catchを入れるのは妥当でしょうか...? by akinari.tsuji (2026/03/18)
+            // [へんじ] まあ妥当ではないですね。全体で囲っておきたいcatchです。 (2026/03/18)
+            Supercar supercar;
             try {
+                // TODO tsuji InsufficientPartsException を catch してない by jflute (2026/03/18)
                  supercar = supercarManufacturer.makeSupercar("piari");
             } catch (SuperCarManufacturingException e) {
-                throw new SuperCarManufacturingException("スーパーカーの製造に失敗しました", e);
+                throw new SuperCarManufacturingException("スーパーカーの製造に失敗しました: clientRequirement=" + clientRequirement, e);
             }
             return supercar;
         } else if (clientRequirement.contains("steering wheel is useful on land")) {

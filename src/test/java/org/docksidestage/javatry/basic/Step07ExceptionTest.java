@@ -251,21 +251,21 @@ public class Step07ExceptionTest extends PlainTestCase {
             log(canonicalPath);
             throw new IOException();
         } catch (IOException e) {
-            // TODO jflute 良いエラーメッセージってなんでしょう？ by akinari.tsuji (2026/02/17)
+            // done jflute 良いエラーメッセージってなんでしょう？ by akinari.tsuji (2026/02/17)
             // 何が起こっているか、原因は何か、どう直せばいいか、がわかれば嬉しい気がしますが、↓は過剰な気もしてしまい...
             // また、そもそもどう直せばいいかわかるなら、その時点で治せる気もする...？
             // #1on1: とにかく、デバッグできることが第一。 (2026/03/04)
             // 誰のために例外メッセージを書いてるか？コンピューターのためにではなく、人間のために書いてる。
             // なので、その人間が喜ぶことを書く。が鉄則。その人間のことを想像する。読み手を想像する。
             //
-            // TODO tsuji [読み物課題] 例外メッセージ、敬語で満足でもロスロスパターン by jflute (2026/03/04)
+            // done tsuji [読み物課題] 例外メッセージ、敬語で満足でもロスロスパターン by jflute (2026/03/04)
             // https://jflute.hatenadiary.jp/entry/20170804/explossloss
             // throw new DstoreException("moveToBonvo()がnullを戻しました。");
             //  ↓↑ (同じ)
             // throw new DstoreException();
             // "かなぶんぶーんでもえびいんびーん" もぜひ調べてみて
             //
-            // TODO done tsuji タイトルより、そのエラーきっかけの対象オブジェクトの情報を載せたい by jflute (2026/03/04)
+            // done tsuji タイトルより、そのエラーきっかけの対象オブジェクトの情報を載せたい by jflute (2026/03/04)
             // fileをlogに出すようにしました
             // かなぶんぶーんでもえびいんびーん 調べました（会社PCなので見てはないです笑）
             // 歌詞だけ見ましたが、ほとんどPPAPです？笑
@@ -391,7 +391,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             // 4. 注文済みリストに車を追加
             //      ここはただcollectionに追加しているだけだから、問題ない気がする
             //
-            // TODO akinari.tsuji これはコード追うのが面倒になってきたので、シーケンス図に起こす方が楽そう (2026/02/18)
+            // done akinari.tsuji これはコード追うのが面倒になってきたので、シーケンス図に起こす方が楽そう (2026/02/18)
             // あと、ちょっとずるいけど例外メッセージから発生箇所がSpecialScrewManufactuereであることはわかった
             //
             // buySupercar()でorderSupercarして、その中で製造者がmakeSupercarをする
@@ -465,7 +465,27 @@ public class Step07ExceptionTest extends PlainTestCase {
             // o 例外クラス自身がタイトルの役割がある
             //   (ただし、きっかけは弱い)
             //
-            // TODO jflute 次回1on1, どのくらい例外の翻訳をするのか？つどつど？いい感じに？ (2026/03/04)
+            // done jflute 次回1on1, どのくらい例外の翻訳をするのか？つどつど？いい感じに？ (2026/03/04)
+            // #1on1: つどつどはさすがに面倒なので、そこまで細かく翻訳されることはあまりない。 (2026/03/18)
+            // Supercarもつどつどというよりかは、1レイヤー1メソッドにたまたまなっているだけで...
+            // レイヤーごとに翻訳をしているとも解釈できる。(同じレイヤーの中では翻訳する必要が大抵ない)
+            // 基本はこういう意識で。(アドリブもあるけど)
+            //
+            // ただ現実問題、なかなかそこを判断して翻訳を入れるっていう(ってできる)人も少ない。
+            // フィードバックが遅い、もしくは、発生する確率も低いので、しっかりやろうというモチベが上がらない。
+            // 正常系が動かなければリリースできないけど、異常系が動かなくてもリリースはできちゃう(ことが多い)。
+            //
+            // なので現実...フレームワークがある程度頑張って賄うことが多い。
+            // o LastaFluteの例: リクエストパラメーターを一緒に表示する
+            // o DBFluteの例: SQLの条件値などを一緒に表示する
+            // これは理想ではなく、B,Cのレイヤーで翻訳して情報を開示するに越したことはないけど...
+            // これでなんとかしているという現実。
+            //
+            // あとは、わかった時点で改善していく。同じ例外がもっかい起きることもよくあるので。
+            // あとあと、ローカルのデバッグで、翻訳しなくてもデバッグできちゃったとしても、
+            // 「翻訳されていればもっと速くわかったのに」って思ったら改善していく。
+            // 次はローカルで発生するとは限らず、本番で発生するかもしれないので、
+            // 「ローカルだから判明した」っていう話は怖い。本番では判明しないということなので。
         }
     }
 
@@ -477,8 +497,10 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_translation_improveChallenge() {
         try {
             new SupercarClient().buySupercar(); // you can fix the classes
-            // TODO jflute カスタム例外クラスを作ってみたものの、これでいいのだろうか感 by akinari.tsuji (2026/03/18)
+            // done jflute カスタム例外クラスを作ってみたものの、これでいいのだろうか感 by akinari.tsuji (2026/03/18)
             // どこまで分けるべきか、と、InsufficientPartsExceptionをwheel, manufacturerで投げてる点
+            // #1on1: 分けるべきか？って話では匙加減次第なので答えがないですが... (2026/03/18)
+            // いまの状態悪くないと思います。Partsの世界と車製造の世界で分かれているのがわかりやすい。
 
             // Screw:
             //      throw: ScrewCannnotMakeBySpecException
@@ -498,6 +520,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (RuntimeException e) {
             log("*No hint here for training.", e);
         }
+        // TODO tsuji supercarのクラスの中でとぅどぅが色々入っている by jflute (2026/03/18)
     }
 
     // ===================================================================================
@@ -519,8 +542,10 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             helpThrowIllegalState();
         } catch (IllegalStateException e) {
-            // TODO jflute ↓の例外クラスがキャッチした例外の情報を握り潰していたのがやばかった by akinari.tsuji (2026/03/18)
+            // done jflute ↓の例外クラスがキャッチした例外の情報を握り潰していたのがやばかった by akinari.tsuji (2026/03/18)
             // 何が起こったのか大事な情報が見られなくなっていた
+            // #1on1: Good, 以前のコードは、例外の翻訳というよりかは上書き (2026/03/18)
+            // ほぼほぼ絶対にやってはいけない。
             throw new St7ConstructorChallengeException("Failed to do something.", e);
         }
     }
@@ -540,6 +565,7 @@ public class Step07ExceptionTest extends PlainTestCase {
      * (ExceptionとErrorのコンセプトの違いはなんでしょうか？コメント上に書きましょう)
      */
     public void test_exception_zone_differenceExceptionError() {
+        // #1on1: すでに上の方でフォロー済み (2026/03/18)
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // Write here. (ここに書いてみましょう)
         // - - - - - - - - - -

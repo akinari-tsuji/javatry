@@ -35,7 +35,7 @@ public class SupercarManufacturer {
         try {
             steeringWheel = wheelManufacturer.makeSteeringWheel(steeringWheelId);
         } catch (InsufficientPartsException e) {
-            throw new InsufficientPartsException("部品不足のためスーパーカーを製造できませんでした", e);
+            throw new InsufficientPartsException("部品不足のためスーパーカーを製造できませんでした: catalogKey=" + catalogKey, e);
         }
 
         return new Supercar(steeringWheel);
