@@ -391,7 +391,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             // 4. 注文済みリストに車を追加
             //      ここはただcollectionに追加しているだけだから、問題ない気がする
             //
-            // TODO akinari.tsuji これはコード追うのが面倒になってきたので、シーケンス図に起こす方が楽そう (2026/02/18)
+            // done akinari.tsuji これはコード追うのが面倒になってきたので、シーケンス図に起こす方が楽そう (2026/02/18)
             // あと、ちょっとずるいけど例外メッセージから発生箇所がSpecialScrewManufactuereであることはわかった
             //
             // buySupercar()でorderSupercarして、その中で製造者がmakeSupercarをする

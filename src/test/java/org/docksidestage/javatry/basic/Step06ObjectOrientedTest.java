@@ -56,7 +56,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [ticket booth info]
         //
         // simulation: actually these variables should be more wide scope
-        // TODO [メモ]　チケット購入プロセスの初期値 akinari.tsuji  (2025/08/15)
+        // MEMO　チケット購入プロセスの初期値 akinari.tsuji  (2025/08/15)
         int oneDayPrice = 7400;
         int quantity = 10; // ここもTicketBoothを利用するべき？
         Integer salesProceeds = null; // ここがnullなのはいいのでしょうか？0の方が好ましい？
@@ -66,12 +66,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [buy one-day passport]
         //
         // simulation: actually this money should be from customer
-        // TODO [メモ] 売り切れの場合の例外 akinari.tsuji  (2025/08/15)
+        // MEMO 売り切れの場合の例外 akinari.tsuji  (2025/08/15)
         int handedMoney = 10000;
         if (quantity <= 0) {
             throw new IllegalStateException("Sold out");
         }
-        // TODO [メモ] お金が足りず購入できない場合でも在庫を減らしてしまっている akinari.tsuji  (2025/08/15)
+        // MEMO お金が足りず購入できない場合でも在庫を減らしてしまっている akinari.tsuji  (2025/08/15)
         // --quantity;
         if (handedMoney < oneDayPrice) {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
@@ -83,7 +83,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [ticket info]
         //
         // simulation: actually these variables should be more wide scope
-        // TODO [メモ] displayPriceは購入したチケットの金額のはず akinari.tsuji  (2025/08/15)
+        // MEMO displayPriceは購入したチケットの金額のはず akinari.tsuji  (2025/08/15)
         // int displayPrice = quantity;
         int displayPrice = oneDayPrice;
         boolean alreadyIn = false; // TicketクラスのalreadyInを参照するべき?
@@ -128,14 +128,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //
         // [final process]
         //
-        // TODO [メモ] 引数が対応ずれていた akinari.tsuji  (2025/08/15)
+        // MEMO 引数が対応ずれていた akinari.tsuji  (2025/08/15)
         saveBuyingHistory(quantity, salesProceeds, displayPrice, alreadyIn);
     }
 
     private void saveBuyingHistory(int quantity, Integer salesProceeds, int displayPrice, boolean alreadyIn) {
         if (alreadyIn) {
             // simulation: only logging here (normally e.g. DB insert)
-            // TODO [メモ] 多分引数間違えている akinari.tsuji  (2025/08/15)
+            // MEMO 多分引数間違えている akinari.tsuji  (2025/08/15)
             // showYourTicketの引数にquantityあるのおかしい
             // done [質問] jflute こういう時に値オブジェクトがあるとコンパイル時に気づける、というのが前回教えていただいたメリットでしょうか？ akinari.tsuji  (2025/08/15
             // あと個人的な所感なのですが、intでprice, quantityが両方表現されていると、今回のように引数取り間違えそうです
@@ -173,14 +173,14 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //int oneDayPrice = 7400;
         //int quantity = 10;
         //Integer salesProceeds = null;
-        // TODO [メモ] TicketBoothクラスが初期化もやってくれる akinari.tsuji  (2025/08/15)
+        // MEMO TicketBoothクラスが初期化もやってくれる akinari.tsuji  (2025/08/15)
 
         //
         // [buy one-day passport]
         //
         // if step05 has been finished, you can use this code by jflute (2019/06/15)
         //Ticket ticket = booth.buyOneDayPassport(10000);
-//       // TODO [メモ] クラスのメソッド内部で処理をするように切り分けているので、このtest_...メソッドでの条件分岐がなくなり、読みやすいです　akinari.tsuji  (2025/08/15)
+//       // MEMO クラスのメソッド内部で処理をするように切り分けているので、このtest_...メソッドでの条件分岐がなくなり、読みやすいです　akinari.tsuji  (2025/08/15)
         booth.buyOneDayPassport(10000); // as temporary, remove if you finished step05
         Ticket ticket = new Ticket(Clock.systemDefaultZone(), TicketType.ONE_DAY); // also here
 
@@ -612,7 +612,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // protected abstract doBark()
         // を呼び出している
 
-        // TODO [メモ] 無邪気にやって困ったので、ちゃんと各クラスのメソッド、責任を整理してからクラス分割の方法を考える akinari.tsuji  (2025/12/15)
+        // MEMO 無邪気にやって困ったので、ちゃんと各クラスのメソッド、責任を整理してからクラス分割の方法を考える akinari.tsuji  (2025/12/15)
         // やったのは
         // - Barkerクラスにプロセスのメソッドを委譲（いわゆるhas-a関係？　継承はしない）
         // - AnimalクラスではBarkerクラスのインスタンスをクラス変数に持ち、適宜呼び出す
@@ -622,7 +622,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // - 委譲しているのでAnimalクラスに該当のメソッドは存在しなくなっている
         // - 厳密にはBarkerクラスの該当メソッドを書き換えたい、けどそんなことできるのかな
         // - ここで、そもそもBarkerクラスに切り出すことでどこまで影響範囲があるのか考えてなかったことに気づく
-        // TODO そういう訳で次は切り出す前のクラスの整理をするところから akinari.tsuji  (2025/12/15)
+        // done そういう訳で次は切り出す前のクラスの整理をするところから akinari.tsuji  (2025/12/15)
         // #1on1: まあJavaの場合は、やってみてコンパイルエラーになって気づけばOKというのもある (2025/12/17)
         /**
          * Animal implements Loudable
@@ -652,7 +652,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
          *  切り出したbark, doBark内ではメンバ変数のbreathIn, getBarkWord, downHitPointを呼び出す
          * Animal側では切り出された関数を変わらず呼び出せるように、barkを定義して、barkerのbarkを実行する
          */
-        // TODO [memo] せっかく切り出したのに、barkメソッドをAnimalに残さなきゃいけないのはいいのだろうか？ akinari.tsuji  (2025/12/17)
+        // MEMO せっかく切り出したのに、barkメソッドをAnimalに残さなきゃいけないのはいいのだろうか？ akinari.tsuji  (2025/12/17)
         // #1on1: あくまで内部リファクタリングなので、すでにAnimal@bark()を呼び出してるプログラムがたくさんある想定。 (2025/12/17)
         // なので、互換性をキープするために、Animal@bark()は残さないといけないし...
         // Animalが吠えるという振る舞いを持つこと自体は自然ではあるので、
