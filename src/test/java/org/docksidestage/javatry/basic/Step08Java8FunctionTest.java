@@ -191,16 +191,20 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (二つのlog()によって出力される文字列は同じでしょうか？ (yes or no))
      */
     public void test_java8_optional_concept() {
+        // こっちはただのSt8Member
         St8Member oldmember = new St8DbFacade().oldselectMember(1);
         if (oldmember != null) {
             log(oldmember.getMemberId(), oldmember.getMemberName());
         }
+        // こっちはOptional: 値があるかもしれないし、無いかもしれない
+        // NullPointerExceptionを防ぐためのもの
+        // 最近ほんとに趣味レベルでRustをお勉強中で、Optional<T>が合った記憶（というレベルの学習頻度です笑）
         Optional<St8Member> optMember = new St8DbFacade().selectMember(1);
-        if (optMember.isPresent()) {
+        if (optMember.isPresent()) { // != nullの比較ではない
             St8Member member = optMember.get();
             log(member.getMemberId(), member.getMemberName());
         }
-        // your answer? => 
+        // your answer? => "1 broadway" 結局は同じになる
     }
 
     /**
@@ -213,10 +217,11 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             St8Member member = optMember.get();
             log(member.getMemberId(), member.getMemberName());
         }
+        // value != nullならconsumer.accept(value)
         optMember.ifPresent(member -> {
             log(member.getMemberId(), member.getMemberName());
         });
-        // your answer? => 
+        // your answer? => "1, broadway"
     }
 
     /**
@@ -229,10 +234,11 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         // traditional style
         St8Member oldmemberFirst = facade.oldselectMember(1);
         String sea;
+        // ID: 1の場合、new St8Member(memberId, "broadway", new St8Withdrawal(11, "music"));
         if (oldmemberFirst != null) {
             St8Withdrawal withdrawal = oldmemberFirst.oldgetWithdrawal();
             if (withdrawal != null) {
-                sea = withdrawal.oldgetPrimaryReason();
+                sea = withdrawal.oldgetPrimaryReason(); // 第二引数の"music"
                 if (sea == null) {
                     sea = "*no reason1: the PrimaryReason was null";
                 }
@@ -248,9 +254,13 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         // map style
         String land = optMemberFirst.map(mb -> mb.oldgetWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
-                .orElse("*no reason: someone was not present");
+                .orElse("*no reason: someone was not present"); // orElseはnullならother, not nullならvalue
 
         // flatMap style
+        // flatMapは引数がOptionalに包まれてれば、それ以上は包まない？
+        // This method is similar to map(Function),
+        // but the provided mapper is one whose result is already an Optional, and if invoked,
+        // flatMap does not wrap it with an additional Optional.
         String piari = optMemberFirst.flatMap(mb -> mb.getWithdrawal())
                 .flatMap(wdl -> wdl.getPrimaryReason())
                 .orElse("*no reason: someone was not present");
@@ -271,18 +281,20 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .orElse("*no reason: someone was not present");
 
         int defaultWithdrawalId = -1;
+        // return new St8Member(memberId, "dockside", new St8Withdrawal(12, null));
         Integer miraco = facade.selectMember(2)
                 .flatMap(mb -> mb.getWithdrawal())
                 .map(wdl -> wdl.getWithdrawalId()) // ID here
                 .orElse(defaultWithdrawalId);
 
-        log(sea); // your answer? => 
-        log(land); // your answer? => 
-        log(piari); // your answer? => 
-        log(bonvo); // your answer? => 
-        log(dstore); // your answer? => 
-        log(amba); // your answer? => 
-        log(miraco); // your answer? => 
+        // TODO akinari.tsuji なんとなく答えわかって当たってはいたけど、問題の意図とflatMap, mapの使い分けは理解できていないのでそこを忘れずにやる (2026/03/31)
+        log(sea); // your answer? => music
+        log(land); // your answer? => music
+        log(piari); // your answer? => music
+        log(bonvo); // your answer? => music
+        log(dstore); // your answer? => *no reason: someone was not present
+        log(amba); // your answer? => *no reason: someone was not present
+        log(miraco); // your answer? => 12
     }
 
     /**

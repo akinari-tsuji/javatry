@@ -184,7 +184,7 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                               Loud
     //                                                                              ======
-    // TODO akinari.tsuji getBarkWordをprotectedにするために、bark()の引数でgetBarkWordを渡すようにしたら、↓がキモくなってしまった (2026/02/04)
+    // done akinari.tsuji getBarkWordをprotectedにするために、bark()の引数でgetBarkWordを渡すようにしたら、↓がキモくなってしまった (2026/02/04)
     // そもそも、barkingProcess.barkの返り値が、getBarkWord()を呼び出せることまで知っていていいのかな...メソッドチェーンあんまり良くないっていうけど
     // -> barkと同じなのでそっちを使えばいいや, でもこれだとbark()とSoundLoudlyでほとんど違いがないや...
     @Override
