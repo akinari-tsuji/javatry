@@ -80,8 +80,12 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         // java: 内部クラスから参照されるローカル変数は、finalまたは事実上のfinalである必要があります 61
         // java: ラムダ式から参照されるローカル変数は、finalまたは事実上のfinalである必要があります 67
         // java: ラムダ式から参照されるローカル変数は、finalまたは事実上のfinalである必要があります71
-        // TODO jflute なぜfinalである必要があるのでしょう...？ by akinari.tsuji (2026/03/18)
+        // done jflute なぜfinalである必要があるのでしょう...？ by akinari.tsuji (2026/03/18)
         // St8BasicConsumerはエラーが出てないので、なんか納得はするのですが、うまく言葉にできないです...
+        // #1on1: step2のforEach()で説明、技術的な制約というより、カオスを防ぐためのもの (2026/04/01)
+        // コールバックはあくまで別クラスの別メソッド。
+        // そのメソッドが、元のメソッドのローカル変数のライフサイクルに依存するとややこしい。
+        // finalな変数であればただの参照だけなのでコピーもできるからややこしさが発生しにくい。
     }
 
     /**
@@ -175,9 +179,12 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         helpCallbackSupplier(() -> "dockside");
 
         helpCallbackSupplier(() -> { return "hangar"; }); // piari
+
+        // #1on1: 1statementのblock styleは、中身が長かったり()が複雑だったりのときに見栄え調整で使える (2026/04/01)
     }
 
     // Supplierは毎回同じ値を返す時に使う？
+    // #1on1: そんなことはなく、やろうと思えば呼び出すたびに違う値を戻すことはできる。
     private void helpCallbackSupplier(Supplier<String> oneArgLambda) {
         String supplied = oneArgLambda.get();
         log(supplied);
@@ -205,6 +212,20 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             log(member.getMemberId(), member.getMemberName());
         }
         // your answer? => "1 broadway" 結局は同じになる
+
+        // #1on1: "ないかもしれない" という概念をオブジェクトにした (2026/04/01)
+        // (概念もオブジェクトになりうる)
+        // Optionalで戻すことで、ないかもしれないことを無視される可能性が低い。
+        // (問答無用get()やる人はほぼ確信犯。まあよくわからずget()する人もいるけど)
+        // まじめな人であれば凡ミスがなくなる、ってニュアンス。
+        
+        // #1on1: Optionalが入ったのが2015年くらい (2026/04/01)
+        // 20年間Optionalがなかった。安全なのに...なぜ？
+        // Optionalという発明が2015年だったから？ (まあそんなことはない)
+        // Optionalという技術を導入するのが大変だったから？ (まあそんなことはない)
+        // (JavaのOptionalは文法というよりかはただのクラス、しかも実装シンプル)
+        // 「見た目のスッキリさ + 長年のnullチェックの意識」
+        // Lambda式とセットで導入されて、ifPresent(), map() があってこそ。
     }
 
     /**
@@ -231,6 +252,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_optional_map_flatMap() {
         St8DbFacade facade = new St8DbFacade();
 
+        // TODO jflute 次回1on1, map/flatMap() (2026/04/01)
         // traditional style
         St8Member oldmemberFirst = facade.oldselectMember(1);
         String sea;
