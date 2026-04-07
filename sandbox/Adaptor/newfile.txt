@@ -1,0 +1,5 @@
+#generated file
+#Wed Apr 08 00:29:25 JST 2026
+depth=32
+height=512
+width=1024
