@@ -55,6 +55,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         log("...Executing named class callback(!?)");
         helpCallbackConsumer(new St8BasicConsumer(title));
 
+        // #1on1: テンプレートメソッドパターンとコールバックによる流れの再利用の違い (2026/04/15)
+        // デザインパターンは、コンセプトを学ぶのが大事、コードはその学びの補完。
         log("...Executing anonymous class callback");
         // #1on1: A → B
         //        A ← B
@@ -252,7 +254,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_optional_map_flatMap() {
         St8DbFacade facade = new St8DbFacade();
 
-        // TODO jflute 次回1on1, map/flatMap() (2026/04/01)
+        // done jflute 次回1on1, map/flatMap() (2026/04/01)
         // traditional style
         St8Member oldmemberFirst = facade.oldselectMember(1);
         String sea;
@@ -273,6 +275,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
 
         Optional<St8Member> optMemberFirst = facade.selectMember(1);
 
+        // #1on1: map/flatMapで、ないかもしれないことを保留してプログラムを先に進めて、最後に解決する (2026/04/15)
+        // ただ、どこで途切れたのか？はわからなくなる。でも別に、わからなくてもいい場面も多い。
+
         // map style
         String land = optMemberFirst.map(mb -> mb.oldgetWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
@@ -288,8 +293,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .orElse("*no reason: someone was not present");
 
         // flatMap and map style
-        String bonvo = optMemberFirst.flatMap(mb -> mb.getWithdrawal())
-                .map(wdl -> wdl.oldgetPrimaryReason())
+        String bonvo = optMemberFirst.flatMap(mb -> mb.getWithdrawal()) // → Optional<Withdrawal>
+                .map(wdl -> wdl.oldgetPrimaryReason()) // 素のreasonをラップして → Optional<String>
                 .orElse("*no reason: someone was not present");
 
         // 2: return new St8Member(memberId, "dockside", new St8Withdrawal(12, null));
@@ -311,7 +316,10 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .map(wdl -> wdl.getWithdrawalId()) // ID here
                 .orElse(defaultWithdrawalId);
 
-        // TODO akinari.tsuji なんとなく答えわかって当たってはいたけど、問題の意図とflatMap, mapの使い分けは理解できていないのでそこを忘れずにやる (2026/03/31)
+        // done akinari.tsuji なんとなく答えわかって当たってはいたけど、問題の意図とflatMap, mapの使い分けは理解できていないのでそこを忘れずにやる (2026/03/31)
+        // #1on1: map() and flatMap() でじっくり
+        // https://dbflute.seasar.org/ja/manual/topic/programming/java/java8/mapandflat.html
+        // flatMapは多段のOptionalをフラット!?にしている。
         log(sea); // your answer? => music
         log(land); // your answer? => music
         log(piari); // your answer? => music
@@ -340,6 +348,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             sea = e.getMessage();
         }
         log(sea); // your answer? => wave
+        
+        // TODO jflute 次回1on1, orElseThrow()ジレンマ (2026/04/15)
     }
 
     // ===================================================================================
@@ -369,6 +379,13 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         log(land); // your answer? => broadway, dockside
         // 同じことをStreamを使ってやってる？
         // Streamを使うと宣言的にかけるのが良い...？
+        
+        // #1on1: Stream APIとは？ (2026/04/15)
+        // 小人が小さな単位の処理をやってくれる。要件はLambda式で、汎用的に。
+        // いっこ抽象度が上がったプログラミングができる。
+        // TODO tsuji [読み物課題] 応援してる "A" にもデメリットはあるよ by jflute (2026/04/15)
+        // https://jflute.hatenadiary.jp/entry/20181008/yourademerit
+        // (これを元に、さらにStream APIを深掘りしていく)
     }
 
     /**

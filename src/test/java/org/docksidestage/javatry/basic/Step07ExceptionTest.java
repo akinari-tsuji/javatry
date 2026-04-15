@@ -520,7 +520,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (RuntimeException e) {
             log("*No hint here for training.", e);
         }
-        // TODO tsuji supercarのクラスの中でとぅどぅが色々入っている by jflute (2026/03/18)
+        // done tsuji supercarのクラスの中でとぅどぅが色々入っている by jflute (2026/03/18)
     }
 
     // ===================================================================================

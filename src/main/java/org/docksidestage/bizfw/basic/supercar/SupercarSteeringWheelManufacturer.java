@@ -43,7 +43,7 @@ public class SupercarSteeringWheelManufacturer {
         try {
             screw = screwManufacturer.makeSpecialScrew(screwSpec);
         } catch (ScrewCannotMakeBySpecException e) {
-            // TODO tsuji それぞれのレイヤーで保持している情報をメッセージに出すようにしてみましょう by jflute (2026/03/18)
+            // done tsuji それぞれのレイヤーで保持している情報をメッセージに出すようにしてみましょう by jflute (2026/03/18)
             throw new InsufficientPartsException("ステアリングホイールの製造に必要な部品が不足しています: steeringWheelId=" + steeringWheelId, e);
         }
         return new SteeringWheel(screw);
