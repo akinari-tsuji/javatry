@@ -37,7 +37,7 @@ public class SupercarClient {
         try {
             orderedCustomCar = dealer.orderSupercar(clientRequirement);
         } catch (SuperCarManufacturingException e) {
-            throw new SuperCarOrderFailedException("スーパーカーの注文に失敗したよ (: ;)/", e);
+            throw new SuperCarOrderFailedException("スーパーカーの注文に失敗したよ (: ;)/: clientRequirement=" + clientRequirement, e);
         }
         orderedCustomCarCollection.add(orderedCustomCar);
     }

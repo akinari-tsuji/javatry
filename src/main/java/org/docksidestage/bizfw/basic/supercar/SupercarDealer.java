@@ -16,6 +16,7 @@
 package org.docksidestage.bizfw.basic.supercar;
 
 import org.docksidestage.bizfw.basic.supercar.SupercarManufacturer.Supercar;
+import org.docksidestage.bizfw.basic.supercar.exception.InsufficientPartsException;
 import org.docksidestage.bizfw.basic.supercar.exception.SuperCarManufacturingException;
 
 /**
@@ -32,8 +33,9 @@ public class SupercarDealer {
             Supercar supercar;
             try {
                 // TODO tsuji InsufficientPartsException を catch してない by jflute (2026/03/18)
+                // 修正しました！
                  supercar = supercarManufacturer.makeSupercar("piari");
-            } catch (SuperCarManufacturingException e) {
+            } catch (InsufficientPartsException e) {
                 throw new SuperCarManufacturingException("スーパーカーの製造に失敗しました: clientRequirement=" + clientRequirement, e);
             }
             return supercar;

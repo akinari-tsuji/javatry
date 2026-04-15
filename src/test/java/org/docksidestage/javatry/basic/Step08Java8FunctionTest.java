@@ -50,7 +50,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
     public void test_java8_lambda_callback_basic() {
         String title = "over";
 
-        // TODO メモ：なんとなくしか文法わかんないけど、きっとコールバックをクラスでやったり匿名クラスでやったり、ラムダでやったり... akinari.tsuji  (2026/03/18)
+        // メモ：なんとなくしか文法わかんないけど、きっとコールバックをクラスでやったり匿名クラスでやったり、ラムダでやったり... akinari.tsuji  (2026/03/18)
         // acceptっていうのが文法なのかな、Consumerインターフェースをimplementsしてacceptが動く的な
         log("...Executing named class callback(!?)");
         helpCallbackConsumer(new St8BasicConsumer(title));
@@ -281,7 +281,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         // flatMap style
         // flatMapは引数がOptionalに包まれてれば、それ以上は包まない？
         // This method is similar to map(Function),
-        // but the provided mapper is one whose result is already an Optional, and if invoked,
+        // but the provided mapper is onioe whose result is already an Optional, and if invoked,
         // flatMap does not wrap it with an additional Optional.
         String piari = optMemberFirst.flatMap(mb -> mb.getWithdrawal())
                 .flatMap(wdl -> wdl.getPrimaryReason())
@@ -292,6 +292,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .map(wdl -> wdl.oldgetPrimaryReason())
                 .orElse("*no reason: someone was not present");
 
+        // 2: return new St8Member(memberId, "dockside", new St8Withdrawal(12, null));
+        // return Optional.ofNullable(withdrawal);
         String dstore = facade.selectMember(2)
                 .flatMap(mb -> mb.getWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
@@ -324,10 +326,12 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (メソッド終了時の変数 sea の中身は？)
      */
     public void test_java8_optional_orElseThrow() {
+//        return new St8Member(memberId, "dockside", new St8Withdrawal(12, null));
         Optional<St8Member> optMember = new St8DbFacade().selectMember(2);
         St8Member member = optMember.orElseThrow(() -> new IllegalStateException("over"));
         String sea = "the";
         try {
+            // oldgetPrimaryReason()がnullを返して例外が発生する
             String reason = member.getWithdrawal().map(wdl -> wdl.oldgetPrimaryReason()).orElseThrow(() -> {
                 return new IllegalStateException("wave");
             });
@@ -335,7 +339,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             sea = e.getMessage();
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wave
     }
 
     // ===================================================================================
@@ -354,14 +358,17 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             }
         }
         String sea = oldfilteredNameList.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? =>  broadway, dockside
+        // id=3以外はwithdrawalがnot nullなので
 
         List<String> filteredNameList = memberList.stream() //
                 .filter(mb -> mb.getWithdrawal().isPresent()) //
                 .map(mb -> mb.getMemberName()) //
                 .collect(Collectors.toList());
         String land = filteredNameList.toString();
-        log(land); // your answer? => 
+        log(land); // your answer? => broadway, dockside
+        // 同じことをStreamを使ってやってる？
+        // Streamを使うと宣言的にかけるのが良い...？
     }
 
     /**
@@ -377,7 +384,10 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .mapToInt(pur -> pur.getPurchasePrice())
                 .distinct()
                 .sum();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 600
+        // id = 1, 2に絞られる。1のみitemを持ってる。
+        // 1のitemは全部id > 100. [100, 200, 200, 300]
+        // distinctで[100, 200, 300] => sum: 600
     }
 
     // *Stream API will return at Step12 again, it's worth the wait!
