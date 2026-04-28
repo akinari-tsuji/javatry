@@ -145,7 +145,7 @@ public class Step02IfForTest extends PlainTestCase {
         // ↓のプログラムはちょっとわかりづらいところがあるので少し書き換えさせてください。
 
         // done tsuji いいねいいねの疑問ですね！GCは深いぞー by shiny (2025/08/12)
-        // TODO shiny ruby自動で動いているみたいで中々触る機会なさそうです...深みを知りたひです　akinari.tsuji  (2025/08/22)
+        // done shiny ruby自動で動いているみたいで中々触る機会なさそうです...深みを知りたひです　akinari.tsuji  (2025/08/22)
     }
 
     // done tsuji [へんじの続き] ↑の場合、42のIntegerインスタンス1個目が生成されてaで保持しておきます by jflute (2025/07/15)

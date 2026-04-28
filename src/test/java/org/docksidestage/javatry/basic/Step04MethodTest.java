@@ -114,7 +114,7 @@ public class Step04MethodTest extends PlainTestCase {
         // (プリミティブ型の変数はnullの状態が発生しない、というJavaのルール)
         // done jflute なるほどです。確かにメモリ確保して値が何もないというのは違和感あったのでしっくりきました！ akinari.tsuji  (2025/07/23)
         // done tsuji クイズ：booleanとcharの初期値はなんでしょう！ by shiny (2025/08/12)
-        // TODO shiny ↓で実験します　akinari.tsuji  (2025/08/22)
+        // done shiny ↓で実験します　akinari.tsuji  (2025/08/22)
         offAnnualPassport(hasAnnualPassport); // 引数に対する操作なので何もしない
         for (int i = 0; i < 100; i++) {
             goToPark(); // メンバ変数のhasAnnualPassportはtrueのままなので加算される => inParkCountは100に
@@ -124,7 +124,7 @@ public class Step04MethodTest extends PlainTestCase {
         log(sea); // your answer? => 100
     }
 
-    // TODO shiny javaだとローカル変数は初期化されないんですね akinari.tsuji  (2025/08/22)
+    // done shiny javaだとローカル変数は初期化されないんですね akinari.tsuji  (2025/08/22)
 //    public void test_method_for_shiny_question() {
 //        boolean notInitializedBoolean;
 //        char notInitializedChar;
@@ -135,7 +135,7 @@ public class Step04MethodTest extends PlainTestCase {
         ShinyQuestion sq = new ShinyQuestion();
     }
 
-    // TODO shiny boolean: false, char: 0 でした! akinari.tsuji  (2025/08/22)
+    // done shiny boolean: false, char: 0 でした! akinari.tsuji  (2025/08/22)
     public class ShinyQuestion {
         boolean notInitializedBoolean;
         char  notInitializedChar;

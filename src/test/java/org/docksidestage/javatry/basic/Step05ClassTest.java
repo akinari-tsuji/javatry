@@ -96,7 +96,7 @@ public class Step05ClassTest extends PlainTestCase {
         // #1on1: IntelliJで行移動: shift+option+↑↓
 
         // done tsuji くぼさんにショートカットをたくさん習ってください！そして.ideaディレクトリについても！笑 by shiny (2025/08/12)
-        // TODO shiny 教えていただいております! akinari.tsuji  (2025/08/22)
+        // done shiny 教えていただいております! akinari.tsuji  (2025/08/22)
 
     }
 
